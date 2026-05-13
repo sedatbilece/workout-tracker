@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct WorkoutSessionDetailView: View {
+    @Environment(\.modelContext) private var modelContext
     @Bindable var session: WorkoutSession
 
     var sortedExercises: [ExerciseSession] {
@@ -29,6 +30,13 @@ struct WorkoutSessionDetailView: View {
                 } else {
                     ForEach(sortedExercises) { exercise in
                         ExerciseSessionCardView(exercise: exercise)
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    deleteExercise(exercise)
+                                } label: {
+                                    Label("Egzersizi Sil", systemImage: "trash")
+                                }
+                            }
                     }
                 }
             }
@@ -45,5 +53,18 @@ struct WorkoutSessionDetailView: View {
             }
         }
         .background(Color(.systemGroupedBackground))
+    }
+
+    private func deleteExercise(_ exercise: ExerciseSession) {
+        session.exercises.removeAll { $0 === exercise }
+        modelContext.delete(exercise)
+        reindexExercises()
+    }
+
+    private func reindexExercises() {
+        let sorted = session.exercises.sorted { $0.orderIndex < $1.orderIndex }
+        for (i, ex) in sorted.enumerated() {
+            ex.orderIndex = i
+        }
     }
 }

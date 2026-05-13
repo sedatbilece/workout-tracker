@@ -3,9 +3,9 @@ import SwiftUI
 /// VStack içinde kullanılabilen swipe-to-reveal bileşeni.
 /// List.swipeActions'ın aksine ScrollView içindeki VStack'lerde çalışır.
 struct SwipeRow<Content: View>: View {
-    @ViewBuilder let content: () -> Content
     let onDuplicate: (() -> Void)?
     let onDelete: (() -> Void)?
+    @ViewBuilder let content: () -> Content
 
     @State private var offset: CGFloat = 0
     private let actionWidth: CGFloat = 72

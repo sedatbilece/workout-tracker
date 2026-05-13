@@ -116,7 +116,9 @@ struct ExerciseTemplateEditView: View {
     private func deleteSets(offsets: IndexSet, from exercise: ExerciseTemplate) {
         let sorted = exercise.sets.sorted { $0.orderIndex < $1.orderIndex }
         for index in offsets {
-            modelContext.delete(sorted[index])
+            let set = sorted[index]
+            exercise.sets.removeAll { $0 === set }
+            modelContext.delete(set)
         }
         reindexSets(in: exercise)
     }
