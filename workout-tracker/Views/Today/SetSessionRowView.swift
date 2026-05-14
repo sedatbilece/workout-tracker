@@ -8,11 +8,6 @@ struct SetSessionRowView: View {
     var onDuplicate: (() -> Void)? = nil
     var onDelete: (() -> Void)? = nil
 
-    @FocusState private var kgFocused: Bool
-    @FocusState private var repsFocused: Bool
-    @State private var kgText = ""
-    @State private var repsText = ""
-
     var body: some View {
         SwipeRow(
             onDuplicate: set.isCompleted ? nil : onDuplicate,
@@ -27,44 +22,37 @@ struct SetSessionRowView: View {
 
                 Spacer()
 
-                HStack(spacing: 4) {
-                    TextField("0", text: $kgText)
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
-                        .focused($kgFocused)
-                        .frame(width: 60)
-                        .disabled(set.isCompleted)
-                        .onChange(of: kgFocused) { _, focused in
-                            if focused {
-                                kgText = ""
-                            } else {
-                                let parsed = Double(kgText.replacingOccurrences(of: ",", with: "."))
-                                set.kg = parsed ?? set.kg
-                                kgText = formatKg(set.kg)
-                            }
+                VStack(spacing: 2) {
+                    HStack(spacing: 6) {
+                        StepperButton(icon: "minus", disabled: set.isCompleted) {
+                            set.kg = max(0, set.kg - 2.5)
                         }
+                        Text(formatKg(set.kg))
+                            .font(.subheadline.monospacedDigit())
+                            .frame(width: 44, alignment: .center)
+                        StepperButton(icon: "plus", disabled: set.isCompleted) {
+                            set.kg += 2.5
+                        }
+                    }
                     Text("kg")
-                        .font(.subheadline)
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
 
-                HStack(spacing: 4) {
-                    TextField("0", text: $repsText)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.trailing)
-                        .focused($repsFocused)
-                        .frame(width: 48)
-                        .disabled(set.isCompleted)
-                        .onChange(of: repsFocused) { _, focused in
-                            if focused {
-                                repsText = ""
-                            } else {
-                                set.reps = Int(repsText) ?? set.reps
-                                repsText = "\(set.reps)"
-                            }
+                VStack(spacing: 2) {
+                    HStack(spacing: 6) {
+                        StepperButton(icon: "minus", disabled: set.isCompleted) {
+                            set.reps = max(1, set.reps - 1)
                         }
+                        Text("\(set.reps)")
+                            .font(.subheadline.monospacedDigit())
+                            .frame(width: 28, alignment: .center)
+                        StepperButton(icon: "plus", disabled: set.isCompleted) {
+                            set.reps = min(20, set.reps + 1)
+                        }
+                    }
                     Text("tekrar")
-                        .font(.subheadline)
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
 
@@ -83,10 +71,6 @@ struct SetSessionRowView: View {
             .opacity(set.isCompleted ? 0.6 : 1.0)
             .animation(.easeInOut(duration: 0.2), value: set.isCompleted)
         }
-        .onAppear {
-            kgText = formatKg(set.kg)
-            repsText = "\(set.reps)"
-        }
     }
 
     private func formatKg(_ value: Double) -> String {
@@ -96,12 +80,26 @@ struct SetSessionRowView: View {
     }
 
     private func completeSet() {
-        if let v = Double(kgText.replacingOccurrences(of: ",", with: ".")) { set.kg = v }
-        if let v = Int(repsText) { set.reps = v }
-        kgFocused = false
-        repsFocused = false
         set.isCompleted = true
         set.completedAt = Date()
         TemplateDefaultUpdater.syncIfNeeded(setSession: set, context: modelContext)
+    }
+}
+
+private struct StepperButton: View {
+    let icon: String
+    var disabled: Bool = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.caption.weight(.semibold))
+                .frame(width: 26, height: 26)
+                .background(Color(.tertiarySystemFill))
+                .clipShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .disabled(disabled)
     }
 }
