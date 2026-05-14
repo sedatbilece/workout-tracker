@@ -8,6 +8,16 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
+## [1.2.0] - 2026-05-14 (Build 3)
+
+### Eklendi
+- **Dumbbell uygulama ikonu:** Koyu arka plan üzerinde mavi dumbbell tasarımı; light, dark ve tinted varyantları eklendi.
+
+### Değiştirildi
+- **Set / kg girişi stepper'a dönüştürüldü:** Tekrar sayısı 1–20 aralığında 1'er adımla, ağırlık 2,5 kg adımlarla `−` / `+` butonlarıyla ayarlanır. Klavye artık açılmaz.
+
+---
+
 ## [1.1.0] - 2026-05-13 (Build 2)
 
 ### Eklendi
