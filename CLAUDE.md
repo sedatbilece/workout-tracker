@@ -40,6 +40,21 @@ When the user starts a workout, `TemplateSessionBuilder.build(from:)` snapshots 
 
 **UI language is Turkish throughout.** All user-facing strings, tab labels, button titles, and error messages are in Turkish (e.g., "Bugün", "Şablonlar", "İstatistikler", "Hareket Ekle").
 
+**All static strings must be localized.** Never write a bare string literal for any user-facing text. Always:
+1. Add the key to `Localizable.xcstrings` with translations for all supported locales (`tr`, `en`, `es`, `ru`).
+2. Display it via `lm["key"]` where `lm` is `@Environment(LocalizationManager.self)`, or `lm.format("key", arg)` for strings with arguments.
+
+```swift
+// Wrong
+Text("Antrenman Başlat")
+
+// Correct
+@Environment(LocalizationManager.self) private var lm
+Text(lm["start_workout"])
+```
+
+Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_workout`, `template_add_exercise`, `profile_language_settings`).
+
 **OrderIndex reindexing:** Whenever exercises or sets are reordered or deleted, the full array is iterated and `orderIndex` is reassigned sequentially (0, 1, 2…). This pattern appears in `TemplateDetailView` and `ExerciseTemplateEditView`.
 
 **Snapshot fields:** `ExerciseSession` and `SetSession` carry `nameSnapshot` / `iconNameSnapshot` fields so the session display doesn't break if the originating template is later edited or deleted.

@@ -88,7 +88,9 @@ struct TemplateDetailView: View {
     private func deleteExercises(offsets: IndexSet) {
         let sorted = sortedExercises
         for index in offsets {
-            modelContext.delete(sorted[index])
+            let exercise = sorted[index]
+            template.exercises.removeAll { $0 === exercise }
+            modelContext.delete(exercise)
         }
         reindexExercises()
     }

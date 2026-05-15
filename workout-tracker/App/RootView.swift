@@ -25,6 +25,11 @@ struct RootView: View {
                     Label(lm["tab_stats"], systemImage: "chart.bar.xaxis")
                 }
 
+            CalculationsView()
+                .tabItem {
+                    Label(lm["tab_calculations"], systemImage: "function")
+                }
+
             ProfileView()
                 .tabItem {
                     Label(lm["tab_profile"], systemImage: "person.crop.circle")
