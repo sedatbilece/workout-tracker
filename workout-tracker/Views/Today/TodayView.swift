@@ -4,6 +4,7 @@ import SwiftData
 struct TodayView: View {
     @Query private var allSessions: [WorkoutSession]
     @Environment(\.modelContext) private var modelContext
+    @Environment(LocalizationManager.self) private var lm
     @State private var showingTemplatePicker = false
     @State private var sessionToDelete: WorkoutSession?
 
@@ -19,9 +20,9 @@ struct TodayView: View {
             Group {
                 if todaySessions.isEmpty {
                     ContentUnavailableView(
-                        "Antrenman Yok",
+                        lm["today_no_workouts_title"],
                         systemImage: "calendar.badge.plus",
-                        description: Text("Bugün için bir antrenman şablonu eklemek için + butonuna dokun.")
+                        description: Text(lm["today_no_workouts_message"])
                     )
                 } else {
                     List {
@@ -33,14 +34,14 @@ struct TodayView: View {
                                 Button(role: .destructive) {
                                     sessionToDelete = session
                                 } label: {
-                                    Label("Sil", systemImage: "trash")
+                                    Label(lm["common_delete"], systemImage: "trash")
                                 }
                             }
                         }
                     }
                 }
             }
-            .navigationTitle("Bugün")
+            .navigationTitle(lm["today_title"])
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -54,25 +55,25 @@ struct TodayView: View {
                 TemplatePicker()
             }
             .confirmationDialog(
-                "Antrenmanı sil",
+                lm["today_delete_workout_title"],
                 isPresented: Binding(
                     get: { sessionToDelete != nil },
                     set: { if !$0 { sessionToDelete = nil } }
                 ),
                 titleVisibility: .visible
             ) {
-                Button("Sil", role: .destructive) {
+                Button(lm["common_delete"], role: .destructive) {
                     if let session = sessionToDelete {
                         modelContext.delete(session)
                     }
                     sessionToDelete = nil
                 }
-                Button("İptal", role: .cancel) {
+                Button(lm["common_cancel"], role: .cancel) {
                     sessionToDelete = nil
                 }
             } message: {
                 if let name = sessionToDelete?.templateNameSnapshot {
-                    Text("\"\(name)\" antrenmanı kalıcı olarak silinecek.")
+                    Text(lm.format("today_delete_workout_message", name))
                 }
             }
         }
@@ -81,6 +82,7 @@ struct TodayView: View {
 
 private struct SessionRowView: View {
     let session: WorkoutSession
+    @Environment(LocalizationManager.self) private var lm
 
     private var completedSets: Int {
         session.exercises.flatMap(\.sets).filter(\.isCompleted).count
@@ -95,9 +97,9 @@ private struct SessionRowView: View {
             Text(session.templateNameSnapshot)
                 .font(.headline)
             HStack {
-                Text("\(session.exercises.count) hareket")
+                Text(lm.format("today_exercises_count", session.exercises.count))
                 Text("·")
-                Text("\(completedSets)/\(totalSets) set tamamlandı")
+                Text(lm.format("today_sets_completed", completedSets, totalSets))
             }
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -109,4 +111,5 @@ private struct SessionRowView: View {
 #Preview {
     TodayView()
         .modelContainer(for: WorkoutSession.self, inMemory: true)
+        .environment(LocalizationManager())
 }

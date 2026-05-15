@@ -4,6 +4,7 @@ import SwiftData
 struct TemplateEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(LocalizationManager.self) private var lm
 
     var template: WorkoutTemplate?
 
@@ -15,20 +16,20 @@ struct TemplateEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Şablon Bilgileri") {
-                    TextField("Şablon Adı", text: $name)
-                    TextField("Açıklama (isteğe bağlı)", text: $descriptionText, axis: .vertical)
+                Section(lm["template_section_info"]) {
+                    TextField(lm["template_name_placeholder"], text: $name)
+                    TextField(lm["template_description_placeholder"], text: $descriptionText, axis: .vertical)
                         .lineLimit(3...)
                 }
             }
-            .navigationTitle(isEditing ? "Şablonu Düzenle" : "Yeni Şablon")
+            .navigationTitle(isEditing ? lm["template_edit_title"] : lm["template_new_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(lm["common_cancel"]) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Kaydet") { save() }
+                    Button(lm["common_save"]) { save() }
                         .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
@@ -60,4 +61,5 @@ struct TemplateEditView: View {
 #Preview {
     TemplateEditView()
         .modelContainer(for: WorkoutTemplate.self, inMemory: true)
+        .environment(LocalizationManager())
 }

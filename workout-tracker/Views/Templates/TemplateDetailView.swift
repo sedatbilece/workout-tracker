@@ -3,6 +3,7 @@ import SwiftData
 
 struct TemplateDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(LocalizationManager.self) private var lm
     @Bindable var template: WorkoutTemplate
 
     @State private var showingEditSheet = false
@@ -21,7 +22,7 @@ struct TemplateDetailView: View {
                 }
             }
 
-            Section("Hareketler") {
+            Section(lm["template_section_exercises"]) {
                 ForEach(sortedExercises) { exercise in
                     NavigationLink(destination: ExerciseTemplateEditView(template: template, exercise: exercise)) {
                         Label {
@@ -44,7 +45,7 @@ struct TemplateDetailView: View {
                 Button {
                     showingAddExerciseSheet = true
                 } label: {
-                    Label("Hareket Ekle", systemImage: "plus")
+                    Label(lm["template_add_exercise"], systemImage: "plus")
                 }
             }
 
@@ -52,7 +53,7 @@ struct TemplateDetailView: View {
                 Button {
                     addToToday()
                 } label: {
-                    Label("Bugüne Ekle", systemImage: "calendar.badge.plus")
+                    Label(lm["template_add_to_today"], systemImage: "calendar.badge.plus")
                         .frame(maxWidth: .infinity)
                         .font(.headline)
                 }
@@ -63,7 +64,7 @@ struct TemplateDetailView: View {
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Düzenle") {
+                Button(lm["common_edit"]) {
                     showingEditSheet = true
                 }
             }

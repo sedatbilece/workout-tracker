@@ -4,6 +4,7 @@ import SwiftData
 struct ExerciseTemplateEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(LocalizationManager.self) private var lm
 
     var template: WorkoutTemplate
     var exercise: ExerciseTemplate?
@@ -21,14 +22,14 @@ struct ExerciseTemplateEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Hareket Bilgileri") {
-                    TextField("Hareket Adı", text: $name)
+                Section(lm["exercise_section_info"]) {
+                    TextField(lm["exercise_name_placeholder"], text: $name)
 
                     Button {
                         showingIconPicker = true
                     } label: {
                         HStack {
-                            Text("İkon")
+                            Text(lm["icon_label"])
                                 .foregroundStyle(.primary)
                             Spacer()
                             Image(systemName: iconName)
@@ -41,7 +42,7 @@ struct ExerciseTemplateEditView: View {
                 }
 
                 if isEditing, let exercise {
-                    Section("Setler") {
+                    Section(lm["exercise_section_sets"]) {
                         ForEach(sortedSets) { set in
                             SetTemplateRowView(set: set, index: set.orderIndex)
                         }
@@ -55,19 +56,19 @@ struct ExerciseTemplateEditView: View {
                         Button {
                             addSet(to: exercise)
                         } label: {
-                            Label("Set Ekle", systemImage: "plus")
+                            Label(lm["exercise_add_set"], systemImage: "plus")
                         }
                     }
                 }
             }
-            .navigationTitle(isEditing ? "Hareketi Düzenle" : "Yeni Hareket")
+            .navigationTitle(isEditing ? lm["exercise_edit_title"] : lm["exercise_new_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(lm["common_cancel"]) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Kaydet") { save() }
+                    Button(lm["common_save"]) { save() }
                         .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
                 if isEditing {

@@ -3,6 +3,8 @@ import SwiftData
 
 @main
 struct workout_trackerApp: App {
+    @State private var lm = LocalizationManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             WorkoutTemplate.self,
@@ -24,6 +26,7 @@ struct workout_trackerApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environment(lm)
         }
         .modelContainer(sharedModelContainer)
     }

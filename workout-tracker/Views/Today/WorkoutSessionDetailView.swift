@@ -3,6 +3,7 @@ import SwiftData
 
 struct WorkoutSessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(LocalizationManager.self) private var lm
     @Bindable var session: WorkoutSession
 
     var sortedExercises: [ExerciseSession] {
@@ -22,9 +23,9 @@ struct WorkoutSessionDetailView: View {
             LazyVStack(spacing: 12) {
                 if sortedExercises.isEmpty {
                     ContentUnavailableView(
-                        "Hareket Yok",
+                        lm["session_no_exercises_title"],
                         systemImage: "dumbbell",
-                        description: Text("Bu antrenman şablonuna henüz hareket eklenmemiş.")
+                        description: Text(lm["session_no_exercises_message"])
                     )
                     .padding(.top, 40)
                 } else {
@@ -34,7 +35,7 @@ struct WorkoutSessionDetailView: View {
                                 Button(role: .destructive) {
                                     deleteExercise(exercise)
                                 } label: {
-                                    Label("Egzersizi Sil", systemImage: "trash")
+                                    Label(lm["exercise_delete_title"], systemImage: "trash")
                                 }
                             }
                     }
@@ -47,7 +48,7 @@ struct WorkoutSessionDetailView: View {
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
-                Text("\(completedSets) / \(totalSets) set tamamlandı")
+                Text(lm.format("today_sets_completed", completedSets, totalSets))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

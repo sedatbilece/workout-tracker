@@ -2,11 +2,12 @@ import SwiftUI
 
 struct SetTemplateRowView: View {
     @Bindable var set: SetTemplate
+    @Environment(LocalizationManager.self) private var lm
     let index: Int
 
     var body: some View {
         HStack(spacing: 12) {
-            Text("Set \(index + 1)")
+            Text(lm.format("set_label", index + 1))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(width: 50, alignment: .leading)
@@ -25,7 +26,7 @@ struct SetTemplateRowView: View {
                         set.defaultKg += 2.5
                     }
                 }
-                Text("kg")
+                Text(lm["set_weight_unit"])
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -42,7 +43,7 @@ struct SetTemplateRowView: View {
                         set.defaultReps = min(20, set.defaultReps + 1)
                     }
                 }
-                Text("tekrar")
+                Text(lm["set_reps_unit"])
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }

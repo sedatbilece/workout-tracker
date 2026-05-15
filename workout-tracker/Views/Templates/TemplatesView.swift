@@ -3,6 +3,7 @@ import SwiftData
 
 struct TemplatesView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(LocalizationManager.self) private var lm
     @Query(sort: \WorkoutTemplate.createdAt, order: .reverse)
     private var templates: [WorkoutTemplate]
 
@@ -13,9 +14,9 @@ struct TemplatesView: View {
             Group {
                 if templates.isEmpty {
                     ContentUnavailableView(
-                        "Şablon Yok",
+                        lm["templates_no_templates_title"],
                         systemImage: "list.bullet.clipboard",
-                        description: Text("İlk antrenman şablonunu oluşturmak için + butonuna dokun.")
+                        description: Text(lm["templates_no_templates_message"])
                     )
                 } else {
                     List {
@@ -24,7 +25,7 @@ struct TemplatesView: View {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(template.name)
                                         .font(.headline)
-                                    Text("\(template.exercises.count) hareket")
+                                    Text(lm.format("today_exercises_count", template.exercises.count))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -35,7 +36,7 @@ struct TemplatesView: View {
                     }
                 }
             }
-            .navigationTitle("Şablonlar")
+            .navigationTitle(lm["templates_title"])
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -61,4 +62,5 @@ struct TemplatesView: View {
 #Preview {
     TemplatesView()
         .modelContainer(for: WorkoutTemplate.self, inMemory: true)
+        .environment(LocalizationManager())
 }

@@ -5,11 +5,11 @@ enum AppTheme: String, CaseIterable {
     case light = "light"
     case dark = "dark"
 
-    var label: String {
+    var labelKey: String {
         switch self {
-        case .system: return "Otomatik"
-        case .light:  return "Aydınlık"
-        case .dark:   return "Karanlık"
+        case .system: return "theme_auto"
+        case .light:  return "theme_light"
+        case .dark:   return "theme_dark"
         }
     }
 

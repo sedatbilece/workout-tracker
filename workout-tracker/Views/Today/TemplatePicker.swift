@@ -4,6 +4,7 @@ import SwiftData
 struct TemplatePicker: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(LocalizationManager.self) private var lm
 
     @Query(sort: \WorkoutTemplate.name)
     private var templates: [WorkoutTemplate]
@@ -13,9 +14,9 @@ struct TemplatePicker: View {
             Group {
                 if templates.isEmpty {
                     ContentUnavailableView(
-                        "Şablon Yok",
+                        lm["templates_no_templates_title"],
                         systemImage: "list.bullet.clipboard",
-                        description: Text("Önce Şablonlar sekmesinden bir antrenman şablonu oluştur.")
+                        description: Text(lm["template_picker_empty"])
                     )
                 } else {
                     List(templates) { template in
@@ -27,7 +28,7 @@ struct TemplatePicker: View {
                                     .font(.headline)
                                     .foregroundStyle(.primary)
                                 HStack {
-                                    Text("\(template.exercises.count) hareket")
+                                    Text(lm.format("today_exercises_count", template.exercises.count))
                                     if !template.descriptionText.isEmpty {
                                         Text("·")
                                         Text(template.descriptionText)
@@ -42,11 +43,11 @@ struct TemplatePicker: View {
                     }
                 }
             }
-            .navigationTitle("Şablon Seç")
+            .navigationTitle(lm["template_picker_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(lm["common_cancel"]) { dismiss() }
                 }
             }
         }
@@ -62,4 +63,5 @@ struct TemplatePicker: View {
 #Preview {
     TemplatePicker()
         .modelContainer(for: WorkoutTemplate.self, inMemory: true)
+        .environment(LocalizationManager())
 }

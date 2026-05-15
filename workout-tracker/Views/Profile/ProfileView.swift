@@ -5,6 +5,7 @@ struct ProfileView: View {
     @AppStorage("profileSurname")   private var surname: String = ""
     @AppStorage("profilePhotoData") private var photoData: Data = Data()
     @AppStorage("appTheme")         private var themeRaw: String = AppTheme.system.rawValue
+    @Environment(LocalizationManager.self) private var lm
 
     @State private var showEdit = false
 
@@ -17,7 +18,7 @@ struct ProfileView: View {
                 languageSection
                 versionSection
             }
-            .navigationTitle("Profil")
+            .navigationTitle(lm["tab_profile"])
         }
         .sheet(isPresented: $showEdit) {
             ProfileEditView(name: $name, surname: $surname, photoData: $photoData)
@@ -33,10 +34,10 @@ struct ProfileView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     let fullName = [name, surname].filter { !$0.isEmpty }.joined(separator: " ")
-                    Text(fullName.isEmpty ? "İsimsiz" : fullName)
+                    Text(fullName.isEmpty ? lm["profile_unnamed"] : fullName)
                         .font(.title3)
                         .fontWeight(.semibold)
-                    Text("Profili düzenlemek için dokun")
+                    Text(lm["profile_edit_hint"])
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -54,10 +55,10 @@ struct ProfileView: View {
     }
 
     private var themeSection: some View {
-        Section("Görünüm") {
-            Picker("Tema", selection: $themeRaw) {
+        Section(lm["profile_section_appearance"]) {
+            Picker(lm["profile_theme_label"], selection: $themeRaw) {
                 ForEach(AppTheme.allCases, id: \.rawValue) { t in
-                    Text(t.label).tag(t.rawValue)
+                    Text(lm[t.labelKey]).tag(t.rawValue)
                 }
             }
             .pickerStyle(.segmented)
@@ -66,16 +67,22 @@ struct ProfileView: View {
     }
 
     private var settingsSection: some View {
-        Section("Ayarlar") {
-            Text("Yakında")
+        Section(lm["profile_section_settings"]) {
+            Text(lm["common_coming_soon"])
                 .foregroundStyle(.secondary)
         }
     }
 
     private var languageSection: some View {
-        Section("Dil") {
-            Text("Yakında")
-                .foregroundStyle(.secondary)
+        let lang = AppLanguage(rawValue: lm.languageCode) ?? .system
+        return Section(lm["profile_section_language"]) {
+            NavigationLink(destination: LanguageSettingsView()) {
+                HStack(spacing: 10) {
+                    Text(lang.flag)
+                    Text(lang == .system ? lm["language_system"] : lang.displayName)
+                        .foregroundStyle(.primary)
+                }
+            }
         }
     }
 
@@ -85,7 +92,7 @@ struct ProfileView: View {
         return Section {
             HStack {
                 Spacer()
-                Text("Sürüm \(version) (\(build))")
+                Text(lm.format("profile_version", version, build))
                     .font(.footnote)
                     .foregroundStyle(.tertiary)
                 Spacer()
@@ -97,4 +104,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environment(LocalizationManager())
 }

@@ -9,7 +9,7 @@ extension Date {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "tr_TR")
+        formatter.locale = .current
         return formatter.string(from: self)
     }
 }

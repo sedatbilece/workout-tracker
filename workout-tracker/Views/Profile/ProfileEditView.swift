@@ -5,6 +5,7 @@ struct ProfileEditView: View {
     @Binding var name: String
     @Binding var surname: String
     @Binding var photoData: Data
+    @Environment(LocalizationManager.self) private var lm
 
     @State private var pickerItem: PhotosPickerItem?
     @Environment(\.dismiss) private var dismiss
@@ -16,19 +17,19 @@ struct ProfileEditView: View {
                     photoPicker
                 }
 
-                Section("Kişisel Bilgiler") {
-                    TextField("Ad", text: $name)
-                    TextField("Soyad", text: $surname)
+                Section(lm["profile_section_personal"]) {
+                    TextField(lm["profile_first_name"], text: $name)
+                    TextField(lm["profile_last_name"], text: $surname)
                 }
             }
-            .navigationTitle("Profili Düzenle")
+            .navigationTitle(lm["profile_edit_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(lm["common_cancel"]) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Kaydet") { dismiss() }
+                    Button(lm["common_save"]) { dismiss() }
                         .bold()
                 }
             }

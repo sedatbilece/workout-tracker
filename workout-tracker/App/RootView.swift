@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @AppStorage("appTheme") private var themeRaw: String = AppTheme.system.rawValue
+    @Environment(LocalizationManager.self) private var lm
 
     private var colorScheme: ColorScheme? {
         (AppTheme(rawValue: themeRaw) ?? .system).colorScheme
@@ -11,22 +12,22 @@ struct RootView: View {
         TabView {
             TodayView()
                 .tabItem {
-                    Label("Bugün", systemImage: "calendar")
+                    Label(lm["tab_today"], systemImage: "calendar")
                 }
 
             TemplatesView()
                 .tabItem {
-                    Label("Şablonlar", systemImage: "list.bullet.clipboard")
+                    Label(lm["tab_templates"], systemImage: "list.bullet.clipboard")
                 }
 
             StatsView()
                 .tabItem {
-                    Label("İstatistikler", systemImage: "chart.bar.xaxis")
+                    Label(lm["tab_stats"], systemImage: "chart.bar.xaxis")
                 }
 
             ProfileView()
                 .tabItem {
-                    Label("Profil", systemImage: "person.crop.circle")
+                    Label(lm["tab_profile"], systemImage: "person.crop.circle")
                 }
         }
         .preferredColorScheme(colorScheme)
@@ -35,4 +36,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
+        .environment(LocalizationManager())
 }

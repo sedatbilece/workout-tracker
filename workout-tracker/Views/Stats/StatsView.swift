@@ -1,18 +1,21 @@
 import SwiftUI
 
 struct StatsView: View {
+    @Environment(LocalizationManager.self) private var lm
+
     var body: some View {
         NavigationStack {
             ContentUnavailableView(
-                "İstatistikler Yakında",
+                lm["stats_coming_soon_title"],
                 systemImage: "chart.bar.xaxis",
-                description: Text("Yeterli antrenman verisi oluştuğunda gelişim grafikleri burada görünecek.")
+                description: Text(lm["stats_coming_soon_message"])
             )
-            .navigationTitle("İstatistikler")
+            .navigationTitle(lm["tab_stats"])
         }
     }
 }
 
 #Preview {
     StatsView()
+        .environment(LocalizationManager())
 }

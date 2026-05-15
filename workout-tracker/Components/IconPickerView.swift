@@ -25,6 +25,7 @@ private let allIcons: [String] = [
 struct IconPickerView: View {
     @Binding var selectedIcon: String
     @Environment(\.dismiss) private var dismiss
+    @Environment(LocalizationManager.self) private var lm
 
     @State private var searchText = ""
 
@@ -58,12 +59,12 @@ struct IconPickerView: View {
                 }
                 .padding()
             }
-            .searchable(text: $searchText, prompt: "İkon ara")
-            .navigationTitle("İkon Seç")
+            .searchable(text: $searchText, prompt: Text(lm["icon_picker_search"]))
+            .navigationTitle(lm["icon_picker_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(lm["common_cancel"]) { dismiss() }
                 }
             }
         }
@@ -72,4 +73,5 @@ struct IconPickerView: View {
 
 #Preview {
     IconPickerView(selectedIcon: .constant("dumbbell"))
+        .environment(LocalizationManager())
 }

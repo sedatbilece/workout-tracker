@@ -3,6 +3,7 @@ import SwiftData
 
 struct SetSessionRowView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(LocalizationManager.self) private var lm
     @Bindable var set: SetSession
     let index: Int
     var onDuplicate: (() -> Void)? = nil
@@ -14,7 +15,7 @@ struct SetSessionRowView: View {
             onDelete: set.isCompleted ? nil : onDelete
         ) {
             HStack(spacing: 12) {
-                Text("Set \(index + 1)")
+                Text(lm.format("set_label", index + 1))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .frame(width: 50, alignment: .leading)
@@ -34,7 +35,7 @@ struct SetSessionRowView: View {
                             set.kg += 2.5
                         }
                     }
-                    Text("kg")
+                    Text(lm["set_weight_unit"])
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -51,7 +52,7 @@ struct SetSessionRowView: View {
                             set.reps = min(20, set.reps + 1)
                         }
                     }
-                    Text("tekrar")
+                    Text(lm["set_reps_unit"])
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }

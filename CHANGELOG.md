@@ -8,6 +8,20 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
+## [1.3.0] - 2026-05-15 (Build 4)
+
+### Eklendi
+- **Çoklu dil desteği:** Türkçe, İngilizce, İspanyolca ve Rusça dil seçeneği; sistem dili otomatik algılanıyor.
+- **Dil ayarları ekranı:** Profil sekmesinden uygulama dili anında değiştirilebiliyor (`LanguageSettingsView`).
+- **Lokalizasyon altyapısı:** `LocalizationManager` + `Localizable.xcstrings` ile tüm kullanıcıya yönelik metinler lokalize edildi.
+
+### Değiştirildi
+- Profil ekranı yeniden düzenlendi; dil ayarları bölümü eklendi.
+- `AppLanguage` enum'u ile desteklenen diller ve bayrak emojileri merkezi olarak yönetiliyor.
+- `AppTheme` ve `DateHelper` lokalizasyon sistemine uyumlu hale getirildi.
+
+---
+
 ## [1.2.0] - 2026-05-14 (Build 3)
 
 ### Eklendi
