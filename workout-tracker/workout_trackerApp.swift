@@ -4,6 +4,7 @@ import SwiftData
 @main
 struct workout_trackerApp: App {
     @State private var lm = LocalizationManager()
+    @State private var tabRouter = TabRouter()
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -27,6 +28,7 @@ struct workout_trackerApp: App {
         WindowGroup {
             RootView()
                 .environment(lm)
+                .environment(tabRouter)
         }
         .modelContainer(sharedModelContainer)
     }

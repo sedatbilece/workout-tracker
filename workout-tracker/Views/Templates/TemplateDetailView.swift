@@ -4,6 +4,7 @@ import SwiftData
 struct TemplateDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(LocalizationManager.self) private var lm
+    @Environment(TabRouter.self) private var tabRouter
     @Bindable var template: WorkoutTemplate
 
     @State private var showingEditSheet = false
@@ -83,6 +84,7 @@ struct TemplateDetailView: View {
     private func addToToday() {
         let session = TemplateSessionBuilder.build(from: template)
         modelContext.insert(session)
+        tabRouter.selectedTab = 0
     }
 
     private func deleteExercises(offsets: IndexSet) {
