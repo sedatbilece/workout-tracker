@@ -54,6 +54,9 @@ struct TemplatePicker: View {
     }
 
     private func addToToday(template: WorkoutTemplate) {
+        // Persist any unsaved template edits first so the snapshotted set/exercise
+        // ids are permanent (not temporary), otherwise syncing back later fails.
+        try? modelContext.save()
         let session = TemplateSessionBuilder.build(from: template)
         modelContext.insert(session)
         dismiss()

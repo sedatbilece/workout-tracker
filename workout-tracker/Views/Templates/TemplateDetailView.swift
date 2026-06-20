@@ -82,6 +82,9 @@ struct TemplateDetailView: View {
     }
 
     private func addToToday() {
+        // Persist any unsaved template edits first so the snapshotted set/exercise
+        // ids are permanent (not temporary), otherwise syncing back later fails.
+        try? modelContext.save()
         let session = TemplateSessionBuilder.build(from: template)
         modelContext.insert(session)
         tabRouter.selectedTab = 0
