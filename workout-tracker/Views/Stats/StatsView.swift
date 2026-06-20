@@ -2,15 +2,34 @@ import SwiftUI
 
 struct StatsView: View {
     @Environment(LocalizationManager.self) private var lm
+    @State private var selection: Segment = .history
+
+    enum Segment: Hashable {
+        case history
+        case statistics
+    }
 
     var body: some View {
         NavigationStack {
-            ContentUnavailableView(
-                lm["stats_coming_soon_title"],
-                systemImage: "chart.bar.xaxis",
-                description: Text(lm["stats_coming_soon_message"])
-            )
+            VStack(spacing: 0) {
+                Picker("", selection: $selection) {
+                    Text(lm["history_segment"]).tag(Segment.history)
+                    Text(lm["statistics_segment"]).tag(Segment.statistics)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+
+                switch selection {
+                case .history:
+                    HistoryView()
+                case .statistics:
+                    StatisticsView()
+                }
+            }
             .navigationTitle(lm["tab_stats"])
+            .navigationBarTitleDisplayMode(.inline)
+            .background(Color(.systemGroupedBackground))
         }
     }
 }

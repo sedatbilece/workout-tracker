@@ -12,4 +12,12 @@ extension Date {
         formatter.locale = .current
         return formatter.string(from: self)
     }
+
+    var timeFormatted: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        formatter.locale = .current
+        return formatter.string(from: self)
+    }
 }

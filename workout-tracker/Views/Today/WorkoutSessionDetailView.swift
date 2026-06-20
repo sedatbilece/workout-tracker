@@ -45,8 +45,17 @@ struct WorkoutSessionDetailView: View {
             .padding(.vertical, 12)
         }
         .navigationTitle(session.templateNameSnapshot)
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(spacing: 6) {
+                    Text(session.templateNameSnapshot)
+                        .font(.headline)
+                    Text(session.createdAt.timeFormatted)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
             ToolbarItem(placement: .bottomBar) {
                 Text(lm.format("today_sets_completed", completedSets, totalSets))
                     .font(.caption)

@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Run
 
-This is an Xcode project (no Swift Package Manager). Build and run via Xcode or `xcodebuild`:
+**IMPORTANT: Never build the project yourself (do not run `xcodebuild build`/`test` or any build command). The user always builds and runs the app, and will paste any errors here. Make the code changes and stop — wait for the user's build feedback.**
+
+This is an Xcode project (no Swift Package Manager). For reference, the user builds and runs via Xcode or `xcodebuild`:
 
 ```bash
 # Build for simulator
