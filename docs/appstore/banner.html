@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!--
+  Landscape App Store artwork (header / search result).
+  Query: ?layout=header|search&w=<px>&h=<px>
+  Laid out on a canvas 1200px tall (width follows the aspect ratio), then scaled to w x h.
+-->
+<style>
+  :root {
+    --accent: #007AFF;
+    --ink: #0B0B0F;
+    --muted: #6B7280;
+    --bg: #F3F5F9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow: hidden; }
+  body {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    background:
+      repeating-linear-gradient(135deg, rgba(15, 23, 42, 0.028) 0 2px, transparent 2px 14px),
+      radial-gradient(ellipse 45% 60% at 72% 55%, rgba(0, 122, 255, 0.12), transparent 70%),
+      var(--bg);
+    color: var(--ink);
+  }
+  .search body, body.search {
+    background:
+      repeating-linear-gradient(135deg, rgba(15, 23, 42, 0.028) 0 2px, transparent 2px 14px),
+      radial-gradient(ellipse 60% 55% at 50% 85%, rgba(0, 122, 255, 0.13), transparent 70%),
+      var(--bg);
+  }
+  #canvas { position: absolute; left: 0; top: 0; height: 1200px; transform-origin: top left; }
+
+  .brand { display: flex; align-items: center; gap: 22px; }
+  .brand img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18); }
+  .brand span { font-size: 40px; font-weight: 700; letter-spacing: -0.5px; }
+  h1 { font-weight: 800; letter-spacing: -2.5px; line-height: 1.04; }
+  h1 b { color: var(--accent); font-weight: 800; }
+  .sub { color: var(--muted); font-weight: 500; line-height: 1.32; }
+
+  /* Devices are built at full size and scaled by their wrapper. */
+  .wrap { position: absolute; transform-origin: top left; }
+  .phone {
+    width: 984px; height: 2088px; border-radius: 156px; padding: 22px; background: #111114; position: relative;
+    box-shadow: 0 0 0 3px #2B2B30 inset, 0 70px 140px rgba(15, 23, 42, 0.24), 0 20px 40px rgba(15, 23, 42, 0.12);
+  }
+  .phone .screen { width: 940px; height: 2044px; border-radius: 134px; }
+  .phone .island {
+    position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+    width: 290px; height: 86px; border-radius: 43px; background: #000;
+  }
+  .tablet {
+    width: 1512px; height: 1992px; border-radius: 88px; padding: 36px; background: #111114;
+    box-shadow: 0 0 0 3px #2B2B30 inset, 0 70px 140px rgba(15, 23, 42, 0.22), 0 20px 40px rgba(15, 23, 42, 0.12);
+  }
+  .tablet .screen { width: 1440px; height: 1920px; border-radius: 54px; }
+  .screen { position: relative; overflow: hidden; background: #F2F2F7; }
+  .screen img { width: 100%; height: 100%; display: block; }
+
+  /* Header: text left, iPad + iPhone right */
+  .header .text { position: absolute; left: 140px; top: 0; bottom: 0; width: 900px; display: flex; flex-direction: column; justify-content: center; }
+  .header h1 { font-size: 118px; margin-top: 44px; }
+  .header .sub { font-size: 44px; margin-top: 30px; }
+
+  /* Search: headline on top, three iPhones rising from the bottom */
+  .search .text { position: absolute; left: 0; right: 0; top: 90px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+  .search h1 { font-size: 96px; margin-top: 34px; }
+  .search .brand img { width: 84px; height: 84px; border-radius: 19px; }
+  .search .brand span { font-size: 36px; }
+</style>
+</head>
+<body>
+  <div id="canvas">
+    <div class="text">
+      <div class="brand"><img src="assets/icon.png" alt=""><span>Workout Tracker</span></div>
+      <h1 id="title"></h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div id="devices"></div>
+  </div>
+
+<script>
+const q = new URLSearchParams(location.search);
+const layout = q.get('layout') || 'header';
+const outW = parseInt(q.get('w'), 10), outH = parseInt(q.get('h'), 10);
+const H = 1200, W = Math.round(H * outW / outH);
+
+document.body.className = layout;
+document.documentElement.style.width = document.body.style.width = outW + 'px';
+document.documentElement.style.height = document.body.style.height = outH + 'px';
+const canvas = document.getElementById('canvas');
+canvas.style.width = W + 'px';
+canvas.style.transform = `scale(${outH / H})`;
+
+const devices = document.getElementById('devices');
+function phone(shot, x, y, height, rot = 0, z = 1) {
+  const s = height / 2088;
+  devices.insertAdjacentHTML('beforeend',
+    `<div class="wrap" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg) scale(${s});z-index:${z}">
+       <div class="phone"><div class="screen"><img src="raw/${shot}.png"><div class="island"></div></div></div>
+     </div>`);
+  return 984 * s;
+}
+function tablet(shot, x, y, height, z = 1) {
+  const s = height / 1992;
+  devices.insertAdjacentHTML('beforeend',
+    `<div class="wrap" style="left:${x}px;top:${y}px;transform:scale(${s});z-index:${z}">
+       <div class="tablet"><div class="screen"><img src="raw-ipad/${shot}.png"></div></div>
+     </div>`);
+  return 1512 * s;
+}
+
+if (layout === 'header') {
+  document.getElementById('title').innerHTML = 'Every <b>set</b>.<br>Every <b>rep</b>.<br>Every <b>win</b>.';
+  document.getElementById('sub').innerHTML = 'Build templates, log workouts in seconds<br>and watch your progress grow.';
+  // iPad + iPhone group, centered in the space right of the text; the iPhone
+  // overhangs the iPad's right edge so the charts stay visible.
+  const padH = 940, padW = 1512 * padH / 1992;
+  const phH = 820, phW = 984 * phH / 2088, overhang = 180;
+  const groupW = padW + overhang;
+  const left = 1100 + Math.max(0, (W - 1100 - groupW) / 2);
+  tablet('stats-detail', left, 130, padH, 1);
+  phone('session', left + padW + overhang - phW, 260, phH, 0, 2);
+} else {
+  document.getElementById('title').innerHTML = 'Track every <b>set</b> with ease';
+  document.getElementById('sub').remove();
+  // Three phones bleed off the bottom edge; the middle one stands taller.
+  // Width is capped so the outer phones keep a margin on narrower (3:2) canvases.
+  const gap = 70, margin = 110;
+  const pw = Math.min(556, (W - 2 * gap - 2 * margin) / 3), ph = pw * 2088 / 984;
+  const cx = W / 2;
+  phone('template-detail', cx - pw * 1.5 - gap, 470, ph, 0, 1);
+  phone('session', cx - pw / 2, 400, ph, 0, 2);
+  phone('stats-detail', cx + pw / 2 + gap, 470, ph, 0, 1);
+}
+</script>
+</body>
+</html>
