@@ -1,4 +1,6 @@
 import SwiftUI
+import SwiftData
+import UniformTypeIdentifiers
 
 struct ProfileView: View {
     @AppStorage("profileName")      private var name: String = ""
@@ -6,15 +8,24 @@ struct ProfileView: View {
     @AppStorage("profilePhotoData") private var photoData: Data = Data()
     @AppStorage("appTheme")         private var themeRaw: String = AppTheme.system.rawValue
     @Environment(LocalizationManager.self) private var lm
+    @Environment(\.modelContext) private var modelContext
 
     @State private var showEdit = false
+    @State private var showImporter = false
+    @State private var importAlert: ImportAlert?
+
+    private struct ImportAlert: Identifiable {
+        let id = UUID()
+        let title: String
+        let message: String
+    }
 
     var body: some View {
         NavigationStack {
             List {
                 profileHeader
                 themeSection
-                settingsSection
+                dataSection
                 languageSection
                 versionSection
             }
@@ -22,6 +33,14 @@ struct ProfileView: View {
         }
         .sheet(isPresented: $showEdit) {
             ProfileEditView(name: $name, surname: $surname, photoData: $photoData)
+        }
+        .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json]) { result in
+            if case .success(let url) = result {
+                importBackup(from: url)
+            }
+        }
+        .alert(item: $importAlert) { alert in
+            Alert(title: Text(alert.title), message: Text(alert.message))
         }
     }
 
@@ -66,10 +85,48 @@ struct ProfileView: View {
         }
     }
 
-    private var settingsSection: some View {
-        Section(lm["profile_section_settings"]) {
-            Text(lm["common_coming_soon"])
-                .foregroundStyle(.secondary)
+    private var dataSection: some View {
+        Section {
+            ShareLink(
+                item: BackupExport(container: modelContext.container),
+                preview: SharePreview(BackupService.suggestedFileName())
+            ) {
+                Label(lm["profile_export_backup"], systemImage: "square.and.arrow.up")
+            }
+            Button {
+                showImporter = true
+            } label: {
+                Label(lm["profile_import_backup"], systemImage: "square.and.arrow.down")
+            }
+        } header: {
+            Text(lm["profile_section_data"])
+        } footer: {
+            Text(lm["profile_backup_footer"])
+        }
+    }
+
+    // MARK: - Backup
+
+    private func importBackup(from url: URL) {
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let result = try BackupService.importBackup(data: data, context: modelContext)
+            importAlert = ImportAlert(
+                title: lm["backup_import_success_title"],
+                message: lm.format(
+                    "backup_import_result",
+                    result.templatesAdded,
+                    result.sessionsAdded,
+                    result.templatesSkipped + result.sessionsSkipped
+                )
+            )
+        } catch BackupError.newerFormat {
+            importAlert = ImportAlert(title: lm["backup_import_error_title"], message: lm["backup_import_error_version"])
+        } catch {
+            importAlert = ImportAlert(title: lm["backup_import_error_title"], message: lm["backup_import_error_invalid"])
         }
     }
 
