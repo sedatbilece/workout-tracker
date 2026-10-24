@@ -6,8 +6,37 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AF0349012FAF252A00DE72C1 /* WorkoutWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AF0349022FAF252A00DE72C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF0348B12FAF252A00DE72C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF0349102FAF252A00DE72C1;
+			remoteInfo = WorkoutWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AF0349042FAF252A00DE72C1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AF0349012FAF252A00DE72C1 /* WorkoutWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		AF0348B92FAF252A00DE72C1 /* workout-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "workout-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkoutWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +45,27 @@
 			path = "workout-tracker";
 			sourceTree = "<group>";
 		};
+		AF0349052FAF252A00DE72C1 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		AF0349062FAF252A00DE72C1 /* WorkoutWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WorkoutWidgets;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		AF0348B62FAF252A00DE72C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF0349122FAF252A00DE72C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				AF0348BB2FAF252A00DE72C1 /* workout-tracker */,
+				AF0349052FAF252A00DE72C1 /* Shared */,
+				AF0349062FAF252A00DE72C1 /* WorkoutWidgets */,
 				AF0348BA2FAF252A00DE72C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				AF0348B92FAF252A00DE72C1 /* workout-tracker.app */,
+				AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,13 +104,16 @@
 				AF0348B52FAF252A00DE72C1 /* Sources */,
 				AF0348B62FAF252A00DE72C1 /* Frameworks */,
 				AF0348B72FAF252A00DE72C1 /* Resources */,
+				AF0349042FAF252A00DE72C1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AF0349032FAF252A00DE72C1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AF0348BB2FAF252A00DE72C1 /* workout-tracker */,
+				AF0349052FAF252A00DE72C1 /* Shared */,
 			);
 			name = "workout-tracker";
 			packageProductDependencies = (
@@ -69,6 +121,29 @@
 			productName = "workout-tracker";
 			productReference = AF0348B92FAF252A00DE72C1 /* workout-tracker.app */;
 			productType = "com.apple.product-type.application";
+		};
+		AF0349102FAF252A00DE72C1 /* WorkoutWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF0349162FAF252A00DE72C1 /* Build configuration list for PBXNativeTarget "WorkoutWidgets" */;
+			buildPhases = (
+				AF0349112FAF252A00DE72C1 /* Sources */,
+				AF0349122FAF252A00DE72C1 /* Frameworks */,
+				AF0349132FAF252A00DE72C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AF0349052FAF252A00DE72C1 /* Shared */,
+				AF0349062FAF252A00DE72C1 /* WorkoutWidgets */,
+			);
+			name = WorkoutWidgets;
+			packageProductDependencies = (
+			);
+			productName = WorkoutWidgets;
+			productReference = AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +156,9 @@
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					AF0348B82FAF252A00DE72C1 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					AF0349102FAF252A00DE72C1 = {
 						CreatedOnToolsVersion = 26.4.1;
 					};
 				};
@@ -103,12 +181,20 @@
 			projectRoot = "";
 			targets = (
 				AF0348B82FAF252A00DE72C1 /* workout-tracker */,
+				AF0349102FAF252A00DE72C1 /* WorkoutWidgets */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AF0348B72FAF252A00DE72C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF0349132FAF252A00DE72C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -125,7 +211,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AF0349112FAF252A00DE72C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AF0349032FAF252A00DE72C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF0349102FAF252A00DE72C1 /* WorkoutWidgets */;
+			targetProxy = AF0349022FAF252A00DE72C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AF0348C42FAF252B00DE72C1 /* Debug */ = {
@@ -162,6 +263,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -182,6 +284,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -225,6 +328,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -239,6 +343,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -254,11 +359,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "workout-tracker/workout-tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = G26SJ65FZY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Support/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your finished workouts are saved to Apple Health as strength training.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -269,7 +374,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "sedatbilece.workout-tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -289,11 +393,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "workout-tracker/workout-tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = G26SJ65FZY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Support/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your finished workouts are saved to Apple Health as strength training.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -304,9 +408,62 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "sedatbilece.workout-tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AF0349142FAF252A00DE72C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = G26SJ65FZY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Support/WorkoutWidgets-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = WorkoutWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sedatbilece.workout-tracker.WorkoutWidgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF0349152FAF252A00DE72C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = G26SJ65FZY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Support/WorkoutWidgets-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = WorkoutWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sedatbilece.workout-tracker.WorkoutWidgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -334,6 +491,15 @@
 			buildConfigurations = (
 				AF0348C72FAF252B00DE72C1 /* Debug */,
 				AF0348C82FAF252B00DE72C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF0349162FAF252A00DE72C1 /* Build configuration list for PBXNativeTarget "WorkoutWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF0349142FAF252A00DE72C1 /* Debug */,
+				AF0349152FAF252A00DE72C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

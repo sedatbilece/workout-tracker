@@ -5,8 +5,10 @@ struct TodayView: View {
     @Query private var allSessions: [WorkoutSession]
     @Environment(\.modelContext) private var modelContext
     @Environment(LocalizationManager.self) private var lm
+    @Environment(TabRouter.self) private var tabRouter
     @State private var showingTemplatePicker = false
     @State private var sessionToDelete: WorkoutSession?
+    @State private var openedSession: WorkoutSession?
 
     private var todaySessions: [WorkoutSession] {
         let calendar = Calendar.current
@@ -42,6 +44,11 @@ struct TodayView: View {
                 }
             }
             .navigationTitle(lm["today_title"])
+            .navigationDestination(item: $openedSession) { session in
+                WorkoutSessionDetailView(session: session)
+            }
+            .onAppear(perform: openPendingSession)
+            .onChange(of: tabRouter.pendingSessionUUID) { openPendingSession() }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -77,6 +84,13 @@ struct TodayView: View {
                 }
             }
         }
+    }
+
+    /// Opens the workout the Live Activity was tapped for.
+    private func openPendingSession() {
+        guard let uuid = tabRouter.pendingSessionUUID else { return }
+        tabRouter.pendingSessionUUID = nil
+        openedSession = allSessions.first { $0.uuid == uuid }
     }
 }
 
@@ -138,4 +152,5 @@ struct SessionDurationLabel: View {
     TodayView()
         .modelContainer(for: WorkoutSession.self, inMemory: true)
         .environment(LocalizationManager())
+        .environment(TabRouter())
 }

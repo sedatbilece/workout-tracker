@@ -19,8 +19,10 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 - **Set kaydırma işlemleri:** Antrenman ve şablon ekranında set sola kaydırılınca [Kopyala] [Sil] butonları çıkıyor (Sil en sağda). Kopya, aynı kg/tekrarla setin hemen altına ekleniyor. Antrenmanda kopyalanan set o güne özel; şablonu değiştirmiyor.
 - **Sürüm notları:** Profil'deki sürüm satırına dokununca her build'de nelerin değiştiği uygulama dilinde listeleniyor (`ReleaseNotes.json`).
 - **Seti geri al:** Antrenmanda yanlışlıkla tamamlanan bir set kaydırılıp "Geri Al" ile yeniden düzenlenebilir hale getiriliyor; tamamlanırken şablona yazılan ağırlık/tekrar da eski değerine dönüyor.
+- **Kilit ekranı ve Dinamik Ada (Live Activity):** Çalışan antrenman kilit ekranında ve Dinamik Ada'da canlı süre, egzersiz adı, set ilerlemesi ve sıradaki set (kg × tekrar) ile gösteriliyor; Apple Watch Smart Stack'te de görünüyor. Karta dokununca antrenman açılıyor. Set tamamlanınca güncelleniyor, Bitir ya da silme ile kapanıyor.
 
 ### Değiştirildi
+- `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION` proje düzeyine taşındı; uygulama ve `WorkoutWidgets` extension'ı aynı numaraları miras alıyor.
 - Seans ↔ şablon bağlantısı store'a özel `PersistentIdentifier` yerine kalıcı `uuid` ile kuruluyor; mevcut veriler açılışta `DataMigrator` ile otomatik dönüştürülüyor.
 - Modeller CloudKit kurallarına uygun hale getirildi (varsayılan değerler, opsiyonel ve iki yönlü ilişkiler).
 - Antrenman süresi saniyesiyle gösteriliyor (ör. "23 dk 15 sn").

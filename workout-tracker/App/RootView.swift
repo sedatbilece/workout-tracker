@@ -45,6 +45,12 @@ struct RootView: View {
                 .tag(4)
         }
         .preferredColorScheme(colorScheme)
+        .modifier(LiveActivitySync())
+        .onOpenURL { url in
+            guard let uuid = WorkoutActivityAttributes.sessionUUID(from: url) else { return }
+            tabRouter.selectedTab = 0
+            tabRouter.pendingSessionUUID = uuid
+        }
         .task {
             await cleanUpSyncedChanges()
         }

@@ -1,6 +1,6 @@
 # Sürüm ve Build Numarası
 
-Uygulamada Apple'ın iki ayrı numarası kullanılır. İkisi de Xcode'da **Target → General → Identity** altında (pbxproj'da Debug ve Release için ayrı ayrı) tanımlıdır.
+Uygulamada Apple'ın iki ayrı numarası kullanılır. İkisi de **proje düzeyinde** tanımlıdır (Xcode'da **Project → Build Settings**; pbxproj'da proje konfigürasyonlarında Debug ve Release için ayrı ayrı). Uygulama ve `WorkoutWidgets` extension'ı bu değerleri miras alır; extension'ın numaraları uygulamayla aynı olmak zorundadır. Target → General → Identity'den değiştirmek sadece o hedefe yazar ve numaraları ayırır, bu yüzden orayı kullanma.
 
 | Xcode alanı | pbxproj anahtarı | Ne işe yarar |
 |---|---|---|
@@ -21,11 +21,11 @@ Uygulamada Apple'ın iki ayrı numarası kullanılır. İkisi de Xcode'da **Targ
 
 - Build numarası **asla geri gitmez ve sıfırlanmaz**, version değişse bile artmaya devam eder.
 - Version küçük güncellemelerde ikinci haneyle (`1.1`, `1.2`), büyük değişikliklerde ilk haneyle (`2.0`) artırılır. Sadece hata düzeltmesi içeren acil sürümlerde üçüncü hane kullanılabilir (`1.1.1`).
-- Version ve Build Debug **ve** Release konfigürasyonlarında aynı tutulur (Xcode'da General sekmesinden değiştirmek ikisini birden günceller).
+- Version ve Build Debug **ve** Release konfigürasyonlarında aynı tutulur.
 
 ### `dev` → `main` merge adımları
 
-1. `dev` üzerinde Build'i 1 artır (Xcode → General → Build).
+1. `dev` üzerinde Build'i 1 artır (Xcode → Project → Build Settings → Current Project Version, ya da pbxproj'daki iki proje düzeyi `CURRENT_PROJECT_VERSION` satırı).
 2. Sürüm notlarını güncelle: `workout-tracker/ReleaseNotes.json` dosyasının en üstüne yeni build için kayıt ekle (`version`, `build`, `date`, `notes`). Notlar önceki merge'den bu yana yapılanlardan çıkarılır (`git log build-<önceki N>..dev`; henüz `build-*` tag'i yoksa `origin/main..dev`). Kullanıcıya yönelik kısa maddeler, dört dilde (`tr`, `en`, `es`, `ru`); sadece iç/refactor değişiklikleri yazılmaz. `CHANGELOG.md`'deki `[Yayınlanmadı]` bölümü de yeni sürüm/build başlığına taşınır.
 3. Build artışı ve notları tek commit'te at: `bump build to <N>`
 4. `dev`'i `main`'e merge et.
