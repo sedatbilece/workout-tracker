@@ -1,0 +1,35 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "NSHealthUpdateUsageDescription" : {
+      "comment" : "Shown when asking to write workouts to Apple Health.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your finished workouts are saved to Apple Health as strength training."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus entrenamientos terminados se guardan en Apple Salud como entrenamiento de fuerza."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершённые тренировки сохраняются в Apple Здоровье как силовые."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitirdiğin antrenmanlar Apple Sağlık'a kuvvet antrenmanı olarak kaydedilir."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

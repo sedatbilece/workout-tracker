@@ -109,6 +109,7 @@ struct SessionSummaryRow: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Spacer(minLength: 0)
+                SessionDurationLabel(session: session)
             }
             HStack(spacing: 4) {
                 Text(lm.format("today_exercises_count", session.exercises.count))

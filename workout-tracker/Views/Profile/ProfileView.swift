@@ -7,14 +7,16 @@ struct ProfileView: View {
     @AppStorage("profileSurname")   private var surname: String = ""
     @AppStorage("profilePhotoData") private var photoData: Data = Data()
     @AppStorage("appTheme")         private var themeRaw: String = AppTheme.system.rawValue
+    @AppStorage("healthKitEnabled") private var healthKitEnabled = false
     @Environment(LocalizationManager.self) private var lm
     @Environment(\.modelContext) private var modelContext
 
     @State private var showEdit = false
     @State private var showImporter = false
-    @State private var importAlert: ImportAlert?
+    @State private var infoAlert: InfoAlert?
+    @State private var healthExportRunning = false
 
-    private struct ImportAlert: Identifiable {
+    private struct InfoAlert: Identifiable {
         let id = UUID()
         let title: String
         let message: String
@@ -26,6 +28,9 @@ struct ProfileView: View {
                 profileHeader
                 themeSection
                 dataSection
+                if HealthKitService.shared.isAvailable {
+                    healthSection
+                }
                 languageSection
                 versionSection
             }
@@ -39,8 +44,8 @@ struct ProfileView: View {
                 importBackup(from: url)
             }
         }
-        .alert(item: $importAlert) { alert in
-            Alert(title: Text(alert.title), message: Text(alert.message))
+        .alert(item: $infoAlert) { alert in
+            Alert(title: Text(alert.title), message: Text(alert.message), dismissButton: .default(Text(lm["common_ok"])))
         }
     }
 
@@ -105,6 +110,56 @@ struct ProfileView: View {
         }
     }
 
+    private var healthSection: some View {
+        Section {
+            Toggle(isOn: Binding(get: { healthKitEnabled }, set: setHealthKitEnabled)) {
+                Label {
+                    Text(lm["profile_health_toggle"])
+                } icon: {
+                    Image(systemName: "heart.fill")
+                        .foregroundStyle(.pink)
+                }
+            }
+            if healthKitEnabled {
+                Button {
+                    exportPastToHealth()
+                } label: {
+                    Label(lm["profile_health_export_past"], systemImage: "arrow.up.heart")
+                }
+                .disabled(healthExportRunning)
+            }
+        } header: {
+            Text(lm["profile_section_health"])
+        } footer: {
+            Text(lm["profile_health_footer"])
+        }
+    }
+
+    // MARK: - Apple Health
+
+    private func setHealthKitEnabled(_ enabled: Bool) {
+        guard enabled else {
+            healthKitEnabled = false
+            return
+        }
+        Task {
+            let granted = await HealthKitService.shared.requestAuthorization()
+            healthKitEnabled = granted
+            if !granted {
+                infoAlert = InfoAlert(title: lm["health_denied_title"], message: lm["health_denied_message"])
+            }
+        }
+    }
+
+    private func exportPastToHealth() {
+        healthExportRunning = true
+        Task {
+            let count = await HealthKitService.shared.exportPast(context: modelContext)
+            healthExportRunning = false
+            infoAlert = InfoAlert(title: lm["health_export_title"], message: lm.format("health_export_result", count))
+        }
+    }
+
     // MARK: - Backup
 
     private func importBackup(from url: URL) {
@@ -114,7 +169,7 @@ struct ProfileView: View {
         do {
             let data = try Data(contentsOf: url)
             let result = try BackupService.importBackup(data: data, context: modelContext)
-            importAlert = ImportAlert(
+            infoAlert = InfoAlert(
                 title: lm["backup_import_success_title"],
                 message: lm.format(
                     "backup_import_result",
@@ -124,9 +179,9 @@ struct ProfileView: View {
                 )
             )
         } catch BackupError.newerFormat {
-            importAlert = ImportAlert(title: lm["backup_import_error_title"], message: lm["backup_import_error_version"])
+            infoAlert = InfoAlert(title: lm["backup_import_error_title"], message: lm["backup_import_error_version"])
         } catch {
-            importAlert = ImportAlert(title: lm["backup_import_error_title"], message: lm["backup_import_error_invalid"])
+            infoAlert = InfoAlert(title: lm["backup_import_error_title"], message: lm["backup_import_error_invalid"])
         }
     }
 

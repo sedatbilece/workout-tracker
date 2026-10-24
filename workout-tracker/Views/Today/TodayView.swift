@@ -103,8 +103,34 @@ private struct SessionRowView: View {
             }
             .font(.caption)
             .foregroundStyle(.secondary)
+            SessionDurationLabel(session: session)
         }
         .padding(.vertical, 4)
+    }
+}
+
+// Live timer while the workout runs, total duration once finished.
+struct SessionDurationLabel: View {
+    @Environment(LocalizationManager.self) private var lm
+    let session: WorkoutSession
+
+    var body: some View {
+        if session.isRunning {
+            HStack(spacing: 4) {
+                Image(systemName: "timer")
+                Text(timerInterval: session.createdAt...Date.distantFuture, countsDown: false)
+                    .monospacedDigit()
+            }
+            .font(.caption.weight(.medium))
+            .foregroundStyle(Color.accentColor)
+        } else if session.endedAt != nil {
+            HStack(spacing: 4) {
+                Image(systemName: "checkmark.circle.fill")
+                Text(lm.duration(session.duration))
+            }
+            .font(.caption.weight(.medium))
+            .foregroundStyle(.green)
+        }
     }
 }
 
