@@ -26,12 +26,19 @@ final class LocalizationManager {
         String(format: self[key], arguments: args)
     }
 
-    /// Workout duration as "42 dk" / "1 sa 5 dk" in the app language.
+    /// Workout duration as "45 sn" / "23 dk 15 sn" / "1 sa 5 dk 12 sn" in the app language.
     func duration(_ interval: TimeInterval) -> String {
-        let minutes = Int(interval / 60)
-        return minutes >= 60
-            ? format("duration_hours_minutes", minutes / 60, minutes % 60)
-            : format("duration_minutes", minutes)
+        let total = max(0, Int(interval))
+        let hours = total / 3600
+        let minutes = total % 3600 / 60
+        let seconds = total % 60
+        if hours > 0 {
+            return format("duration_hours_minutes_seconds", hours, minutes, seconds)
+        }
+        if minutes > 0 {
+            return format("duration_minutes_seconds", minutes, seconds)
+        }
+        return format("duration_seconds", seconds)
     }
 
     private func refreshBundle() {

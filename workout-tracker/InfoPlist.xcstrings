@@ -1,6 +1,18 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "workout-tracker"
+          }
+        }
+      }
+    },
     "NSHealthUpdateUsageDescription" : {
       "comment" : "Shown when asking to write workouts to Apple Health.",
       "localizations" : {
