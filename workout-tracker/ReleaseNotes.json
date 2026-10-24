@@ -1,0 +1,39 @@
+{
+  "releases" : [
+    {
+      "version" : "1.0",
+      "build" : 5,
+      "date" : "2026-10-24",
+      "notes" : {
+        "tr" : [
+          "Antrenman şablonları: hareketleri, setleri ve varsayılan kg/tekrar değerlerini bir kez tanımla, sürükle-bırak ile sırala.",
+          "Bugün: şablondan tek dokunuşla antrenman başlat; ağırlığı 2,5 kg, tekrarı 1'er adımla ayarla ve setleri işaretle.",
+          "Tamamlanan setin ağırlık ve tekrarı şablona yazılır; bir sonraki antrenman son değerlerle başlar.",
+          "Geçmiş ve İstatistikler: antrenmanlarını günlere göre gör, her program için ilerleme grafiklerini incele.",
+          "Profil: ad, fotoğraf, açık/koyu tema ve Türkçe, İngilizce, İspanyolca, Rusça dil desteği."
+        ],
+        "en" : [
+          "Workout templates: define exercises, sets and default kg/reps once, and reorder them with drag and drop.",
+          "Today: start a workout from a template with one tap; adjust weight in 2.5 kg steps and reps one at a time, then check off sets.",
+          "A completed set's weight and reps are saved to the template, so your next workout starts with your latest numbers.",
+          "History and Statistics: see your workouts by day and explore progress charts for each program.",
+          "Profile: name, photo, light/dark theme and Turkish, English, Spanish and Russian language support."
+        ],
+        "es" : [
+          "Plantillas de entrenamiento: define ejercicios, series y kg/repeticiones por defecto una sola vez y reordénalos arrastrando.",
+          "Hoy: empieza un entrenamiento desde una plantilla con un toque; ajusta el peso de 2,5 en 2,5 kg y las repeticiones de una en una, y marca las series.",
+          "El peso y las repeticiones de una serie completada se guardan en la plantilla, así tu próximo entrenamiento empieza con tus últimos valores.",
+          "Historial y Estadísticas: consulta tus entrenamientos por día y los gráficos de progreso de cada programa.",
+          "Perfil: nombre, foto, tema claro/oscuro e idiomas turco, inglés, español y ruso."
+        ],
+        "ru" : [
+          "Шаблоны тренировок: один раз задайте упражнения, подходы и вес/повторения по умолчанию и меняйте порядок перетаскиванием.",
+          "Сегодня: начинайте тренировку из шаблона одним касанием; меняйте вес с шагом 2,5 кг и повторения по одному и отмечайте подходы.",
+          "Вес и повторения выполненного подхода сохраняются в шаблоне, поэтому следующая тренировка начинается с последних значений.",
+          "История и статистика: просматривайте тренировки по дням и графики прогресса для каждой программы.",
+          "Профиль: имя, фото, светлая/тёмная тема и турецкий, английский, испанский и русский языки."
+        ]
+      }
+    }
+  ]
+}

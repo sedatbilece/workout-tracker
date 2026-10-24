@@ -25,9 +25,11 @@ Uygulamada Apple'ın iki ayrı numarası kullanılır. İkisi de Xcode'da **Targ
 
 ### `dev` → `main` merge adımları
 
-1. `dev` üzerinde Build'i 1 artır (Xcode → General → Build) ve commit at: `bump build to <N>`
-2. `dev`'i `main`'e merge et.
-3. Merge commit'ine tag at ve gönder:
+1. `dev` üzerinde Build'i 1 artır (Xcode → General → Build).
+2. Sürüm notlarını güncelle: `workout-tracker/ReleaseNotes.json` dosyasının en üstüne yeni build için kayıt ekle (`version`, `build`, `date`, `notes`). Notlar önceki merge'den bu yana yapılanlardan çıkarılır (`git log build-<önceki N>..dev`; henüz `build-*` tag'i yoksa `origin/main..dev`). Kullanıcıya yönelik kısa maddeler, dört dilde (`tr`, `en`, `es`, `ru`); sadece iç/refactor değişiklikleri yazılmaz. `CHANGELOG.md`'deki `[Yayınlanmadı]` bölümü de yeni sürüm/build başlığına taşınır.
+3. Build artışı ve notları tek commit'te at: `bump build to <N>`
+4. `dev`'i `main`'e merge et.
+5. Merge commit'ine tag at ve gönder:
 
 ```bash
 git tag build-<N>
@@ -36,7 +38,7 @@ git push origin build-<N>
 
 ### App Store sürümü adımları
 
-1. Version'ı artır, Build'i 1 artır, commit at: `release <version> (<N>)`
+1. Version'ı artır, Build'i 1 artır, `ReleaseNotes.json`'a kaydı ekle (yukarıdaki 2. adım gibi), commit at: `release <version> (<N>)`
 2. `main`'e merge et, Archive al ve App Store Connect'e yükle.
 3. Tag at ve gönder:
 

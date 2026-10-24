@@ -13,6 +13,7 @@ struct ProfileView: View {
     @Environment(\.modelContext) private var modelContext
 
     @State private var showEdit = false
+    @State private var showReleaseNotes = false
     @State private var showImporter = false
     @State private var infoAlert: InfoAlert?
     @State private var healthExportRunning = false
@@ -41,6 +42,9 @@ struct ProfileView: View {
         }
         .sheet(isPresented: $showEdit) {
             ProfileEditView(name: $name, surname: $surname, photoData: $photoData)
+        }
+        .sheet(isPresented: $showReleaseNotes) {
+            ReleaseNotesView()
         }
         .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json]) { result in
             if case .success(let url) = result {
@@ -245,13 +249,24 @@ struct ProfileView: View {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "-"
         let build   = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "-"
         return Section {
-            HStack {
-                Spacer()
-                Text(lm.format("profile_version", version, build))
-                    .font(.footnote)
-                    .foregroundStyle(.tertiary)
-                Spacer()
+            Button {
+                showReleaseNotes = true
+            } label: {
+                VStack(spacing: 4) {
+                    Text(lm.format("profile_version", version, build))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    HStack(spacing: 4) {
+                        Image(systemName: "doc.text")
+                        Text(lm["profile_release_notes"])
+                    }
+                    .font(.footnote.weight(.medium))
+                    .foregroundStyle(.tint)
+                }
+                .frame(maxWidth: .infinity)
+                .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
         }
         .listRowBackground(Color.clear)
     }

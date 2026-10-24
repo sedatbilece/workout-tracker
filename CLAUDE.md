@@ -27,6 +27,8 @@ There is no linter configured. The project has no SwiftLint, SwiftFormat, or sim
 
 **All commits go to the `dev` branch — never commit directly to `main`.** `main` only receives `dev` merges when the user does a build/release: bump the build number on `dev`, merge `dev` → `main`, then tag (steps in `docs/VERSIONING.md`). Don't merge to `main` or push unless the user asks.
 
+**Release notes on every `dev` → `main` merge:** before merging, add an entry for the new build at the top of `workout-tracker/ReleaseNotes.json` (shown in Profile → version → Release Notes). Write it from the diff since the previous merge (`git log build-<prev>..dev`, or `origin/main..dev` while no `build-*` tag exists): short, user-facing bullets in all four languages (`tr`, `en`, `es`, `ru`), no internal/refactor-only items. Also move CHANGELOG's `[Yayınlanmadı]` section under the new version/build heading.
+
 ## Architecture
 
 **SwiftData + SwiftUI** app with a clear Template → Session separation:
@@ -84,5 +86,6 @@ Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_worko
 - **Profile → iCloud:** `CloudSync` builds the `ModelContainer` with the private CloudKit database when the `iCloudSyncEnabled` setting is on (read once at launch, falls back to a local store on failure). `DuplicateCleaner` removes copies left by restoring the same backup on two devices.
 - **Profile → Data:** `BackupService` exports/restores a JSON backup, merging by `uuid`.
 - **Profile → Apple Health:** `HealthKitService` writes finished sessions as strength training (write-only).
+- **Profile → version row:** opens `ReleaseNotesView`, which reads `ReleaseNotes.json` via `ReleaseNote.loadAll()` and shows each build's notes in the app language.
 
 Entitlements live in `workout-tracker/workout-tracker.entitlements` (iCloud/CloudKit, push, HealthKit); `Support/Info.plist` only adds `UIBackgroundModes` and is merged with the generated Info.plist; it lives outside the `workout-tracker/` folder on purpose, since every file in that synced folder is copied into the app bundle ("Multiple commands produce …Info.plist").

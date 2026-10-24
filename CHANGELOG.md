@@ -17,6 +17,7 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 - **Bitir / Devam Et:** Antrenman ekranındaki "Bitir" ile süre durduruluyor ve toplam süre kaydediliyor; "Devam Et" ile geri alınabiliyor.
 - **Apple Sağlık:** Bitirilen antrenmanlar isteğe bağlı olarak Sağlık uygulamasına kuvvet antrenmanı olarak yazılıyor; geçmiş antrenmanlar toplu aktarılabiliyor.
 - **Set kaydırma işlemleri:** Antrenman ve şablon ekranında set sola kaydırılınca [Kopyala] [Sil] butonları çıkıyor (Sil en sağda). Kopya, aynı kg/tekrarla setin hemen altına ekleniyor. Antrenmanda kopyalanan set o güne özel; şablonu değiştirmiyor.
+- **Sürüm notları:** Profil'deki sürüm satırına dokununca her build'de nelerin değiştiği uygulama dilinde listeleniyor (`ReleaseNotes.json`).
 - **Seti geri al:** Antrenmanda yanlışlıkla tamamlanan bir set kaydırılıp "Geri Al" ile yeniden düzenlenebilir hale getiriliyor; tamamlanırken şablona yazılan ağırlık/tekrar da eski değerine dönüyor.
 
 ### Değiştirildi
