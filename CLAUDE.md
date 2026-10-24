@@ -73,4 +73,10 @@ Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_worko
 
 - **Today tab:** Fully functional — start workouts from templates, log sets, auto-sync back to template defaults.
 - **Templates tab:** Fully functional — create/edit/delete templates, exercises, sets; drag-to-reorder.
-- **Stats tab:** Placeholder only (`StatsView` shows "İstatistikler Yakında"). No analytics implemented yet.
+- **Stats tab:** History and per-template progression statistics.
+- **Workout timer:** A session's timer runs from `createdAt` until the user taps Finish (`endedAt`, `isCompleted`); helpers in `Helpers/SessionStats.swift`, durations formatted with `lm.duration(_:)`.
+- **Profile → iCloud:** `CloudSync` builds the `ModelContainer` with the private CloudKit database when the `iCloudSyncEnabled` setting is on (read once at launch, falls back to a local store on failure). `DuplicateCleaner` removes copies left by restoring the same backup on two devices.
+- **Profile → Data:** `BackupService` exports/restores a JSON backup, merging by `uuid`.
+- **Profile → Apple Health:** `HealthKitService` writes finished sessions as strength training (write-only).
+
+Entitlements live in `workout-tracker/workout-tracker.entitlements` (iCloud/CloudKit, push, HealthKit); `workout-tracker/Info.plist` only adds `UIBackgroundModes` and is merged with the generated Info.plist.

@@ -68,6 +68,7 @@ Salonda antrenman yaparken en sık yaşanan dertler:
 - Aynı gün içinde birden fazla antrenman (ör. sabah kardiyo + akşam ağırlık)
 - Her antrenman için egzersiz sayısı ve `tamamlanan / toplam set` özeti
 - Uzun basarak antrenmanı silme (onaylı)
+- Antrenman eklendiği an başlayan **canlı süre sayacı**; bitirilen antrenmanlarda toplam süre
 
 ### 🏃 Antrenman Seansı
 - Egzersiz kartları ve her set için **kg** ve **tekrar** stepper'ları
@@ -76,6 +77,7 @@ Salonda antrenman yaparken en sık yaşanan dertler:
 - **Sola kaydır → Sil:** Seti sadece o günkü seanstan kaldır
 - Egzersize uzun bas → egzersizi o seanstan çıkar
 - Tamamlanan setin değerleri, kaynağı olan şablon setine **otomatik senkronize** edilir
+- Alttaki çubukta canlı süre ve **Bitir** butonu; yanlışlıkla bitirilen antrenman **Devam Et** ile geri açılır
 
 ### 📋 Şablonlar
 - Antrenman şablonu oluşturma / düzenleme / silme
@@ -97,6 +99,9 @@ Salonda antrenman yaparken en sık yaşanan dertler:
 - Ad, soyad ve profil fotoğrafı
 - Tema: **Otomatik / Aydınlık / Karanlık**
 - Uygulama içinden anında dil değiştirme
+- **iCloud senkronu:** Şablonlar ve geçmiş, aynı Apple hesabını kullanan cihazlar arasında senkronize edilir (açılıp kapatılabilir)
+- **Yedek:** Tüm veriyi JSON dosyası olarak dışa aktarma ve geri yükleme (var olan kayıtlar atlanır)
+- **Apple Sağlık:** Bitirilen antrenmanları Sağlık'a kuvvet antrenmanı olarak kaydetme, geçmişi toplu aktarma
 
 ### 🌍 Çoklu Dil
 🇹🇷 Türkçe · 🇬🇧 English · 🇪🇸 Español · 🇷🇺 Русский — sistem dili otomatik algılanır.
@@ -133,6 +138,8 @@ WorkoutSession ───► ExerciseSession ───► SetSession (kg, reps, i
 | UI | SwiftUI |
 | Veri | SwiftData (`@Model`, `@Query`, `@Bindable`) |
 | Grafikler | Swift Charts |
+| Senkron | SwiftData + CloudKit (özel iCloud veritabanı) |
+| Sağlık | HealthKit (yalnızca antrenman yazma) |
 | Lokalizasyon | String Catalog (`Localizable.xcstrings`) + `LocalizationManager` |
 | Mimari | ViewModel'siz; iş mantığı `Services/` altında |
 
@@ -146,7 +153,7 @@ Harici bağımlılık yoktur — sadece Apple framework'leri.
 workout-tracker/
 ├── App/            # RootView (TabView), TabRouter
 ├── Models/         # Workout/Exercise/Set × Template/Session (SwiftData)
-├── Services/       # TemplateSessionBuilder, TemplateDefaultUpdater
+├── Services/       # Şablon→seans, varsayılan güncelleme, yedek, iCloud, HealthKit, veri dönüştürme
 ├── Views/
 │   ├── Today/          # Bugün, seans detayı, set satırları
 │   ├── Templates/      # Şablon listesi, detay, düzenleme
@@ -171,6 +178,8 @@ open workout-tracker.xcodeproj
 
 Xcode'da `workout-tracker` şemasını seçip bir simülatör ya da cihazda çalıştırın (`⌘R`).
 
+> **Cihazda çalıştırma / iCloud:** Proje iCloud (CloudKit), Push ve HealthKit yetkilerini kullanır. Kendi takımınızla imzalarken *Signing & Capabilities* sekmesinde iCloud container'ı (`iCloud.sedatbilece.workout-tracker` ya da kendi bundle ID'nize uygun bir container) seçin. iCloud yetkisi olmadan da uygulama yerel veriyle çalışır.
+
 ---
 
 ## 🗺 Yol Haritası
@@ -180,6 +189,8 @@ Xcode'da `workout-tracker` şemasını seçip bir simülatör ya da cihazda çal
 - [x] Set kopyalama / silme (kaydırma hareketleri)
 - [x] Çoklu dil desteği (TR, EN, ES, RU)
 - [x] Geçmiş ve antrenman bazlı ilerleme istatistikleri
+- [x] iCloud senkronu, JSON yedek / geri yükleme
+- [x] Antrenman süresi ve Apple Sağlık entegrasyonu
 - [ ] Egzersiz bazlı istatistikler (maks. ağırlık, hacim trendi)
 - [ ] Hesaplamalar sekmesi (1RM, plaka hesaplayıcı vb.)
 - [ ] Set arası dinlenme zamanlayıcısı

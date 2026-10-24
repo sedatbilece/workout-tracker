@@ -211,6 +211,7 @@ struct BackupService {
             throw BackupError.newerFormat
         }
 
+        let importID = UUID()
         let existingTemplates = Set(try context.fetch(FetchDescriptor<WorkoutTemplate>()).compactMap(\.uuid))
         let existingSessions = Set(try context.fetch(FetchDescriptor<WorkoutSession>()).compactMap(\.uuid))
         var result = BackupImportResult()
@@ -219,7 +220,9 @@ struct BackupService {
             if existingTemplates.contains(record.uuid) {
                 result.templatesSkipped += 1
             } else {
-                context.insert(makeTemplate(from: record))
+                let template = makeTemplate(from: record)
+                template.importID = importID
+                context.insert(template)
                 result.templatesAdded += 1
             }
         }
@@ -227,7 +230,9 @@ struct BackupService {
             if existingSessions.contains(record.uuid) {
                 result.sessionsSkipped += 1
             } else {
-                context.insert(makeSession(from: record))
+                let session = makeSession(from: record)
+                session.importID = importID
+                context.insert(session)
                 result.sessionsAdded += 1
             }
         }

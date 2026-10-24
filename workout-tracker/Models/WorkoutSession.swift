@@ -12,6 +12,9 @@ final class WorkoutSession {
     var endedAt: Date?
     // Set once the workout is written to Apple Health, to avoid duplicate writes.
     var healthKitWorkoutUUID: UUID?
+    // Set when created by a backup restore; picks the survivor if the same
+    // backup was restored on two devices (see DuplicateCleaner).
+    var importID: UUID?
 
     @Relationship(deleteRule: .cascade, originalName: "exercises", inverse: \ExerciseSession.workout)
     var exerciseItems: [ExerciseSession]? = []

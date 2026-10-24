@@ -8,6 +8,7 @@ struct ProfileView: View {
     @AppStorage("profilePhotoData") private var photoData: Data = Data()
     @AppStorage("appTheme")         private var themeRaw: String = AppTheme.system.rawValue
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
+    @AppStorage(CloudSync.enabledKey) private var iCloudSyncEnabled = true
     @Environment(LocalizationManager.self) private var lm
     @Environment(\.modelContext) private var modelContext
 
@@ -15,6 +16,7 @@ struct ProfileView: View {
     @State private var showImporter = false
     @State private var infoAlert: InfoAlert?
     @State private var healthExportRunning = false
+    @State private var iCloudAccount: CloudSync.AccountState?
 
     private struct InfoAlert: Identifiable {
         let id = UUID()
@@ -27,6 +29,7 @@ struct ProfileView: View {
             List {
                 profileHeader
                 themeSection
+                iCloudSection
                 dataSection
                 if HealthKitService.shared.isAvailable {
                     healthSection
@@ -88,6 +91,46 @@ struct ProfileView: View {
             .pickerStyle(.segmented)
             .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
         }
+    }
+
+    private var iCloudSection: some View {
+        Section {
+            Toggle(isOn: $iCloudSyncEnabled) {
+                Label(lm["profile_icloud_toggle"], systemImage: "icloud")
+            }
+            if iCloudSyncEnabled, let iCloudAccount {
+                iCloudStatusRow(iCloudAccount)
+            }
+            if iCloudSyncEnabled != CloudSync.isActive {
+                Label(lm["profile_icloud_restart_hint"], systemImage: "arrow.clockwise")
+                    .font(.footnote)
+                    .foregroundStyle(.orange)
+            }
+        } header: {
+            Text("iCloud")
+        } footer: {
+            Text(lm["profile_icloud_footer"])
+        }
+        .task {
+            iCloudAccount = await CloudSync.accountState()
+        }
+    }
+
+    private func iCloudStatusRow(_ state: CloudSync.AccountState) -> some View {
+        let (key, icon, color): (String, String, Color) = switch state {
+        case .available:  ("profile_icloud_status_available", "checkmark.icloud", .green)
+        case .noAccount:  ("profile_icloud_status_no_account", "xmark.icloud", .orange)
+        case .restricted: ("profile_icloud_status_restricted", "exclamationmark.icloud", .orange)
+        case .unknown:    ("profile_icloud_status_unknown", "questionmark.circle", .secondary)
+        }
+        return Label {
+            Text(lm[key])
+                .foregroundStyle(.secondary)
+        } icon: {
+            Image(systemName: icon)
+                .foregroundStyle(color)
+        }
+        .font(.subheadline)
     }
 
     private var dataSection: some View {

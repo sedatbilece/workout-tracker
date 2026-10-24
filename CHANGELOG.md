@@ -8,6 +8,21 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
+## [Yayınlanmadı]
+
+### Eklendi
+- **iCloud senkronu:** Şablonlar ve antrenman geçmişi, aynı Apple hesabını kullanan cihazlar arasında kullanıcının özel iCloud veritabanı üzerinden senkronize ediliyor. Profil'den açılıp kapatılabiliyor (varsayılan açık); iCloud hesap durumu gösteriliyor.
+- **JSON yedek / geri yükleme:** Profil > Veri bölümünden tüm şablonlar, antrenman geçmişi ve profil bilgileri tek bir JSON dosyası olarak dışa aktarılıyor; geri yüklerken mevcut kayıtlar korunup zaten var olanlar atlanıyor.
+- **Antrenman süresi:** Antrenman eklendiği an süre başlıyor; Bugün kartında ve antrenman ekranının altında canlı sayaç gösteriliyor.
+- **Bitir / Devam Et:** Antrenman ekranındaki "Bitir" ile süre durduruluyor ve toplam süre kaydediliyor; "Devam Et" ile geri alınabiliyor.
+- **Apple Sağlık:** Bitirilen antrenmanlar isteğe bağlı olarak Sağlık uygulamasına kuvvet antrenmanı olarak yazılıyor; geçmiş antrenmanlar toplu aktarılabiliyor.
+
+### Değiştirildi
+- Seans ↔ şablon bağlantısı store'a özel `PersistentIdentifier` yerine kalıcı `uuid` ile kuruluyor; mevcut veriler açılışta `DataMigrator` ile otomatik dönüştürülüyor.
+- Modeller CloudKit kurallarına uygun hale getirildi (varsayılan değerler, opsiyonel ve iki yönlü ilişkiler).
+
+---
+
 ## [1.3.0] - 2026-05-15 (Build 4)
 
 ### Eklendi
