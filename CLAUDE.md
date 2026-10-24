@@ -85,4 +85,4 @@ Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_worko
 - **Profile → Data:** `BackupService` exports/restores a JSON backup, merging by `uuid`.
 - **Profile → Apple Health:** `HealthKitService` writes finished sessions as strength training (write-only).
 
-Entitlements live in `workout-tracker/workout-tracker.entitlements` (iCloud/CloudKit, push, HealthKit); `workout-tracker/Info.plist` only adds `UIBackgroundModes` and is merged with the generated Info.plist.
+Entitlements live in `workout-tracker/workout-tracker.entitlements` (iCloud/CloudKit, push, HealthKit); `Support/Info.plist` only adds `UIBackgroundModes` and is merged with the generated Info.plist; it lives outside the `workout-tracker/` folder on purpose, since every file in that synced folder is copied into the app bundle ("Multiple commands produce …Info.plist").

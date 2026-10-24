@@ -13,6 +13,10 @@ final class SetSession {
     var reps: Int = 0
     var isCompleted: Bool = false
     var completedAt: Date?
+    // Template defaults overwritten when this set was completed, so Undo can
+    // put them back. nil when completing didn't change the template.
+    var templateKgBeforeCompletion: Double?
+    var templateRepsBeforeCompletion: Int?
 
     var exercise: ExerciseSession?
 

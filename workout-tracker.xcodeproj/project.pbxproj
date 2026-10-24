@@ -10,22 +10,9 @@
 		AF0348B92FAF252A00DE72C1 /* workout-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "workout-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AF0348D12FAF2C0000DE72C1 /* Exceptions for "workout-tracker" folder in "workout-tracker" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = AF0348B82FAF252A00DE72C1 /* workout-tracker */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AF0348BB2FAF252A00DE72C1 /* workout-tracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AF0348D12FAF2C0000DE72C1 /* Exceptions for "workout-tracker" folder in "workout-tracker" target */,
-			);
 			path = "workout-tracker";
 			sourceTree = "<group>";
 		};
@@ -271,7 +258,7 @@
 				DEVELOPMENT_TEAM = G26SJ65FZY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "workout-tracker/Info.plist";
+				INFOPLIST_FILE = Support/Info.plist;
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your finished workouts are saved to Apple Health as strength training.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -306,7 +293,7 @@
 				DEVELOPMENT_TEAM = G26SJ65FZY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "workout-tracker/Info.plist";
+				INFOPLIST_FILE = Support/Info.plist;
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your finished workouts are saved to Apple Health as strength training.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

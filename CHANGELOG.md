@@ -16,10 +16,17 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 - **Antrenman süresi:** Antrenman eklendiği an süre başlıyor; Bugün kartında ve antrenman ekranının altında canlı sayaç gösteriliyor.
 - **Bitir / Devam Et:** Antrenman ekranındaki "Bitir" ile süre durduruluyor ve toplam süre kaydediliyor; "Devam Et" ile geri alınabiliyor.
 - **Apple Sağlık:** Bitirilen antrenmanlar isteğe bağlı olarak Sağlık uygulamasına kuvvet antrenmanı olarak yazılıyor; geçmiş antrenmanlar toplu aktarılabiliyor.
+- **Set kaydırma işlemleri:** Antrenman ve şablon ekranında set sola kaydırılınca [Kopyala] [Sil] butonları çıkıyor (Sil en sağda). Kopya, aynı kg/tekrarla setin hemen altına ekleniyor. Antrenmanda kopyalanan set o güne özel; şablonu değiştirmiyor.
+- **Seti geri al:** Antrenmanda yanlışlıkla tamamlanan bir set kaydırılıp "Geri Al" ile yeniden düzenlenebilir hale getiriliyor; tamamlanırken şablona yazılan ağırlık/tekrar da eski değerine dönüyor.
 
 ### Değiştirildi
 - Seans ↔ şablon bağlantısı store'a özel `PersistentIdentifier` yerine kalıcı `uuid` ile kuruluyor; mevcut veriler açılışta `DataMigrator` ile otomatik dönüştürülüyor.
 - Modeller CloudKit kurallarına uygun hale getirildi (varsayılan değerler, opsiyonel ve iki yönlü ilişkiler).
+- Antrenman süresi saniyesiyle gösteriliyor (ör. "23 dk 15 sn").
+
+### Düzeltildi
+- Bugün ekranında set kaydırırken yaşanan takılma ve sıçrama giderildi; butonlar şablon ekranındakiyle aynı görünümde.
+- Xcode derlemesindeki "Multiple commands produce …/Info.plist" hatası giderildi (`Info.plist` → `Support/Info.plist`).
 
 ---
 
