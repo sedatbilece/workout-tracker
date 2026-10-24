@@ -65,6 +65,8 @@ Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_worko
 
 **Date utilities:** `Date.isToday` and `Date.shortFormatted` (Turkish locale `tr_TR`) are in `Helpers/DateHelper.swift`.
 
+**Versioning:** `MARKETING_VERSION` is bumped only for App Store releases; `CURRENT_PROJECT_VERSION` (build) is incremented by 1 on every `dev` → `main` merge and never decreases or resets. Don't change either unless asked. Full scheme in `docs/VERSIONING.md`.
+
 ## Current State
 
 - **Today tab:** Fully functional — start workouts from templates, log sets, auto-sync back to template defaults.
