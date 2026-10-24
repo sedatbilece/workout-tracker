@@ -83,9 +83,10 @@ Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_worko
 - **Templates tab:** Fully functional — create/edit/delete templates, exercises, sets; drag-to-reorder.
 - **Stats tab:** History and per-template progression statistics.
 - **Workout timer:** A session's timer runs from `createdAt` until the user taps Finish (`endedAt`, `isCompleted`); helpers in `Helpers/SessionStats.swift`, durations formatted with `lm.duration(_:)`.
-- **Profile → iCloud:** `CloudSync` builds the `ModelContainer` with the private CloudKit database when the `iCloudSyncEnabled` setting is on (read once at launch, falls back to a local store on failure). `DuplicateCleaner` removes copies left by restoring the same backup on two devices.
-- **Profile → Data:** `BackupService` exports/restores a JSON backup, merging by `uuid`.
-- **Profile → Apple Health:** `HealthKitService` writes finished sessions as strength training (write-only).
+- **Profile → Settings:** `SettingsView` groups `DataSettingsView` (iCloud, Apple Health, backup), `LiveActivitySettingsView` (the `liveActivityEnabled` toggle that `LiveActivitySync` honors) and `LanguageSettingsView`. Profile itself keeps only the header, theme and version row.
+- **Settings → iCloud:** `CloudSync` builds the `ModelContainer` with the private CloudKit database when the `iCloudSyncEnabled` setting is on (read once at launch, falls back to a local store on failure). `DuplicateCleaner` removes copies left by restoring the same backup on two devices.
+- **Settings → Data:** `BackupService` exports/restores a JSON backup, merging by `uuid`.
+- **Settings → Apple Health:** `HealthKitService` writes finished sessions as strength training (write-only).
 - **Live Activity:** `LiveActivitySync` (modifier on `RootView`) builds a `WorkoutActivitySnapshot` from the most recent running workout and calls `LiveActivityService.sync`, which starts/updates/ends the activity — so mutation sites never notify it themselves. The `WorkoutWidgets` extension draws it (Lock Screen + Dynamic Island), with its own `Localizable.xcstrings` and `WidgetStrings` (language code travels in the content state). `Shared/` is synced to both targets (`WorkoutActivityAttributes`, `NumberFormatter+Workout`). Tapping opens `workouttracker://session/<uuid>` → `TabRouter.pendingSessionUUID` → `TodayView`. The extension's Info.plist is `Support/WorkoutWidgets-Info.plist`; version/build numbers live at project level so both targets match.
 - **Profile → version row:** opens `ReleaseNotesView`, which reads `ReleaseNotes.json` via `ReleaseNote.loadAll()` and shows each build's notes in the app language.
 

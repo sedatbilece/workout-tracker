@@ -20,6 +20,7 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 - **Sürüm notları:** Profil'deki sürüm satırına dokununca her build'de nelerin değiştiği uygulama dilinde listeleniyor (`ReleaseNotes.json`).
 - **Seti geri al:** Antrenmanda yanlışlıkla tamamlanan bir set kaydırılıp "Geri Al" ile yeniden düzenlenebilir hale getiriliyor; tamamlanırken şablona yazılan ağırlık/tekrar da eski değerine dönüyor.
 - **Kilit ekranı ve Dinamik Ada (Live Activity):** Çalışan antrenman kilit ekranında ve Dinamik Ada'da canlı süre, egzersiz adı, set ilerlemesi ve sıradaki set (kg × tekrar) ile gösteriliyor; Apple Watch Smart Stack'te de görünüyor. Karta dokununca antrenman açılıyor. Set tamamlanınca güncelleniyor, Bitir ya da silme ile kapanıyor.
+- **Ayarlar:** Profil'e "Ayarlar" satırı eklendi. Altında üç başlık var: iCloud, Sağlık ve Veri; Kilit Ekranı ve Dinamik Ada (canlı antrenman kartını aç/kapa); Dil.
 
 ### Değiştirildi
 - `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION` proje düzeyine taşındı; uygulama ve `WorkoutWidgets` extension'ı aynı numaraları miras alıyor.

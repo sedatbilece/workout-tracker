@@ -58,6 +58,9 @@ extension WorkoutSession {
 // on its own (`Text(timerInterval:)`), so updates are only sent when the
 // workout itself changes; no push notifications are involved.
 enum LiveActivityService {
+    /// The user's choice in Settings → Lock Screen & Dynamic Island (on by default).
+    static let enabledKey = "liveActivityEnabled"
+
     /// Starts, updates or ends activities so that exactly the given workout
     /// is shown, or none when `snapshot` is nil.
     static func sync(_ snapshot: WorkoutActivitySnapshot?) async {

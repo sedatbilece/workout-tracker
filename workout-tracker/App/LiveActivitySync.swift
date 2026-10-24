@@ -8,6 +8,7 @@ import SwiftData
 struct LiveActivitySync: ViewModifier {
     @Query(filter: #Predicate<WorkoutSession> { $0.endedAt == nil })
     private var unfinishedSessions: [WorkoutSession]
+    @AppStorage(LiveActivityService.enabledKey) private var isEnabled = true
     @Environment(LocalizationManager.self) private var lm
     @Environment(\.scenePhase) private var scenePhase
 
@@ -16,9 +17,11 @@ struct LiveActivitySync: ViewModifier {
         var scenePhase: ScenePhase
     }
 
-    /// The most recently started workout that is still running today.
+    /// The most recently started workout that is still running today, or nil
+    /// (which ends any card) when the user turned the feature off.
     private var snapshot: WorkoutActivitySnapshot? {
-        unfinishedSessions
+        guard isEnabled else { return nil }
+        return unfinishedSessions
             .filter(\.isRunning)
             .max { $0.createdAt < $1.createdAt }?
             .liveActivitySnapshot(languageCode: LocalizationManager.resolve(lm.languageCode))
