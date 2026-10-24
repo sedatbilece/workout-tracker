@@ -3,30 +3,27 @@ import SwiftData
 
 @Model
 final class SetSession {
+    var uuid: UUID?
+    // `uuid` of the originating SetTemplate.
+    var setTemplateUUID: UUID?
+    // Legacy: encoded PersistentIdentifier, converted to `setTemplateUUID` by DataMigrator.
     var setTemplateIdData: Data?
-    var orderIndex: Int
-    var kg: Double
-    var reps: Int
-    var isCompleted: Bool
+    var orderIndex: Int = 0
+    var kg: Double = 0
+    var reps: Int = 0
+    var isCompleted: Bool = false
     var completedAt: Date?
 
-    var setTemplateId: PersistentIdentifier? {
-        get {
-            guard let data = setTemplateIdData else { return nil }
-            return try? JSONDecoder().decode(PersistentIdentifier.self, from: data)
-        }
-        set {
-            setTemplateIdData = try? JSONEncoder().encode(newValue)
-        }
-    }
+    var exercise: ExerciseSession?
 
     init(
-        setTemplateId: PersistentIdentifier? = nil,
+        setTemplateUUID: UUID? = nil,
         orderIndex: Int = 0,
         kg: Double = 0,
         reps: Int = 0
     ) {
-        self.setTemplateIdData = try? JSONEncoder().encode(setTemplateId)
+        self.uuid = UUID()
+        self.setTemplateUUID = setTemplateUUID
         self.orderIndex = orderIndex
         self.kg = kg
         self.reps = reps

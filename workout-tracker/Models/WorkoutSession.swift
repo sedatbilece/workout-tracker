@@ -3,15 +3,26 @@ import SwiftData
 
 @Model
 final class WorkoutSession {
-    var templateNameSnapshot: String
-    var date: Date
-    var isCompleted: Bool
-    var createdAt: Date
+    var uuid: UUID?
+    var templateNameSnapshot: String = ""
+    var date: Date = Date()
+    var isCompleted: Bool = false
+    // Workout timer starts at `createdAt` and stops at `endedAt`.
+    var createdAt: Date = Date()
+    var endedAt: Date?
+    // Set once the workout is written to Apple Health, to avoid duplicate writes.
+    var healthKitWorkoutUUID: UUID?
 
-    @Relationship(deleteRule: .cascade)
-    var exercises: [ExerciseSession] = []
+    @Relationship(deleteRule: .cascade, originalName: "exercises", inverse: \ExerciseSession.workout)
+    var exerciseItems: [ExerciseSession]? = []
+
+    var exercises: [ExerciseSession] {
+        get { exerciseItems ?? [] }
+        set { exerciseItems = newValue }
+    }
 
     init(templateNameSnapshot: String, date: Date = Date()) {
+        self.uuid = UUID()
         self.templateNameSnapshot = templateNameSnapshot
         self.date = date
         self.isCompleted = false

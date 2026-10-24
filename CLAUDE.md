@@ -30,7 +30,9 @@ There is no linter configured. The project has no SwiftLint, SwiftFormat, or sim
 
 When the user starts a workout, `TemplateSessionBuilder.build(from:)` snapshots the template into a new session. When the user completes a set, `TemplateDefaultUpdater.syncIfNeeded(setSession:context:)` writes the actual kg/reps back to the originating `SetTemplate`, so defaults stay current.
 
-**Foreign key encoding:** SwiftData doesn't support direct cross-graph relationships between Template and Session models. `ExerciseSession.exerciseTemplateId` and `SetSession.setTemplateId` store `PersistentIdentifier` values encoded as `Data` to work around this limitation.
+**Cross-graph links via UUID:** SwiftData doesn't support direct relationships between the Template and Session graphs. Every model has a stable `uuid: UUID?`; `ExerciseSession.exerciseTemplateUUID` and `SetSession.setTemplateUUID` point at the originating template's `uuid`. Never store `persistentModelID` for this — it is local to one store and breaks on backup/restore and iCloud sync. `DataMigrator.run(context:)` (called at launch) backfills missing UUIDs and converts the legacy `...IdData` fields.
+
+**CloudKit-ready models:** every stored property has a default or is optional, and relationships are optional with an inverse. The stored relationship is named `exerciseItems` / `setItems`; use the non-optional computed `exercises` / `sets` in code.
 
 **Data flow pattern:**
 - `@Query` fetches data directly in views

@@ -9,7 +9,7 @@ struct TemplateSessionBuilder {
             .sorted { $0.orderIndex < $1.orderIndex }
             .map { exercise in
                 let exSession = ExerciseSession(
-                    exerciseTemplateId: exercise.persistentModelID,
+                    exerciseTemplateUUID: exercise.uuid,
                     nameSnapshot: exercise.name,
                     iconNameSnapshot: exercise.iconName,
                     orderIndex: exercise.orderIndex
@@ -18,7 +18,7 @@ struct TemplateSessionBuilder {
                     .sorted { $0.orderIndex < $1.orderIndex }
                     .map { set in
                         SetSession(
-                            setTemplateId: set.persistentModelID,
+                            setTemplateUUID: set.uuid,
                             orderIndex: set.orderIndex,
                             kg: set.defaultKg,
                             reps: set.defaultReps

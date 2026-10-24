@@ -3,15 +3,24 @@ import SwiftData
 
 @Model
 final class WorkoutTemplate {
-    var name: String
-    var descriptionText: String
-    var createdAt: Date
-    var updatedAt: Date
+    // Stable id that survives backup/restore and iCloud sync, unlike `persistentModelID`.
+    var uuid: UUID?
+    var name: String = ""
+    var descriptionText: String = ""
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
 
-    @Relationship(deleteRule: .cascade)
-    var exercises: [ExerciseTemplate] = []
+    // CloudKit requires optional relationships; `exercises` below keeps the old non-optional API.
+    @Relationship(deleteRule: .cascade, originalName: "exercises", inverse: \ExerciseTemplate.workout)
+    var exerciseItems: [ExerciseTemplate]? = []
+
+    var exercises: [ExerciseTemplate] {
+        get { exerciseItems ?? [] }
+        set { exerciseItems = newValue }
+    }
 
     init(name: String, descriptionText: String = "") {
+        self.uuid = UUID()
         self.name = name
         self.descriptionText = descriptionText
         self.createdAt = Date()

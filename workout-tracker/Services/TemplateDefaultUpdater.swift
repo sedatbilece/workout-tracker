@@ -3,15 +3,13 @@ import SwiftData
 
 struct TemplateDefaultUpdater {
     static func syncIfNeeded(setSession: SetSession, context: ModelContext) {
-        guard let templateId = setSession.setTemplateId else { return }
+        guard setSession.setTemplateUUID != nil else { return }
+        let templateUUID = setSession.setTemplateUUID
 
-        // Resolve against rows actually present in the store and match the id in
-        // memory. Using `context.model(for:)` or a `persistentModelID` predicate
-        // would crash on a stale or temporary identifier (deleted template, or an
-        // id snapshotted before the template was saved) whose backing data can no
-        // longer be found. A missing id simply matches nothing here.
-        let templates = (try? context.fetch(FetchDescriptor<SetTemplate>())) ?? []
-        guard let setTemplate = templates.first(where: { $0.persistentModelID == templateId }) else { return }
+        // A deleted template simply matches nothing here.
+        var descriptor = FetchDescriptor<SetTemplate>(predicate: #Predicate { $0.uuid == templateUUID })
+        descriptor.fetchLimit = 1
+        guard let setTemplate = (try? context.fetch(descriptor))?.first else { return }
 
         let kgChanged = setSession.kg != setTemplate.defaultKg
         let repsChanged = setSession.reps != setTemplate.defaultReps
