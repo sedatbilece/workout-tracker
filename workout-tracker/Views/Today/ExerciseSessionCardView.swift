@@ -58,6 +58,8 @@ struct ExerciseSessionCardView: View {
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
+    // The copy is an extra set for today only: no template link, so neither
+    // the template's set count nor its defaults change.
     private func duplicateSet(_ set: SetSession) {
         let newIndex = set.orderIndex + 1
         for s in exercise.sets where s.orderIndex >= newIndex {

@@ -11,7 +11,7 @@ struct SetSessionRowView: View {
 
     var body: some View {
         SwipeRow(
-            onDuplicate: set.isCompleted ? nil : onDuplicate,
+            onDuplicate: onDuplicate,
             onDelete: set.isCompleted ? nil : onDelete
         ) {
             HStack(spacing: 12) {
