@@ -12,7 +12,7 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
-## [1.0] - 2026-10-26 (Build 6)
+## [1.0] - 2026-10-26 (Build 7)
 
 ### Eklendi
 - **iCloud senkronu:** Şablonlar ve antrenman geçmişi, aynı Apple hesabını kullanan cihazlar arasında kullanıcının özel iCloud veritabanı üzerinden senkronize ediliyor. Profil'den açılıp kapatılabiliyor (varsayılan açık); iCloud hesap durumu gösteriliyor.
@@ -33,6 +33,7 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 - Antrenman süresi saniyesiyle gösteriliyor (ör. "23 dk 15 sn").
 
 ### Düzeltildi
+- App Store Connect yüklemesi için zorunlu `NSHealthShareUsageDescription` izin metni eklendi (dört dilde).
 - Bugün ekranında set kaydırırken yaşanan takılma ve sıçrama giderildi; butonlar şablon ekranındakiyle aynı görünümde.
 - Xcode derlemesindeki "Multiple commands produce …/Info.plist" hatası giderildi (`Info.plist` → `Support/Info.plist`).
 

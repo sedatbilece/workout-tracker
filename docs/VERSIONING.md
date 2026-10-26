@@ -59,3 +59,5 @@ Projede Xcode Cloud kurulu (`workout-tracker.xcodeproj/xcshareddata/xcodecloud/`
 | Tarih | Version | Build | Not |
 |---|---|---|---|
 | Ekim 2026 | 1.0 | 5 | App Store Connect'e ilk yükleme. Önceki `1.3.0` geliştirme sırasında kullanılan değerdi, App Store Connect'e hiç yüklenmedi. |
+| Ekim 2026 | 1.0 | 6 | `build-6` etiketi atıldı ama yükleme `NSHealthShareUsageDescription` eksik olduğu için reddedildi; numara yandı. |
+| Ekim 2026 | 1.0 | 7 | TestFlight'a giden ilk `dev` → `main` build'i. |

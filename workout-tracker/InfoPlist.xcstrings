@@ -13,6 +13,35 @@
         }
       }
     },
+    "NSHealthShareUsageDescription" : {
+      "comment" : "Required by App Store for HealthKit apps; the app never reads Health data.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app only saves your finished workouts to Apple Health and does not read any Health data."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app solo guarda tus entrenamientos terminados en Apple Salud y no lee ningún dato de Salud."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение только сохраняет завершённые тренировки в Apple Здоровье и не читает данные «Здоровья»."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama yalnızca bitirdiğin antrenmanları Apple Sağlık'a kaydeder, Sağlık verilerini okumaz."
+          }
+        }
+      }
+    },
     "NSHealthUpdateUsageDescription" : {
       "comment" : "Shown when asking to write workouts to Apple Health.",
       "localizations" : {
