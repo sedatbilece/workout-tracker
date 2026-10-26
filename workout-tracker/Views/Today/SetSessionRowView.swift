@@ -10,29 +10,25 @@ struct SetSessionRowView: View {
     var onDelete: (() -> Void)? = nil
 
     var body: some View {
-        SwipeRow(
-            onDuplicate: onDuplicate,
-            onUndo: undoAction,
-            onDelete: set.isCompleted ? nil : onDelete
-        ) {
+        SwipeRow(leading: leadingActions, trailing: trailingActions) {
             HStack(spacing: 12) {
                 Text(lm.format("set_label", index + 1))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .frame(width: 50, alignment: .leading)
-                    .strikethrough(set.isCompleted, color: .secondary)
+                    .strikethrough(isDone, color: .secondary)
 
                 Spacer()
 
                 VStack(spacing: 2) {
                     HStack(spacing: 6) {
-                        StepperButton(icon: "minus", disabled: set.isCompleted) {
+                        StepperButton(icon: "minus", disabled: isDone) {
                             set.kg = max(0, set.kg - 2.5)
                         }
                         Text(formatKg(set.kg))
                             .font(.subheadline.monospacedDigit())
                             .frame(width: 44, alignment: .center)
-                        StepperButton(icon: "plus", disabled: set.isCompleted) {
+                        StepperButton(icon: "plus", disabled: isDone) {
                             set.kg += 2.5
                         }
                     }
@@ -43,13 +39,13 @@ struct SetSessionRowView: View {
 
                 VStack(spacing: 2) {
                     HStack(spacing: 6) {
-                        StepperButton(icon: "minus", disabled: set.isCompleted) {
+                        StepperButton(icon: "minus", disabled: isDone) {
                             set.reps = max(1, set.reps - 1)
                         }
                         Text("\(set.reps)")
                             .font(.subheadline.monospacedDigit())
                             .frame(width: 28, alignment: .center)
-                        StepperButton(icon: "plus", disabled: set.isCompleted) {
+                        StepperButton(icon: "plus", disabled: isDone) {
                             set.reps = min(20, set.reps + 1)
                         }
                     }
@@ -61,18 +57,55 @@ struct SetSessionRowView: View {
                 Button {
                     completeSet()
                 } label: {
-                    Image(systemName: set.isCompleted ? "checkmark.circle.fill" : "circle")
+                    statusIcon
                         .font(.title3)
-                        .foregroundStyle(set.isCompleted ? .green : .secondary)
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(lm[set.isSkipped ? "set_skipped" : "set_complete"])
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(Color(.secondarySystemBackground))
-            .opacity(set.isCompleted ? 0.6 : 1.0)
-            .animation(.easeInOut(duration: 0.2), value: set.isCompleted)
+            .opacity(set.isSkipped ? 0.45 : set.isCompleted ? 0.6 : 1.0)
+            .animation(.easeInOut(duration: 0.2), value: isDone)
         }
+    }
+
+    private var isDone: Bool { self.set.isCompleted || self.set.isSkipped }
+
+    @ViewBuilder
+    private var statusIcon: some View {
+        if set.isCompleted {
+            Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+        } else if set.isSkipped {
+            Image(systemName: "forward.end.circle.fill").foregroundStyle(.secondary)
+        } else {
+            Image(systemName: "circle").foregroundStyle(.secondary)
+        }
+    }
+
+    // Full swipe left completes the set, full swipe right skips it; a done
+    // set only offers Undo (plus Duplicate, and Delete if it was skipped).
+    private var leadingActions: [SwipeAction] {
+        guard !isDone else { return [] }
+        return [SwipeAction(title: lm["set_skip"], icon: "forward.end.fill", color: .gray, fullSwipe: true) { skipSet() }]
+    }
+
+    private var trailingActions: [SwipeAction] {
+        var actions: [SwipeAction] = []
+        if let onDuplicate {
+            actions.append(SwipeAction(title: lm["common_duplicate"], icon: "plus.rectangle.on.rectangle", color: .blue, perform: onDuplicate))
+        }
+        if isDone {
+            actions.append(SwipeAction(title: lm["common_undo"], icon: "arrow.uturn.backward", color: .orange) { undo() })
+        }
+        if let onDelete, !set.isCompleted {
+            actions.append(SwipeAction(title: lm["common_delete"], icon: "trash", color: .red, perform: onDelete))
+        }
+        if !isDone {
+            actions.append(SwipeAction(title: lm["set_complete"], icon: "checkmark", color: .green, fullSwipe: true) { completeSet() })
+        }
+        return actions
     }
 
     private func formatKg(_ value: Double) -> String {
@@ -82,21 +115,26 @@ struct SetSessionRowView: View {
     }
 
     private func completeSet() {
+        guard !set.isCompleted else { return }
+        set.isSkipped = false
         set.isCompleted = true
         set.completedAt = Date()
         TemplateDefaultUpdater.syncIfNeeded(setSession: set, context: modelContext)
     }
 
-    private var undoAction: (() -> Void)? {
-        guard set.isCompleted else { return nil }
-        return { undoCompletion() }
+    /// Passes over the set; the template defaults stay as they were.
+    private func skipSet() {
+        set.isSkipped = true
     }
 
-    /// Reopens a set completed by mistake so its kg/reps can be edited again.
-    private func undoCompletion() {
-        TemplateDefaultUpdater.revertIfNeeded(setSession: set, context: modelContext)
-        set.isCompleted = false
-        set.completedAt = nil
+    /// Reopens a set completed or skipped by mistake so it can be done again.
+    private func undo() {
+        if set.isCompleted {
+            TemplateDefaultUpdater.revertIfNeeded(setSession: set, context: modelContext)
+            set.isCompleted = false
+            set.completedAt = nil
+        }
+        set.isSkipped = false
     }
 }
 

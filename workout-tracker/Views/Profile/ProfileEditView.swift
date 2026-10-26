@@ -51,7 +51,7 @@ struct ProfileEditView: View {
                     AvatarView(photoData: photoData, name: name, surname: surname, size: 90)
                     Image(systemName: "pencil.circle.fill")
                         .font(.title2)
-                        .foregroundStyle(.white, Color.accentColor)
+                        .foregroundStyle(.white, .tint)
                         .offset(x: 4, y: 4)
                 }
             }

@@ -114,6 +114,10 @@ private struct SessionRowView: View {
                 Text(lm.format("today_exercises_count", session.exercises.count))
                 Text("·")
                 Text(lm.format("today_sets_completed", completedSets, totalSets))
+                if session.skippedSetCount > 0 {
+                    Text("·")
+                    Text(lm.format("session_sets_skipped", session.skippedSetCount))
+                }
             }
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -132,11 +136,11 @@ struct SessionDurationLabel: View {
         if session.isRunning {
             HStack(spacing: 4) {
                 Image(systemName: "timer")
-                Text(timerInterval: session.createdAt...Date.distantFuture, countsDown: false)
+                Text(timerInterval: session.timerStart...Date.distantFuture, countsDown: false)
                     .monospacedDigit()
             }
             .font(.caption.weight(.medium))
-            .foregroundStyle(Color.accentColor)
+            .foregroundStyle(.tint)
         } else if session.endedAt != nil {
             HStack(spacing: 4) {
                 Image(systemName: "checkmark.circle.fill")

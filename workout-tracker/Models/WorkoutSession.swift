@@ -10,6 +10,11 @@ final class WorkoutSession {
     // Workout timer starts at `createdAt` and stops at `endedAt`.
     var createdAt: Date = Date()
     var endedAt: Date?
+    // Time between Finish and a later Resume, left out of the duration so a
+    // workout resumed an hour later doesn't count that hour.
+    var pausedDuration: TimeInterval = 0
+    // Last Resume tap; places the pause when writing to Apple Health.
+    var resumedAt: Date?
     // Set once the workout is written to Apple Health, to avoid duplicate writes.
     var healthKitWorkoutUUID: UUID?
     // Set when created by a backup restore; picks the survivor if the same

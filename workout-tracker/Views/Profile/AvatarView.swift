@@ -21,10 +21,10 @@ struct AvatarView: View {
                     .scaledToFill()
             } else {
                 ZStack {
-                    Color.accentColor.opacity(0.2)
+                    Rectangle().fill(.tint.opacity(0.2))
                     Text(initials)
                         .font(.system(size: size * 0.38, weight: .semibold))
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(.tint)
                 }
             }
         }

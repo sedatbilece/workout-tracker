@@ -4,7 +4,6 @@ struct ProfileView: View {
     @AppStorage("profileName")      private var name: String = ""
     @AppStorage("profileSurname")   private var surname: String = ""
     @AppStorage("profilePhotoData") private var photoData: Data = Data()
-    @AppStorage("appTheme")         private var themeRaw: String = AppTheme.system.rawValue
     @Environment(LocalizationManager.self) private var lm
 
     @State private var showEdit = false
@@ -14,7 +13,6 @@ struct ProfileView: View {
         NavigationStack {
             List {
                 profileHeader
-                themeSection
                 settingsSection
                 versionSection
             }
@@ -57,19 +55,7 @@ struct ProfileView: View {
         }
     }
 
-    private var themeSection: some View {
-        Section(lm["profile_section_appearance"]) {
-            Picker(lm["profile_theme_label"], selection: $themeRaw) {
-                ForEach(AppTheme.allCases, id: \.rawValue) { t in
-                    Text(lm[t.labelKey]).tag(t.rawValue)
-                }
-            }
-            .pickerStyle(.segmented)
-            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-        }
-    }
-
-    // iCloud, Apple Health, backup, Live Activity and language live under Settings.
+    // Appearance, iCloud, Apple Health, backup, Live Activity and language live under Settings.
     private var settingsSection: some View {
         Section {
             NavigationLink(destination: SettingsView()) {

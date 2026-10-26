@@ -4,6 +4,7 @@ import CoreData
 
 struct RootView: View {
     @AppStorage("appTheme") private var themeRaw: String = AppTheme.system.rawValue
+    @AppStorage(AppAccent.storageKey) private var accent = AppAccent.defaultValue
     @Environment(LocalizationManager.self) private var lm
     @Environment(TabRouter.self) private var tabRouter
     @Environment(\.modelContext) private var modelContext
@@ -45,6 +46,7 @@ struct RootView: View {
                 .tag(4)
         }
         .preferredColorScheme(colorScheme)
+        .tint(accent.color)
         .modifier(LiveActivitySync())
         .onOpenURL { url in
             guard let uuid = WorkoutActivityAttributes.sessionUUID(from: url) else { return }

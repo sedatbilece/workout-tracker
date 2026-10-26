@@ -10,6 +10,10 @@ extension WorkoutSession {
 
     var completedSetCount: Int { completedSets.count }
 
+    var skippedSetCount: Int {
+        exercises.flatMap(\.sets).filter(\.isSkipped).count
+    }
+
     var completedReps: Int {
         completedSets.reduce(0) { $0 + $1.reps }
     }
@@ -19,7 +23,8 @@ extension WorkoutSession {
     }
 }
 
-// Workout timer: starts at `createdAt`, stops when the user taps Finish (`endedAt`).
+// Workout timer: starts at `createdAt`, stops when the user taps Finish
+// (`endedAt`); time spent finished before a Resume (`pausedDuration`) doesn't count.
 extension WorkoutSession {
     /// The timer is live only for today's unfinished workouts.
     var isRunning: Bool {
@@ -33,7 +38,7 @@ extension WorkoutSession {
     /// falls within a plausible window after the start.
     var effectiveEnd: Date {
         if let endedAt { return endedAt }
-        let latest = createdAt.addingTimeInterval(Self.maxInferredDuration)
+        let latest = createdAt.addingTimeInterval(Self.maxInferredDuration + pausedDuration)
         return completedSets
             .compactMap(\.completedAt)
             .filter { $0 >= createdAt && $0 <= latest }
@@ -41,7 +46,13 @@ extension WorkoutSession {
     }
 
     var duration: TimeInterval {
-        max(0, effectiveEnd.timeIntervalSince(createdAt))
+        max(0, effectiveEnd.timeIntervalSince(createdAt) - pausedDuration)
+    }
+
+    /// Start of the running timer: shifted by the paused time so a live
+    /// `Text(timerInterval:)` shows the same value as `duration`.
+    var timerStart: Date {
+        createdAt.addingTimeInterval(pausedDuration)
     }
 }
 

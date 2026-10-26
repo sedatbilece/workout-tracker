@@ -8,6 +8,8 @@ nonisolated struct WorkoutActivityAttributes: ActivityAttributes {
         /// Resolved app language ("tr", "en", …), so the extension shows the
         /// language picked in Profile rather than the system one.
         var languageCode: String
+        /// Theme color from Settings → Appearance.
+        var accent: AppAccent
         var exerciseName: String
         var exerciseIcon: String
         /// 1-based position of the next set within its exercise.
@@ -16,8 +18,16 @@ nonisolated struct WorkoutActivityAttributes: ActivityAttributes {
         var nextKg: Double
         var nextReps: Int
         var completedSets: Int
+        var skippedSets: Int
         var totalSets: Int
+        /// Every set is either completed or skipped.
         var allSetsDone: Bool
+        /// One entry per set in workout order, for the segmented progress bar.
+        var setStatuses: [SetStatus]
+    }
+
+    nonisolated enum SetStatus: Int, Codable, Hashable {
+        case pending, completed, skipped
     }
 
     var sessionUUID: UUID

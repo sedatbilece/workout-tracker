@@ -4,10 +4,22 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(LocalizationManager.self) private var lm
     @AppStorage(LiveActivityService.enabledKey) private var liveActivityEnabled = true
+    @AppStorage(AppAccent.storageKey) private var accent = AppAccent.defaultValue
 
     var body: some View {
         let lang = AppLanguage(rawValue: lm.languageCode) ?? .system
         List {
+            Section {
+                NavigationLink(destination: AppearanceSettingsView()) {
+                    LabeledContent {
+                        Circle()
+                            .fill(accent.color)
+                            .frame(width: 14, height: 14)
+                    } label: {
+                        Label(lm["profile_section_appearance"], systemImage: "paintpalette")
+                    }
+                }
+            }
             Section {
                 NavigationLink(destination: DataSettingsView()) {
                     Label(lm["settings_data_sync"], systemImage: "icloud")

@@ -44,6 +44,16 @@ final class HealthKitService {
             if let uuid = session.uuid {
                 try await builder.addMetadata([HKMetadataKeyExternalUUID: uuid.uuidString])
             }
+            // Paused time as one pause ending at the last Resume, so Health's
+            // duration matches the app. Exact for a single pause; several
+            // pauses are merged into one.
+            if session.pausedDuration > 0, let resumedAt = session.resumedAt {
+                let pauseStart = max(start, resumedAt.addingTimeInterval(-session.pausedDuration))
+                try await builder.addWorkoutEvents([
+                    HKWorkoutEvent(type: .pause, dateInterval: DateInterval(start: pauseStart, duration: 0), metadata: nil),
+                    HKWorkoutEvent(type: .resume, dateInterval: DateInterval(start: resumedAt, duration: 0), metadata: nil),
+                ])
+            }
             try await builder.endCollection(at: end)
             guard let workout = try await builder.finishWorkout() else { return false }
             session.healthKitWorkoutUUID = workout.uuid

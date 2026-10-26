@@ -10,6 +10,19 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ## [Yayınlanmadı]
 
+### Eklendi
+- **Kaydırarak tamamla / pas geç:** Antrenmanda set sağdan sola sonuna kadar kaydırılınca tamamlanıyor, soldan sağa kaydırılınca pas geçiliyor. Atlanan set gri görünüyor, "Geri Al" ile açılabiliyor; Bugün kartı, alt bar, kilit ekranı ve Dinamik Ada atlanan setleri sayıp sıradaki sete geçiyor.
+- **Tema rengi:** Ayarlar → Görünüm'de 8 renkten biri seçilebiliyor; simgeler, butonlar, kilit ekranı ve Dinamik Ada bu rengi kullanıyor (varsayılan mavi).
+
+### Değiştirildi
+- **Bitir onayı:** Bitir'e basınca açılan pencere yerine alttaki bar "İptal / Antrenmanı Bitir" butonlarına dönüşüyor.
+- **Görünüm:** Açık/koyu tema seçimi Profil'den Ayarlar → Görünüm'e taşındı.
+- **Şablon detayı:** Üstteki iki "Düzenle" butonu yerine "Hareketleri Sırala" (⇅) ve "Ad ve Notu Düzenle" (✎) simgeleri var.
+
+### Düzeltildi
+- Bitirilip sonra devam ettirilen antrenmanın süresine aradaki bekleme de ekleniyordu; artık yalnızca çalışılan süre sayılıyor (Sağlık'a da duraklama olarak yazılıyor).
+- Bir set yana kaydırıldıktan sonra o satırın üzerinden aşağı kaydırmak takılıyordu; dikey kaydırma artık doğrudan listeye geçiyor.
+
 ---
 
 ## [1.0] - 2026-10-26 (Build 7)
