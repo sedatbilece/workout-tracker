@@ -1,0 +1,82 @@
+{
+  "releases" : [
+    {
+      "version" : "1.0",
+      "build" : 6,
+      "date" : "2026-10-26",
+      "notes" : {
+        "tr" : [
+          "iCloud senkronu: şablonların ve antrenman geçmişin aynı Apple hesabındaki cihazlarında eşitlenir.",
+          "Yedekle ve geri yükle: tüm verilerini tek bir dosyaya aktar, istediğin zaman geri yükle.",
+          "Antrenman süresi: antrenman başladığı an saniyesiyle sayılır; Bitir ile durdur, Devam Et ile sürdür.",
+          "Apple Sağlık: bitirdiğin antrenmanlar kuvvet antrenmanı olarak Sağlık uygulamasına kaydedilebilir.",
+          "Kilit Ekranı ve Dinamik Ada: süren antrenmanın süresi, egzersizi ve sıradaki seti tek bakışta görünür.",
+          "Seti sola kaydır: kopyala ya da sil; yanlışlıkla tamamlanan seti Geri Al ile düzelt.",
+          "Yeni Ayarlar ekranı ve sürüm notları: Profil'den iCloud, Sağlık, yedek, kilit ekranı ve dil ayarlarına ulaş."
+        ],
+        "en" : [
+          "iCloud sync: your templates and workout history stay in sync across devices on the same Apple Account.",
+          "Backup and restore: export all your data to a single file and restore it whenever you like.",
+          "Workout timer: the clock starts with your workout and counts in seconds; tap Finish to stop it, Resume to continue.",
+          "Apple Health: finished workouts can be saved to the Health app as strength training.",
+          "Lock Screen and Dynamic Island: see your running workout's time, exercise and next set at a glance.",
+          "Swipe a set left to duplicate or delete it; undo a set you completed by mistake.",
+          "New Settings screen and release notes: reach iCloud, Health, backup, Lock Screen and language settings from Profile."
+        ],
+        "es" : [
+          "Sincronización con iCloud: tus plantillas e historial se mantienen al día en todos los dispositivos con la misma cuenta de Apple.",
+          "Copia de seguridad: exporta todos tus datos a un solo archivo y restáuralos cuando quieras.",
+          "Duración del entrenamiento: el cronómetro arranca con el entrenamiento y cuenta en segundos; toca Terminar para pararlo y Continuar para seguir.",
+          "Apple Salud: los entrenamientos terminados pueden guardarse en la app Salud como entrenamiento de fuerza.",
+          "Pantalla de bloqueo y Dynamic Island: consulta de un vistazo el tiempo, el ejercicio y la siguiente serie del entrenamiento en curso.",
+          "Desliza una serie a la izquierda para duplicarla o eliminarla; deshaz una serie completada por error.",
+          "Nueva pantalla de Ajustes y notas de versión: accede desde Perfil a iCloud, Salud, copia de seguridad, pantalla de bloqueo e idioma."
+        ],
+        "ru" : [
+          "Синхронизация iCloud: шаблоны и история тренировок синхронизируются между устройствами с одним Apple ID.",
+          "Резервная копия: экспортируйте все данные в один файл и восстанавливайте их в любой момент.",
+          "Время тренировки: таймер запускается вместе с тренировкой и считает секунды; «Завершить» останавливает его, «Продолжить» возобновляет.",
+          "Apple Здоровье: завершённые тренировки можно сохранять в приложение «Здоровье» как силовые.",
+          "Экран блокировки и Dynamic Island: время, упражнение и следующий подход текущей тренировки видны с первого взгляда.",
+          "Смахните подход влево, чтобы скопировать или удалить его; отмените подход, отмеченный по ошибке.",
+          "Новый экран настроек и заметки о выпуске: iCloud, Здоровье, резервная копия, экран блокировки и язык — в Профиле."
+        ]
+      }
+    },
+    {
+      "version" : "1.0",
+      "build" : 5,
+      "date" : "2026-10-24",
+      "notes" : {
+        "tr" : [
+          "Antrenman şablonları: hareketleri, setleri ve varsayılan kg/tekrar değerlerini bir kez tanımla, sürükle-bırak ile sırala.",
+          "Bugün: şablondan tek dokunuşla antrenman başlat; ağırlığı 2,5 kg, tekrarı 1'er adımla ayarla ve setleri işaretle.",
+          "Tamamlanan setin ağırlık ve tekrarı şablona yazılır; bir sonraki antrenman son değerlerle başlar.",
+          "Geçmiş ve İstatistikler: antrenmanlarını günlere göre gör, her program için ilerleme grafiklerini incele.",
+          "Profil: ad, fotoğraf, açık/koyu tema ve Türkçe, İngilizce, İspanyolca, Rusça dil desteği."
+        ],
+        "en" : [
+          "Workout templates: define exercises, sets and default kg/reps once, and reorder them with drag and drop.",
+          "Today: start a workout from a template with one tap; adjust weight in 2.5 kg steps and reps one at a time, then check off sets.",
+          "A completed set's weight and reps are saved to the template, so your next workout starts with your latest numbers.",
+          "History and Statistics: see your workouts by day and explore progress charts for each program.",
+          "Profile: name, photo, light/dark theme and Turkish, English, Spanish and Russian language support."
+        ],
+        "es" : [
+          "Plantillas de entrenamiento: define ejercicios, series y kg/repeticiones por defecto una sola vez y reordénalos arrastrando.",
+          "Hoy: empieza un entrenamiento desde una plantilla con un toque; ajusta el peso de 2,5 en 2,5 kg y las repeticiones de una en una, y marca las series.",
+          "El peso y las repeticiones de una serie completada se guardan en la plantilla, así tu próximo entrenamiento empieza con tus últimos valores.",
+          "Historial y Estadísticas: consulta tus entrenamientos por día y los gráficos de progreso de cada programa.",
+          "Perfil: nombre, foto, tema claro/oscuro e idiomas turco, inglés, español y ruso."
+        ],
+        "ru" : [
+          "Шаблоны тренировок: один раз задайте упражнения, подходы и вес/повторения по умолчанию и меняйте порядок перетаскиванием.",
+          "Сегодня: начинайте тренировку из шаблона одним касанием; меняйте вес с шагом 2,5 кг и повторения по одному и отмечайте подходы.",
+          "Вес и повторения выполненного подхода сохраняются в шаблоне, поэтому следующая тренировка начинается с последних значений.",
+          "История и статистика: просматривайте тренировки по дням и графики прогресса для каждой программы.",
+          "Профиль: имя, фото, светлая/тёмная тема и турецкий, английский, испанский и русский языки."
+        ]
+      }
+    }
+  ]
+}

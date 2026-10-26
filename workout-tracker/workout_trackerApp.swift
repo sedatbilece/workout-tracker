@@ -15,13 +15,10 @@ struct workout_trackerApp: App {
             ExerciseSession.self,
             SetSession.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
+        let container = CloudSync.makeContainer(schema: schema)
+        DataMigrator.run(context: container.mainContext)
+        DuplicateCleaner.run(context: container.mainContext)
+        return container
     }()
 
     var body: some Scene {

@@ -5,8 +5,10 @@ struct TodayView: View {
     @Query private var allSessions: [WorkoutSession]
     @Environment(\.modelContext) private var modelContext
     @Environment(LocalizationManager.self) private var lm
+    @Environment(TabRouter.self) private var tabRouter
     @State private var showingTemplatePicker = false
     @State private var sessionToDelete: WorkoutSession?
+    @State private var openedSession: WorkoutSession?
 
     private var todaySessions: [WorkoutSession] {
         let calendar = Calendar.current
@@ -42,6 +44,11 @@ struct TodayView: View {
                 }
             }
             .navigationTitle(lm["today_title"])
+            .navigationDestination(item: $openedSession) { session in
+                WorkoutSessionDetailView(session: session)
+            }
+            .onAppear(perform: openPendingSession)
+            .onChange(of: tabRouter.pendingSessionUUID) { openPendingSession() }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -78,6 +85,13 @@ struct TodayView: View {
             }
         }
     }
+
+    /// Opens the workout the Live Activity was tapped for.
+    private func openPendingSession() {
+        guard let uuid = tabRouter.pendingSessionUUID else { return }
+        tabRouter.pendingSessionUUID = nil
+        openedSession = allSessions.first { $0.uuid == uuid }
+    }
 }
 
 private struct SessionRowView: View {
@@ -103,8 +117,34 @@ private struct SessionRowView: View {
             }
             .font(.caption)
             .foregroundStyle(.secondary)
+            SessionDurationLabel(session: session)
         }
         .padding(.vertical, 4)
+    }
+}
+
+// Live timer while the workout runs, total duration once finished.
+struct SessionDurationLabel: View {
+    @Environment(LocalizationManager.self) private var lm
+    let session: WorkoutSession
+
+    var body: some View {
+        if session.isRunning {
+            HStack(spacing: 4) {
+                Image(systemName: "timer")
+                Text(timerInterval: session.createdAt...Date.distantFuture, countsDown: false)
+                    .monospacedDigit()
+            }
+            .font(.caption.weight(.medium))
+            .foregroundStyle(Color.accentColor)
+        } else if session.endedAt != nil {
+            HStack(spacing: 4) {
+                Image(systemName: "checkmark.circle.fill")
+                Text(lm.duration(session.duration))
+            }
+            .font(.caption.weight(.medium))
+            .foregroundStyle(.green)
+        }
     }
 }
 
@@ -112,4 +152,5 @@ private struct SessionRowView: View {
     TodayView()
         .modelContainer(for: WorkoutSession.self, inMemory: true)
         .environment(LocalizationManager())
+        .environment(TabRouter())
 }

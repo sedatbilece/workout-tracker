@@ -45,6 +45,20 @@ struct ExerciseTemplateEditView: View {
                     Section(lm["exercise_section_sets"]) {
                         ForEach(sortedSets) { set in
                             SetTemplateRowView(set: set, index: set.orderIndex)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    // First action is the outermost: Delete sits on the far right.
+                                    Button(role: .destructive) {
+                                        deleteSet(set, from: exercise)
+                                    } label: {
+                                        Label(lm["common_delete"], systemImage: "trash")
+                                    }
+                                    Button {
+                                        duplicateSet(set, in: exercise)
+                                    } label: {
+                                        Label(lm["common_duplicate"], systemImage: "plus.rectangle.on.rectangle")
+                                    }
+                                    .tint(.blue)
+                                }
                         }
                         .onDelete { offsets in
                             deleteSets(offsets: offsets, from: exercise)
@@ -112,6 +126,22 @@ struct ExerciseTemplateEditView: View {
     private func addSet(to exercise: ExerciseTemplate) {
         let set = SetTemplate(orderIndex: exercise.sets.count)
         exercise.sets.append(set)
+    }
+
+    /// Inserts a copy right below `set`; the sets after it move down by one.
+    private func duplicateSet(_ set: SetTemplate, in exercise: ExerciseTemplate) {
+        let newIndex = set.orderIndex + 1
+        for s in exercise.sets where s.orderIndex >= newIndex {
+            s.orderIndex += 1
+        }
+        let copy = SetTemplate(orderIndex: newIndex, defaultKg: set.defaultKg, defaultReps: set.defaultReps)
+        exercise.sets.append(copy)
+    }
+
+    private func deleteSet(_ set: SetTemplate, from exercise: ExerciseTemplate) {
+        exercise.sets.removeAll { $0 === set }
+        modelContext.delete(set)
+        reindexSets(in: exercise)
     }
 
     private func deleteSets(offsets: IndexSet, from exercise: ExerciseTemplate) {

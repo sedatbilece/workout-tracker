@@ -4,22 +4,30 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Build & Run
 
-**IMPORTANT: Never build the project yourself (do not run `xcodebuild build`/`test` or any build command). The user always builds and runs the app, and will paste any errors here. Make the code changes and stop — wait for the user's build feedback.**
+**IMPORTANT — ask who verifies:** In every session, right after a plan is approved, ask the user whether **Claude** or **the user** will build and check the work between phases. Don't assume either way.
+- **Claude verifies:** build with `xcodebuild`, run the app in the iOS Simulator, and check each phase before starting the next. Don't overwrite an app's existing data on a simulator; use a simulator without the app or ask first.
+- **The user verifies:** make the code changes, stop at the end of each phase, and wait for the user's build feedback (they paste any errors here).
 
-This is an Xcode project (no Swift Package Manager). For reference, the user builds and runs via Xcode or `xcodebuild`:
+This is an Xcode project (no Swift Package Manager). Build and run via Xcode or `xcodebuild`:
 
 ```bash
 # Build for simulator
-xcodebuild -project workout-tracker.xcodeproj -scheme workout-tracker -destination 'platform=iOS Simulator,name=iPhone 16' build
+xcodebuild -project workout-tracker.xcodeproj -scheme workout-tracker -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 
 # Run tests
-xcodebuild -project workout-tracker.xcodeproj -scheme workout-tracker -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -project workout-tracker.xcodeproj -scheme workout-tracker -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 
 # Run a single test class
-xcodebuild -project workout-tracker.xcodeproj -scheme workout-tracker -destination 'platform=iOS Simulator,name=iPhone 16' test -only-testing:workout-trackerTests/ClassName
+xcodebuild -project workout-tracker.xcodeproj -scheme workout-tracker -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test -only-testing:workout-trackerTests/ClassName
 ```
 
 There is no linter configured. The project has no SwiftLint, SwiftFormat, or similar tooling.
+
+## Git Workflow
+
+**All commits go to the `dev` branch — never commit directly to `main`.** `main` only receives `dev` merges when the user does a build/release: bump the build number on `dev`, merge `dev` → `main`, then tag (steps in `docs/VERSIONING.md`). Don't merge to `main` or push unless the user asks.
+
+**Release notes on every `dev` → `main` merge:** before merging, add an entry for the new build at the top of `workout-tracker/ReleaseNotes.json` (shown in Profile → version → Release Notes). Write it from the diff since the previous merge (`git log build-<prev>..dev`, or `origin/main..dev` while no `build-*` tag exists): short, user-facing bullets in all four languages (`tr`, `en`, `es`, `ru`), no internal/refactor-only items. Also move CHANGELOG's `[Yayınlanmadı]` section under the new version/build heading.
 
 ## Architecture
 
@@ -64,6 +72,8 @@ Key naming convention: `snake_case`, grouped by screen (e.g., `today_start_worko
 **Number formatting:** Use `NumberFormatter.workoutWeight` (1 decimal place, decimal style) for all weight display/input. It's defined in `Helpers/NumberFormatter+Workout.swift`.
 
 **Date utilities:** `Date.isToday` and `Date.shortFormatted` (Turkish locale `tr_TR`) are in `Helpers/DateHelper.swift`.
+
+**Versioning:** `MARKETING_VERSION` is bumped only for App Store releases; `CURRENT_PROJECT_VERSION` (build) is incremented by 1 on every `dev` → `main` merge and never decreases or resets. Don't change either unless asked. Full scheme in `docs/VERSIONING.md`.
 
 ## Current State
 

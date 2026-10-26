@@ -11,7 +11,8 @@ struct SetSessionRowView: View {
 
     var body: some View {
         SwipeRow(
-            onDuplicate: set.isCompleted ? nil : onDuplicate,
+            onDuplicate: onDuplicate,
+            onUndo: undoAction,
             onDelete: set.isCompleted ? nil : onDelete
         ) {
             HStack(spacing: 12) {
@@ -84,6 +85,18 @@ struct SetSessionRowView: View {
         set.isCompleted = true
         set.completedAt = Date()
         TemplateDefaultUpdater.syncIfNeeded(setSession: set, context: modelContext)
+    }
+
+    private var undoAction: (() -> Void)? {
+        guard set.isCompleted else { return nil }
+        return { undoCompletion() }
+    }
+
+    /// Reopens a set completed by mistake so its kg/reps can be edited again.
+    private func undoCompletion() {
+        TemplateDefaultUpdater.revertIfNeeded(setSession: set, context: modelContext)
+        set.isCompleted = false
+        set.completedAt = nil
     }
 }
 

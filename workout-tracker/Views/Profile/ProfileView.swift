@@ -8,6 +8,7 @@ struct ProfileView: View {
     @Environment(LocalizationManager.self) private var lm
 
     @State private var showEdit = false
+    @State private var showReleaseNotes = false
 
     var body: some View {
         NavigationStack {
@@ -15,13 +16,15 @@ struct ProfileView: View {
                 profileHeader
                 themeSection
                 settingsSection
-                languageSection
                 versionSection
             }
             .navigationTitle(lm["tab_profile"])
         }
         .sheet(isPresented: $showEdit) {
             ProfileEditView(name: $name, surname: $surname, photoData: $photoData)
+        }
+        .sheet(isPresented: $showReleaseNotes) {
+            ReleaseNotesView()
         }
     }
 
@@ -66,22 +69,11 @@ struct ProfileView: View {
         }
     }
 
+    // iCloud, Apple Health, backup, Live Activity and language live under Settings.
     private var settingsSection: some View {
-        Section(lm["profile_section_settings"]) {
-            Text(lm["common_coming_soon"])
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private var languageSection: some View {
-        let lang = AppLanguage(rawValue: lm.languageCode) ?? .system
-        return Section(lm["profile_section_language"]) {
-            NavigationLink(destination: LanguageSettingsView()) {
-                HStack(spacing: 10) {
-                    Text(lang.flag)
-                    Text(lang == .system ? lm["language_system"] : lang.displayName)
-                        .foregroundStyle(.primary)
-                }
+        Section {
+            NavigationLink(destination: SettingsView()) {
+                Label(lm["profile_section_settings"], systemImage: "gearshape")
             }
         }
     }
@@ -90,13 +82,24 @@ struct ProfileView: View {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "-"
         let build   = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "-"
         return Section {
-            HStack {
-                Spacer()
-                Text(lm.format("profile_version", version, build))
-                    .font(.footnote)
-                    .foregroundStyle(.tertiary)
-                Spacer()
+            Button {
+                showReleaseNotes = true
+            } label: {
+                VStack(spacing: 4) {
+                    Text(lm.format("profile_version", version, build))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    HStack(spacing: 4) {
+                        Image(systemName: "doc.text")
+                        Text(lm["profile_release_notes"])
+                    }
+                    .font(.footnote.weight(.medium))
+                    .foregroundStyle(.tint)
+                }
+                .frame(maxWidth: .infinity)
+                .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
         }
         .listRowBackground(Color.clear)
     }

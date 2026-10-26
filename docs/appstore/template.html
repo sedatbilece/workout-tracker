@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!--
+  App Store screenshot template.
+  Query: ?device=iphone|ipad&slide=N&w=<px>&h=<px>
+  The slide is laid out on a fixed design canvas (iPhone 1320x2868, iPad 2064x2752)
+  and scaled to the requested output width; the background fills any extra height.
+-->
+<style>
+  :root {
+    --accent: #007AFF;
+    --ink: #0B0B0F;
+    --muted: #6B7280;
+    --bg: #F3F5F9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow: hidden; }
+  body {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    background:
+      repeating-linear-gradient(135deg, rgba(15, 23, 42, 0.028) 0 3px, transparent 3px 22px),
+      radial-gradient(ellipse 70% 30% at 50% 62%, rgba(0, 122, 255, 0.10), transparent 70%),
+      var(--bg);
+    color: var(--ink);
+  }
+  #canvas { position: absolute; left: 0; top: 0; transform-origin: top left; }
+
+  .head {
+    position: absolute; left: 0; right: 0; padding: 0 80px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .step {
+    display: inline-block; font-weight: 700; letter-spacing: 4px;
+    color: var(--accent); background: rgba(0, 122, 255, 0.10); border-radius: 999px;
+  }
+  h1 { line-height: 1.06; font-weight: 800; letter-spacing: -3px; }
+  h1 b { color: var(--accent); font-weight: 800; }
+  .sub { line-height: 1.3; color: var(--muted); font-weight: 500; }
+
+  .device {
+    position: absolute; left: 50%; transform-origin: top center;
+    background: #111114;
+    box-shadow:
+      0 0 0 3px #2B2B30 inset,
+      0 60px 120px rgba(15, 23, 42, 0.22),
+      0 20px 40px rgba(15, 23, 42, 0.12);
+  }
+  .screen { position: relative; overflow: hidden; background: #F2F2F7; }
+  .screen img { width: 100%; height: 100%; display: block; }
+
+  /* iPhone */
+  .iphone #canvas { width: 1320px; height: 2868px; }
+  .iphone .head { top: 60px; height: 640px; }
+  .iphone .step { font-size: 34px; padding: 12px 32px; margin-bottom: 30px; }
+  .iphone h1 { font-size: 118px; }
+  .iphone .sub { margin-top: 28px; font-size: 46px; }
+  .iphone .device {
+    top: 720px; transform: translateX(-50%) scale(0.95);
+    width: 984px; height: 2088px; border-radius: 156px; padding: 22px;
+  }
+  .iphone .device::before, .iphone .device::after {
+    content: ""; position: absolute; width: 8px; background: #1C1C20; border-radius: 4px;
+  }
+  .iphone .device::before { left: -8px; top: 400px; height: 150px; box-shadow: 0 200px 0 #1C1C20; }
+  .iphone .device::after { right: -8px; top: 520px; height: 240px; }
+  .iphone .screen { width: 940px; height: 2044px; border-radius: 134px; }
+  .island {
+    position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+    width: 290px; height: 86px; border-radius: 43px; background: #000;
+  }
+  .ipad .island { display: none; }
+
+  /* iPad */
+  .ipad #canvas { width: 2064px; height: 2752px; }
+  .ipad .head { top: 40px; height: 560px; }
+  .ipad .step { font-size: 40px; padding: 14px 38px; margin-bottom: 30px; }
+  .ipad h1 { font-size: 132px; letter-spacing: -3.5px; }
+  .ipad .sub { margin-top: 26px; font-size: 54px; }
+  .ipad .device {
+    top: 600px; transform: translateX(-50%);
+    width: 1512px; height: 1992px; border-radius: 88px; padding: 36px;
+  }
+  .ipad .device::after {
+    content: ""; position: absolute; right: 200px; top: -7px; width: 150px; height: 8px;
+    background: #1C1C20; border-radius: 4px;
+  }
+  .ipad .screen { width: 1440px; height: 1920px; border-radius: 54px; }
+
+  .chip {
+    position: absolute; background: #fff; border-radius: 44px; padding: 34px 42px;
+    display: flex; align-items: center; gap: 28px; transform-origin: center;
+    box-shadow: 0 30px 70px rgba(15, 23, 42, 0.18), 0 6px 16px rgba(15, 23, 42, 0.08);
+  }
+  .chip .ic {
+    width: 92px; height: 92px; border-radius: 28px; display: grid; place-items: center; flex: none;
+  }
+  .chip .ic svg { width: 54px; height: 54px; }
+  .chip .t1 { font-size: 44px; font-weight: 750; letter-spacing: -0.5px; }
+  .chip .t2 { font-size: 32px; color: var(--muted); font-weight: 500; margin-top: 6px; }
+  .ipad .chip { zoom: 1.25; }
+  .green { background: rgba(52, 199, 89, 0.15); color: #34C759; }
+  .blue { background: rgba(0, 122, 255, 0.12); color: var(--accent); }
+  .purple { background: rgba(175, 82, 222, 0.14); color: #AF52DE; }
+  .orange { background: rgba(255, 149, 0, 0.15); color: #FF9500; }
+</style>
+</head>
+<body>
+  <div id="canvas">
+    <div class="head">
+      <div class="step" id="step"></div>
+      <h1 id="title"></h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div class="device">
+      <div class="screen"><img id="shot" alt=""><div class="island"></div></div>
+    </div>
+    <div id="chips"></div>
+  </div>
+
+<script>
+const ICONS = {
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M7 15l4-4 3 3 5-6"/></svg>',
+  bolt: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>',
+  globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+};
+
+// Shared copy; each device picks slides and chip positions (design-canvas px; iPad chips are zoomed 1.25x).
+const COPY = {
+  log:      { title: 'Track every <b>set</b><br>with ease', sub: 'Log weight and reps in seconds,<br>right from your workout.' },
+  plan:     { step: 'STEP 1 · PLAN', title: 'Build your<br><b>templates</b>', sub: 'Push, pull, legs — or anything you like.' },
+  defaults: { step: 'STEP 2 · CUSTOMIZE', title: 'Set your<br><b>defaults</b>', sub: 'Weights and reps for every set,<br>ready when you are.' },
+  start:    { step: 'STEP 3 · START', title: 'Start in<br><b>one tap</b>', sub: 'Pick a template and your workout<br>is ready to go.' },
+  check:    { step: 'STEP 4 · LOG', title: 'Check off<br>every <b>rep</b>', sub: 'Adjust on the fly with quick +/– controls.' },
+  progress: { title: 'Watch your<br><b>progress</b> grow', sub: 'Charts for reps, sets and every exercise.' },
+  history:  { title: 'Your complete<br><b>history</b>', sub: 'Every workout, every day — always at hand.' },
+  language: { title: 'Speaks<br><b>your language</b>', sub: 'English, Türkçe, Español and Русский.' },
+};
+const CHIP = {
+  set:    { icon: 'check', cls: 'green', t1: 'Set completed', t2: '82.5 kg × 8 reps' },
+  auto:   { icon: 'up', cls: 'blue', t1: 'Auto-updates', t2: 'as you get stronger' },
+  ready:  { icon: 'bolt', cls: 'orange', t1: 'Ready to lift', t2: 'sets pre-filled' },
+  reps:   { icon: 'chart', cls: 'purple', t1: '2× more reps', t2: 'in just 9 weeks' },
+  count:  { icon: 'calendar', cls: 'blue', t1: '31 workouts', t2: 'and counting' },
+  langs:  { icon: 'globe', cls: 'green', t1: '4 languages', t2: 'switch anytime' },
+};
+const DEVICES = {
+  iphone: {
+    w: 1320, raw: 'raw',
+    slides: [
+      { copy: 'log', shot: 'session', chip: ['set', 50, 1990, -4] },
+      { copy: 'plan', shot: 'template-detail' },
+      { copy: 'defaults', shot: 'exercise-edit', chip: ['auto', 690, 2270, 4] },
+      { copy: 'start', shot: 'picker', chip: ['ready', 70, 1960, -4] },
+      { copy: 'check', shot: 'session-scrolled' },
+      { copy: 'progress', shot: 'stats-detail', chip: ['reps', 30, 1745, -4] },
+      { copy: 'history', shot: 'history', chip: ['count', 690, 2310, 4] },
+      { copy: 'language', shot: 'language', chip: ['langs', 700, 1740, 4] },
+    ],
+  },
+  ipad: {
+    w: 2064, raw: 'raw-ipad',
+    slides: [
+      { copy: 'log', shot: 'session', chip: ['set', 90, 1440, -4] },
+      { copy: 'plan', shot: 'template-detail' },
+      { copy: 'defaults', shot: 'exercise-edit', chip: ['auto', 980, 1720, 4] },
+      { copy: 'start', shot: 'picker', chip: ['ready', 110, 1620, -4] },
+      { copy: 'progress', shot: 'stats-detail', chip: ['reps', 1010, 2330, 4] },
+      { copy: 'history', shot: 'history', chip: ['count', 1010, 1800, 4] },
+      { copy: 'language', shot: 'language', chip: ['langs', 1000, 1400, 4] },
+    ],
+  },
+};
+
+const q = new URLSearchParams(location.search);
+const device = q.get('device') || 'iphone';
+const d = DEVICES[device];
+const slide = d.slides[(parseInt(q.get('slide') || '1', 10)) - 1];
+const outW = parseInt(q.get('w') || d.w, 10);
+const outH = parseInt(q.get('h') || 0, 10);
+
+document.body.className = device;
+if (outH) { document.documentElement.style.height = document.body.style.height = outH + 'px'; }
+document.documentElement.style.width = document.body.style.width = outW + 'px';
+document.getElementById('canvas').style.transform = `scale(${outW / d.w})`;
+
+const c = COPY[slide.copy];
+const stepEl = document.getElementById('step');
+if (c.step) stepEl.textContent = c.step; else stepEl.remove();
+document.getElementById('title').innerHTML = c.title;
+document.getElementById('sub').innerHTML = c.sub;
+document.getElementById('shot').src = `${d.raw}/${slide.shot}.png`;
+
+if (slide.chip) {
+  const [key, x, y, rot] = slide.chip;
+  const ch = CHIP[key];
+  const zoom = device === 'ipad' ? 1.25 : 1;
+  const el = document.createElement('div');
+  el.className = 'chip';
+  el.style.left = (x / zoom) + 'px';
+  el.style.top = (y / zoom) + 'px';
+  el.style.transform = `rotate(${rot}deg)`;
+  el.innerHTML = `<div class="ic ${ch.cls}">${ICONS[ch.icon]}</div><div><div class="t1">${ch.t1}</div><div class="t2">${ch.t2}</div></div>`;
+  document.getElementById('chips').appendChild(el);
+}
+</script>
+</body>
+</html>
