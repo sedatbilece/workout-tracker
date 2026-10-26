@@ -10,6 +10,10 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ## [Yayınlanmadı]
 
+---
+
+## [1.0] - 2026-10-26 (Build 6)
+
 ### Eklendi
 - **iCloud senkronu:** Şablonlar ve antrenman geçmişi, aynı Apple hesabını kullanan cihazlar arasında kullanıcının özel iCloud veritabanı üzerinden senkronize ediliyor. Profil'den açılıp kapatılabiliyor (varsayılan açık); iCloud hesap durumu gösteriliyor.
 - **JSON yedek / geri yükleme:** Profil > Veri bölümünden tüm şablonlar, antrenman geçmişi ve profil bilgileri tek bir JSON dosyası olarak dışa aktarılıyor; geri yüklerken mevcut kayıtlar korunup zaten var olanlar atlanıyor.
