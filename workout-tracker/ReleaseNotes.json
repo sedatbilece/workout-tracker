@@ -2,6 +2,45 @@
   "releases" : [
     {
       "version" : "1.0",
+      "build" : 8,
+      "date" : "2026-11-01",
+      "notes" : {
+        "tr" : [
+          "Kaydırarak tamamla ya da pas geç: seti sola sonuna kadar kaydır tamamla, sağa kaydır pas geç; kilit ekranı ve Dinamik Ada sıradaki sete geçer.",
+          "Tema rengi: Ayarlar → Görünüm'den 8 renkten birini seç; uygulama, kilit ekranı ve Dinamik Ada bu rengi kullanır.",
+          "Bitir onayı artık ayrı pencere yerine alttaki barda soruluyor.",
+          "Bitirip devam ettirdiğin antrenmanın süresine aradaki bekleme eklenmiyor; yalnızca çalıştığın süre sayılıyor.",
+          "Seti kaydırdıktan sonra listeyi aşağı kaydırırken yaşanan takılma giderildi.",
+          "Şablon detayında sıralama ve ad/not düzenleme butonları ayrı simgelerle gösteriliyor."
+        ],
+        "en" : [
+          "Swipe to complete or skip: swipe a set fully left to complete it, right to skip it; the Lock Screen and Dynamic Island move on to the next set.",
+          "Theme color: pick one of 8 colors in Settings → Appearance; the app, Lock Screen and Dynamic Island use it.",
+          "Finishing a workout is now confirmed in the bottom bar instead of a pop-up.",
+          "If you finish and then resume a workout, the time in between no longer counts; only the time you trained is recorded.",
+          "Scrolling the list after swiping a set no longer gets stuck.",
+          "Template details show separate icons for reordering exercises and editing the name and note."
+        ],
+        "es" : [
+          "Desliza para completar u omitir: desliza una serie del todo a la izquierda para completarla y a la derecha para omitirla; la pantalla de bloqueo y la Dynamic Island pasan a la siguiente serie.",
+          "Color del tema: elige uno de 8 colores en Ajustes → Apariencia; la app, la pantalla de bloqueo y la Dynamic Island lo usan.",
+          "Terminar un entrenamiento ahora se confirma en la barra inferior en lugar de en una ventana.",
+          "Si terminas y luego continúas un entrenamiento, el tiempo intermedio ya no cuenta; solo se registra el tiempo entrenado.",
+          "Desplazar la lista después de deslizar una serie ya no se atasca.",
+          "El detalle de la plantilla muestra iconos distintos para reordenar ejercicios y editar el nombre y la nota."
+        ],
+        "ru" : [
+          "Свайп для выполнения или пропуска: проведите подход до конца влево, чтобы выполнить его, вправо — чтобы пропустить; экран блокировки и Dynamic Island переходят к следующему подходу.",
+          "Цвет темы: выберите один из 8 цветов в Настройки → Оформление; его используют приложение, экран блокировки и Dynamic Island.",
+          "Завершение тренировки теперь подтверждается в нижней панели, а не во всплывающем окне.",
+          "Если завершить тренировку и затем продолжить её, перерыв больше не учитывается; засчитывается только время тренировки.",
+          "Прокрутка списка после свайпа подхода больше не застревает.",
+          "В шаблоне кнопки сортировки упражнений и изменения названия и заметки получили разные значки."
+        ]
+      }
+    },
+    {
+      "version" : "1.0",
       "build" : 7,
       "date" : "2026-10-26",
       "notes" : {

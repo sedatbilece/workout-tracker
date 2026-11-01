@@ -8,7 +8,7 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
-## [Yayınlanmadı]
+## [1.0] - 2026-11-01 (Build 8)
 
 ### Eklendi
 - **Kaydırarak tamamla / pas geç:** Antrenmanda set sağdan sola sonuna kadar kaydırılınca tamamlanıyor, soldan sağa kaydırılınca pas geçiliyor. Atlanan set gri görünüyor, "Geri Al" ile açılabiliyor; Bugün kartı, alt bar, kilit ekranı ve Dinamik Ada atlanan setleri sayıp sıradaki sete geçiyor.
