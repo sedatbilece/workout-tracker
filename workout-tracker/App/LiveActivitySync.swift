@@ -9,6 +9,7 @@ struct LiveActivitySync: ViewModifier {
     @Query(filter: #Predicate<WorkoutSession> { $0.endedAt == nil })
     private var unfinishedSessions: [WorkoutSession]
     @AppStorage(LiveActivityService.enabledKey) private var isEnabled = true
+    @AppStorage(AppAccent.storageKey) private var accent = AppAccent.defaultValue
     @Environment(LocalizationManager.self) private var lm
     @Environment(\.scenePhase) private var scenePhase
 
@@ -24,7 +25,7 @@ struct LiveActivitySync: ViewModifier {
         return unfinishedSessions
             .filter(\.isRunning)
             .max { $0.createdAt < $1.createdAt }?
-            .liveActivitySnapshot(languageCode: LocalizationManager.resolve(lm.languageCode))
+            .liveActivitySnapshot(languageCode: LocalizationManager.resolve(lm.languageCode), accent: accent)
     }
 
     func body(content: Content) -> some View {

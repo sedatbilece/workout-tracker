@@ -13,6 +13,9 @@ final class SetSession {
     var reps: Int = 0
     var isCompleted: Bool = false
     var completedAt: Date?
+    // Passed over with a swipe: the workout moves on without it, and it
+    // never counts as completed.
+    var isSkipped: Bool = false
     // Template defaults overwritten when this set was completed, so Undo can
     // put them back. nil when completing didn't change the template.
     var templateKgBeforeCompletion: Double?

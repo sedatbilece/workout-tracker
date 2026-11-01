@@ -21,6 +21,7 @@ struct BackupFile: Codable {
         var surname: String
         var photo: Data?
         var theme: String?
+        var accent: String?
     }
 
     struct WorkoutTemplateRecord: Codable {
@@ -53,6 +54,9 @@ struct BackupFile: Codable {
         var date: Date
         var createdAt: Date
         var endedAt: Date?
+        // Optional so backups made before pausing was tracked still decode.
+        var pausedDuration: TimeInterval?
+        var resumedAt: Date?
         var isCompleted: Bool
         var healthKitWorkoutUUID: UUID?
         var exercises: [ExerciseSessionRecord]
@@ -75,6 +79,8 @@ struct BackupFile: Codable {
         var reps: Int
         var isCompleted: Bool
         var completedAt: Date?
+        // Optional so backups made before skipping existed still decode.
+        var isSkipped: Bool?
     }
 }
 
@@ -97,6 +103,7 @@ struct BackupService {
         static let surname = "profileSurname"
         static let photo = "profilePhotoData"
         static let theme = "appTheme"
+        static let accent = AppAccent.storageKey
     }
 
     static func suggestedFileName(date: Date = Date()) -> String {
@@ -136,7 +143,8 @@ struct BackupService {
             name: defaults.string(forKey: ProfileKey.name) ?? "",
             surname: defaults.string(forKey: ProfileKey.surname) ?? "",
             photo: photo?.isEmpty == false ? photo : nil,
-            theme: defaults.string(forKey: ProfileKey.theme)
+            theme: defaults.string(forKey: ProfileKey.theme),
+            accent: defaults.string(forKey: ProfileKey.accent)
         )
     }
 
@@ -173,6 +181,8 @@ struct BackupService {
             date: session.date,
             createdAt: session.createdAt,
             endedAt: session.endedAt,
+            pausedDuration: session.pausedDuration,
+            resumedAt: session.resumedAt,
             isCompleted: session.isCompleted,
             healthKitWorkoutUUID: session.healthKitWorkoutUUID,
             exercises: session.exercises.sorted { $0.orderIndex < $1.orderIndex }.map { exercise in
@@ -190,7 +200,8 @@ struct BackupService {
                             kg: set.kg,
                             reps: set.reps,
                             isCompleted: set.isCompleted,
-                            completedAt: set.completedAt
+                            completedAt: set.completedAt,
+                            isSkipped: set.isSkipped
                         )
                     }
                 )
@@ -260,6 +271,9 @@ struct BackupService {
         if defaults.object(forKey: ProfileKey.theme) == nil, let theme = profile.theme {
             defaults.set(theme, forKey: ProfileKey.theme)
         }
+        if defaults.object(forKey: ProfileKey.accent) == nil, let accent = profile.accent {
+            defaults.set(accent, forKey: ProfileKey.accent)
+        }
     }
 
     private static func makeTemplate(from record: BackupFile.WorkoutTemplateRecord) -> WorkoutTemplate {
@@ -293,6 +307,8 @@ struct BackupService {
         session.uuid = record.uuid
         session.createdAt = record.createdAt
         session.endedAt = record.endedAt
+        session.pausedDuration = record.pausedDuration ?? 0
+        session.resumedAt = record.resumedAt
         session.isCompleted = record.isCompleted
         session.healthKitWorkoutUUID = record.healthKitWorkoutUUID
         session.exercises = record.exercises.map { exerciseRecord in
@@ -313,6 +329,7 @@ struct BackupService {
                 set.uuid = setRecord.uuid
                 set.isCompleted = setRecord.isCompleted
                 set.completedAt = setRecord.completedAt
+                set.isSkipped = setRecord.isSkipped ?? false
                 return set
             }
             return exercise

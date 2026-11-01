@@ -13,13 +13,14 @@ struct WorkoutLiveActivity: Widget {
         } dynamicIsland: { context in
             let state = context.state
             let strings = WidgetStrings(languageCode: state.languageCode)
+            let accent = state.accent.color
             return DynamicIsland {
                 // Higher priority so the exercise name gets the width the timer doesn't need.
                 DynamicIslandExpandedRegion(.leading, priority: 1) {
                     HStack(spacing: 8) {
                         Image(systemName: state.exerciseIcon)
                             .font(.title2)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(accent)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(state.exerciseName.isEmpty ? context.attributes.templateName : state.exerciseName)
                                 .font(.headline)
@@ -37,7 +38,7 @@ struct WorkoutLiveActivity: Widget {
                     VStack(alignment: .trailing, spacing: 2) {
                         ElapsedTime(startedAt: context.attributes.startedAt)
                             .font(.title3.weight(.semibold))
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(accent)
                         Text(strings["live_duration"])
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -46,7 +47,7 @@ struct WorkoutLiveActivity: Widget {
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(spacing: 10) {
-                        SetProgressBar(completed: state.completedSets, total: state.totalSets)
+                        SetProgressBar(state: state)
                         NextSetRow(state: state, strings: strings)
                     }
                     .padding(.horizontal, 4)
@@ -59,19 +60,20 @@ struct WorkoutLiveActivity: Widget {
                             .monospacedDigit()
                     }
                 }
-                .foregroundStyle(.orange)
+                .foregroundStyle(accent)
             } compactTrailing: {
                 ElapsedTime(startedAt: context.attributes.startedAt)
                     .frame(maxWidth: 56)
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(accent)
             } minimal: {
                 ProgressRing(
                     fraction: state.totalSets > 0 ? Double(state.completedSets) / Double(state.totalSets) : 0,
-                    icon: state.exerciseIcon
+                    icon: state.exerciseIcon,
+                    accent: accent
                 )
             }
             .widgetURL(WorkoutActivityAttributes.url(for: context.attributes.sessionUUID))
-            .keylineTint(.orange)
+            .keylineTint(accent)
         }
     }
 }
@@ -93,9 +95,9 @@ private struct LockScreenView: View {
             HStack(spacing: 10) {
                 Image(systemName: state.exerciseIcon)
                     .font(.body.weight(.semibold))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.white)
                     .frame(width: 32, height: 32)
-                    .background(.orange, in: RoundedRectangle(cornerRadius: 8))
+                    .background(state.accent.color, in: RoundedRectangle(cornerRadius: 8))
                 VStack(alignment: .leading, spacing: 2) {
                     Text(attributes.templateName)
                         .font(.headline)
@@ -110,11 +112,11 @@ private struct LockScreenView: View {
                 Spacer(minLength: 8)
                 ElapsedTime(startedAt: attributes.startedAt)
                     .font(.title2.weight(.semibold))
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(state.accent.color)
                     .frame(maxWidth: 110, alignment: .trailing)
             }
             if state.totalSets > 0 {
-                SetProgressBar(completed: state.completedSets, total: state.totalSets)
+                SetProgressBar(state: state)
                 NextSetRow(state: state, strings: strings)
             }
         }
@@ -133,24 +135,34 @@ private struct ElapsedTime: View {
     }
 }
 
-/// One segment per set (completed ones green, the next one orange); a plain
-/// bar when there are too many sets for segments to stay readable.
+/// One segment per set (completed ones green, skipped ones gray, the next
+/// one in the theme color); a plain bar when there are too many sets for segments to
+/// stay readable.
 private struct SetProgressBar: View {
-    let completed: Int
-    let total: Int
+    let state: WorkoutActivityAttributes.ContentState
 
     var body: some View {
-        if total > 20 {
-            ProgressView(value: Double(completed), total: Double(max(total, 1)))
+        let statuses = state.setStatuses
+        if statuses.count > 20 {
+            ProgressView(value: Double(state.completedSets + state.skippedSets), total: Double(max(state.totalSets, 1)))
                 .tint(.green)
         } else {
+            let next = statuses.firstIndex(of: .pending)
             HStack(spacing: 3) {
-                ForEach(0..<total, id: \.self) { i in
+                ForEach(statuses.indices, id: \.self) { i in
                     Capsule()
-                        .fill(i < completed ? Color.green : i == completed ? Color.orange : Color.secondary.opacity(0.3))
+                        .fill(color(statuses[i], isNext: i == next))
                         .frame(height: 5)
                 }
             }
+        }
+    }
+
+    private func color(_ status: WorkoutActivityAttributes.SetStatus, isNext: Bool) -> Color {
+        switch status {
+        case .completed: .green
+        case .skipped: .gray
+        case .pending: isNext ? state.accent.color : Color.secondary.opacity(0.3)
         }
     }
 }
@@ -175,7 +187,9 @@ private struct NextSetRow: View {
                 }
             }
             Spacer()
-            Text(strings.format("live_sets_done", state.completedSets, state.totalSets))
+            Text(state.skippedSets > 0
+                ? strings.format("live_sets_done_skipped", state.completedSets, state.totalSets, state.skippedSets)
+                : strings.format("live_sets_done", state.completedSets, state.totalSets))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -185,6 +199,7 @@ private struct NextSetRow: View {
 private struct ProgressRing: View {
     let fraction: Double
     let icon: String
+    let accent: Color
 
     var body: some View {
         ZStack {
@@ -192,11 +207,11 @@ private struct ProgressRing: View {
                 .stroke(Color.secondary.opacity(0.3), lineWidth: 2.5)
             Circle()
                 .trim(from: 0, to: fraction)
-                .stroke(Color.orange, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
+                .stroke(accent, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
                 .rotationEffect(.degrees(-90))
             Image(systemName: icon)
                 .font(.system(size: 9, weight: .semibold))
-                .foregroundStyle(.orange)
+                .foregroundStyle(accent)
         }
     }
 }
@@ -214,6 +229,7 @@ extension WorkoutActivityAttributes {
 extension WorkoutActivityAttributes.ContentState {
     fileprivate static let inProgress = WorkoutActivityAttributes.ContentState(
         languageCode: "tr",
+        accent: .orange,
         exerciseName: "Bench Press",
         exerciseIcon: "dumbbell",
         setNumber: 3,
@@ -221,12 +237,16 @@ extension WorkoutActivityAttributes.ContentState {
         nextKg: 82.5,
         nextReps: 8,
         completedSets: 5,
+        skippedSets: 1,
         totalSets: 12,
-        allSetsDone: false
+        allSetsDone: false,
+        setStatuses: [.completed, .completed, .completed, .skipped, .completed, .completed]
+            + Array(repeating: .pending, count: 6)
     )
 
     fileprivate static let finished = WorkoutActivityAttributes.ContentState(
         languageCode: "en",
+        accent: .blue,
         exerciseName: "Triceps Pushdown",
         exerciseIcon: "figure.strengthtraining.traditional",
         setNumber: 3,
@@ -234,8 +254,10 @@ extension WorkoutActivityAttributes.ContentState {
         nextKg: 25,
         nextReps: 12,
         completedSets: 12,
+        skippedSets: 0,
         totalSets: 12,
-        allSetsDone: true
+        allSetsDone: true,
+        setStatuses: Array(repeating: .completed, count: 12)
     )
 }
 

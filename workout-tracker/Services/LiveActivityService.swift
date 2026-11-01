@@ -15,9 +15,10 @@ struct WorkoutActivitySnapshot: Hashable {
 }
 
 extension WorkoutSession {
-    /// The next set is the first unfinished one in exercise, then set order;
-    /// once every set is done the last exercise stays on screen.
-    func liveActivitySnapshot(languageCode: String) -> WorkoutActivitySnapshot? {
+    /// The next set is the first one neither completed nor skipped, in
+    /// exercise, then set order; once every set is done the last exercise
+    /// stays on screen.
+    func liveActivitySnapshot(languageCode: String, accent: AppAccent) -> WorkoutActivitySnapshot? {
         guard let uuid else { return nil }
         let orderedExercises = exercises
             .sorted { $0.orderIndex < $1.orderIndex }
@@ -26,29 +27,35 @@ extension WorkoutSession {
 
         let current = orderedExercises.lazy
             .compactMap { exercise, sets in
-                sets.firstIndex { !$0.isCompleted }.map { (exercise, sets, $0) }
+                sets.firstIndex { !$0.isCompleted && !$0.isSkipped }.map { (exercise, sets, $0) }
             }
             .first
             ?? orderedExercises.last.map { ($0.0, $0.1, $0.1.count - 1) }
 
-        let totalSets = orderedExercises.reduce(0) { $0 + $1.1.count }
+        let statuses: [WorkoutActivityAttributes.SetStatus] = orderedExercises
+            .flatMap(\.1)
+            .map { $0.isCompleted ? .completed : $0.isSkipped ? .skipped : .pending }
+        let totalSets = statuses.count
         let nextSet = current.map { $0.1[$0.2] }
         let state = WorkoutActivityAttributes.ContentState(
             languageCode: languageCode,
+            accent: accent,
             exerciseName: current?.0.nameSnapshot ?? "",
             exerciseIcon: current?.0.iconNameSnapshot ?? "dumbbell",
             setNumber: current.map { $0.2 + 1 } ?? 0,
             exerciseSetCount: current?.1.count ?? 0,
             nextKg: nextSet?.kg ?? 0,
             nextReps: nextSet?.reps ?? 0,
-            completedSets: completedSetCount,
+            completedSets: statuses.filter { $0 == .completed }.count,
+            skippedSets: statuses.filter { $0 == .skipped }.count,
             totalSets: totalSets,
-            allSetsDone: totalSets > 0 && completedSetCount == totalSets
+            allSetsDone: totalSets > 0 && !statuses.contains(.pending),
+            setStatuses: statuses
         )
         return WorkoutActivitySnapshot(
             sessionUUID: uuid,
             templateName: templateNameSnapshot,
-            startedAt: createdAt,
+            startedAt: timerStart,
             state: state
         )
     }
@@ -66,8 +73,11 @@ enum LiveActivityService {
     static func sync(_ snapshot: WorkoutActivitySnapshot?) async {
         var current: Activity<WorkoutActivityAttributes>?
         for activity in Activity<WorkoutActivityAttributes>.activities {
+            // A resumed workout gets a new card, since the start time the
+            // timer counts from lives in the (immutable) attributes.
             if current == nil,
                activity.attributes.sessionUUID == snapshot?.sessionUUID,
+               activity.attributes.startedAt == snapshot?.startedAt,
                activity.activityState == .active || activity.activityState == .stale {
                 current = activity
             } else {

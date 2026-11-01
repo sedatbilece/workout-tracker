@@ -47,7 +47,7 @@ struct IconPickerView: View {
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(selectedIcon == icon ? Color.accentColor : Color(.secondarySystemBackground))
+                                    .fill(selectedIcon == icon ? AnyShapeStyle(.tint) : AnyShapeStyle(Color(.secondarySystemBackground)))
                                 Image(systemName: icon)
                                     .font(.title2)
                                     .foregroundStyle(selectedIcon == icon ? .white : .primary)

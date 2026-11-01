@@ -9,6 +9,7 @@ struct TemplateDetailView: View {
 
     @State private var showingEditSheet = false
     @State private var showingAddExerciseSheet = false
+    @State private var editMode: EditMode = .inactive
 
     var sortedExercises: [ExerciseTemplate] {
         template.exercises.sorted { $0.orderIndex < $1.orderIndex }
@@ -58,19 +59,32 @@ struct TemplateDetailView: View {
                         .frame(maxWidth: .infinity)
                         .font(.headline)
                 }
-                .tint(.accentColor)
             }
         }
         .navigationTitle(template.name)
         .navigationBarTitleDisplayMode(.large)
+        .environment(\.editMode, $editMode)
         .toolbar {
+            // Two different edits, so each gets its own icon instead of two "Edit" titles.
             ToolbarItem(placement: .primaryAction) {
-                Button(lm["common_edit"]) {
+                Button {
                     showingEditSheet = true
+                } label: {
+                    Label(lm["template_edit_details"], systemImage: "square.and.pencil")
                 }
             }
             ToolbarItem(placement: .navigationBarLeading) {
-                EditButton()
+                Button {
+                    withAnimation {
+                        editMode = editMode.isEditing ? .inactive : .active
+                    }
+                } label: {
+                    if editMode.isEditing {
+                        Label(lm["common_done"], systemImage: "checkmark")
+                    } else {
+                        Label(lm["template_reorder_exercises"], systemImage: "arrow.up.arrow.down")
+                    }
+                }
             }
         }
         .sheet(isPresented: $showingEditSheet) {

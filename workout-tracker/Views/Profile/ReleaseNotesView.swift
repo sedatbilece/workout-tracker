@@ -59,7 +59,7 @@ struct ReleaseNotesView: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(Color.accentColor, in: Capsule())
+                    .background(.tint, in: Capsule())
             }
             Spacer(minLength: 0)
             Text(release.formattedDate(for: languageCode))

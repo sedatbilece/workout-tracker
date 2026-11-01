@@ -227,12 +227,12 @@ private struct RangePill: View {
         .buttonStyle(.plain)
     }
 
-    private var background: Color {
-        isSelected ? Color.accentColor.opacity(0.15) : Color(.secondarySystemBackground)
+    private var background: AnyShapeStyle {
+        isSelected ? AnyShapeStyle(.tint.opacity(0.15)) : AnyShapeStyle(Color(.secondarySystemBackground))
     }
 
-    private var foreground: Color {
-        isSelected ? Color.accentColor : Color.secondary
+    private var foreground: AnyShapeStyle {
+        isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary)
     }
 }
 
