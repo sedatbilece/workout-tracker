@@ -5,6 +5,8 @@ struct ProfileEditView: View {
     @Binding var name: String
     @Binding var surname: String
     @Binding var photoData: Data
+    @Binding var weightKg: Double
+    @Binding var heightCm: Double
     @Environment(LocalizationManager.self) private var lm
 
     @State private var pickerItem: PhotosPickerItem?
@@ -21,7 +23,19 @@ struct ProfileEditView: View {
                     TextField(lm["profile_first_name"], text: $name)
                     TextField(lm["profile_last_name"], text: $surname)
                 }
+
+                Section {
+                    MeasurementField(title: lm["calc_weight"], unit: lm["set_weight_unit"], value: $weightKg)
+                    MeasurementField(title: lm["calc_height"], unit: lm["calc_unit_cm"], value: $heightCm)
+                } header: {
+                    Text(lm["profile_section_body"])
+                } footer: {
+                    Text(lm["profile_body_footer"])
+                }
             }
+            // No keyboard Done button here: its floating capsule covers the
+            // weight field at the bottom of the sheet. Save closes the sheet anyway.
+            .scrollDismissesKeyboard(.interactively)
             .navigationTitle(lm["profile_edit_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
