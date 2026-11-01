@@ -2,6 +2,41 @@
   "releases" : [
     {
       "version" : "1.0",
+      "build" : 9,
+      "date" : "2026-11-01",
+      "notes" : {
+        "tr" : [
+          "Hesaplamalar sekmesi: Vücut Kitle İndeksi, günlük protein ihtiyacı ve günlük su miktarı hesaplayıcıları.",
+          "BMİ: değerin, kategorin, renkli ölçek ve boyuna göre sağlıklı kilo aralığı.",
+          "Protein: hedefine göre günlük gram aralığı ve öğün başına miktar.",
+          "Su: kilona ve egzersiz süresine göre litre ve bardak sayısı.",
+          "Profilde kilo ve boy: bir kez gir, hesaplayıcılar otomatik kullansın; yedeğe de dahil."
+        ],
+        "en" : [
+          "Calculations tab: Body Mass Index, daily protein and daily water calculators.",
+          "BMI: your value, category, a color scale and the healthy weight range for your height.",
+          "Protein: a daily gram range for your goal and the amount per meal.",
+          "Water: liters and glasses based on your weight and exercise time.",
+          "Weight and height in your profile: enter them once and the calculators use them; they're included in backups too."
+        ],
+        "es" : [
+          "Pestaña Cálculos: calculadoras de índice de masa corporal, proteína diaria y agua diaria.",
+          "IMC: tu valor, categoría, una escala de colores y el peso saludable para tu altura.",
+          "Proteína: un rango diario de gramos según tu objetivo y la cantidad por comida.",
+          "Agua: litros y vasos según tu peso y tiempo de ejercicio.",
+          "Peso y altura en tu perfil: introdúcelos una vez y las calculadoras los usan; también se incluyen en la copia de seguridad."
+        ],
+        "ru" : [
+          "Вкладка «Вычисления»: калькуляторы индекса массы тела, белка в день и воды в день.",
+          "ИМТ: значение, категория, цветная шкала и здоровый вес для вашего роста.",
+          "Белок: дневной диапазон в граммах для вашей цели и количество на приём пищи.",
+          "Вода: литры и стаканы с учётом веса и времени тренировки.",
+          "Вес и рост в профиле: введите один раз — калькуляторы используют их автоматически; они также входят в резервную копию."
+        ]
+      }
+    },
+    {
+      "version" : "1.0",
       "build" : 8,
       "date" : "2026-11-01",
       "notes" : {
