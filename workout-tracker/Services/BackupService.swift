@@ -22,6 +22,8 @@ struct BackupFile: Codable {
         var photo: Data?
         var theme: String?
         var accent: String?
+        var weightKg: Double?
+        var heightCm: Double?
     }
 
     struct WorkoutTemplateRecord: Codable {
@@ -104,6 +106,8 @@ struct BackupService {
         static let photo = "profilePhotoData"
         static let theme = "appTheme"
         static let accent = AppAccent.storageKey
+        static let weight = CalculationInputs.weightKey
+        static let height = CalculationInputs.heightKey
     }
 
     static func suggestedFileName(date: Date = Date()) -> String {
@@ -144,8 +148,14 @@ struct BackupService {
             surname: defaults.string(forKey: ProfileKey.surname) ?? "",
             photo: photo?.isEmpty == false ? photo : nil,
             theme: defaults.string(forKey: ProfileKey.theme),
-            accent: defaults.string(forKey: ProfileKey.accent)
+            accent: defaults.string(forKey: ProfileKey.accent),
+            weightKg: positive(defaults.double(forKey: ProfileKey.weight)),
+            heightCm: positive(defaults.double(forKey: ProfileKey.height))
         )
+    }
+
+    private static func positive(_ value: Double) -> Double? {
+        value > 0 ? value : nil
     }
 
     private static func record(for template: WorkoutTemplate) -> BackupFile.WorkoutTemplateRecord {
@@ -273,6 +283,12 @@ struct BackupService {
         }
         if defaults.object(forKey: ProfileKey.accent) == nil, let accent = profile.accent {
             defaults.set(accent, forKey: ProfileKey.accent)
+        }
+        if defaults.double(forKey: ProfileKey.weight) <= 0, let weight = profile.weightKg {
+            defaults.set(weight, forKey: ProfileKey.weight)
+        }
+        if defaults.double(forKey: ProfileKey.height) <= 0, let height = profile.heightCm {
+            defaults.set(height, forKey: ProfileKey.height)
         }
     }
 

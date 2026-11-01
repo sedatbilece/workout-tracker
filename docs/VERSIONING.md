@@ -62,3 +62,4 @@ Projede Xcode Cloud kurulu (`workout-tracker.xcodeproj/xcshareddata/xcodecloud/`
 | Ekim 2026 | 1.0 | 6 | `build-6` etiketi atıldı ama yükleme `NSHealthShareUsageDescription` eksik olduğu için reddedildi; numara yandı. |
 | Ekim 2026 | 1.0 | 7 | TestFlight'a giden ilk `dev` → `main` build'i. |
 | Kasım 2026 | 1.0 | 8 | Kaydırarak tamamla/pas geç, tema rengi, molasız süre. |
+| Kasım 2026 | 1.0 | 9 | Hesaplamalar sekmesi (BMİ, protein, su), profilde kilo ve boy. |

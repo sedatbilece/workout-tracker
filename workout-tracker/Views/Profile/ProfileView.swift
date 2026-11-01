@@ -4,6 +4,8 @@ struct ProfileView: View {
     @AppStorage("profileName")      private var name: String = ""
     @AppStorage("profileSurname")   private var surname: String = ""
     @AppStorage("profilePhotoData") private var photoData: Data = Data()
+    @AppStorage(CalculationInputs.weightKey) private var weightKg = 0.0
+    @AppStorage(CalculationInputs.heightKey) private var heightCm = 0.0
     @Environment(LocalizationManager.self) private var lm
 
     @State private var showEdit = false
@@ -19,7 +21,8 @@ struct ProfileView: View {
             .navigationTitle(lm["tab_profile"])
         }
         .sheet(isPresented: $showEdit) {
-            ProfileEditView(name: $name, surname: $surname, photoData: $photoData)
+            ProfileEditView(name: $name, surname: $surname, photoData: $photoData,
+                            weightKg: $weightKg, heightCm: $heightCm)
         }
         .sheet(isPresented: $showReleaseNotes) {
             ReleaseNotesView()

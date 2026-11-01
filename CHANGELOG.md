@@ -8,6 +8,14 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
+## [1.0] - 2026-11-01 (Build 9)
+
+### Eklendi
+- **Hesaplamalar sekmesi:** "Yakında" ekranı yerine üç hesaplayıcı var: Vücut Kitle İndeksi (kategori, renkli ölçek ve boya göre sağlıklı kilo aralığı), Günlük Protein (kilo ve hedefe göre g/gün aralığı, öğün başına miktar) ve Günlük Su (kilo ve egzersiz süresine göre litre ve bardak sayısı). Kilo ve boy bir kez girilince üçünde de kullanılıyor; sonuçlar listede özet olarak görünüyor.
+- **Profilde kilo ve boy:** Profil düzenleme ekranına "Vücut Ölçüleri" bölümü eklendi. Kilo ve boy cihazda saklanıyor, hesaplayıcılar bu değerlerle açılıyor (hesaplayıcıda değiştirilirse profil de güncelleniyor) ve JSON yedeğe dahil ediliyor.
+
+---
+
 ## [1.0] - 2026-11-01 (Build 8)
 
 ### Eklendi
