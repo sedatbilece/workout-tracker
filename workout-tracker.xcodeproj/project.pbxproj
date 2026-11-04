@@ -7,10 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF03600A2FAF252A00DE72C1 /* WorkoutWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AF0360012FAF252A00DE72C1 /* WorkoutWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AF0349012FAF252A00DE72C1 /* WorkoutWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AF03600C2FAF252A00DE72C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF0348B12FAF252A00DE72C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF0360062FAF252A00DE72C1;
+			remoteInfo = WorkoutWatch;
+		};
 		AF0349022FAF252A00DE72C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AF0348B12FAF252A00DE72C1 /* Project object */;
@@ -21,6 +29,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		AF03600B2FAF252A00DE72C1 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AF03600A2FAF252A00DE72C1 /* WorkoutWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF0349042FAF252A00DE72C1 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,11 +54,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AF0360012FAF252A00DE72C1 /* WorkoutWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF0348B92FAF252A00DE72C1 /* workout-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "workout-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkoutWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		AF0360022FAF252A00DE72C1 /* WorkoutWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WorkoutWatch;
+			sourceTree = "<group>";
+		};
 		AF0348BB2FAF252A00DE72C1 /* workout-tracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "workout-tracker";
@@ -58,6 +83,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AF0360032FAF252A00DE72C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF0348B62FAF252A00DE72C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,6 +113,7 @@
 				AF0348BB2FAF252A00DE72C1 /* workout-tracker */,
 				AF0349052FAF252A00DE72C1 /* Shared */,
 				AF0349062FAF252A00DE72C1 /* WorkoutWidgets */,
+				AF0360022FAF252A00DE72C1 /* WorkoutWatch */,
 				AF0348BA2FAF252A00DE72C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +123,7 @@
 			children = (
 				AF0348B92FAF252A00DE72C1 /* workout-tracker.app */,
 				AF0349002FAF252A00DE72C1 /* WorkoutWidgets.appex */,
+				AF0360012FAF252A00DE72C1 /* WorkoutWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +131,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AF0360062FAF252A00DE72C1 /* WorkoutWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF0360072FAF252A00DE72C1 /* Build configuration list for PBXNativeTarget "WorkoutWatch" */;
+			buildPhases = (
+				AF0360042FAF252A00DE72C1 /* Sources */,
+				AF0360032FAF252A00DE72C1 /* Frameworks */,
+				AF0360052FAF252A00DE72C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AF0349052FAF252A00DE72C1 /* Shared */,
+				AF0360022FAF252A00DE72C1 /* WorkoutWatch */,
+			);
+			name = WorkoutWatch;
+			packageProductDependencies = (
+			);
+			productName = WorkoutWatch;
+			productReference = AF0360012FAF252A00DE72C1 /* WorkoutWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 		AF0348B82FAF252A00DE72C1 /* workout-tracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF0348C62FAF252B00DE72C1 /* Build configuration list for PBXNativeTarget "workout-tracker" */;
@@ -105,11 +162,13 @@
 				AF0348B62FAF252A00DE72C1 /* Frameworks */,
 				AF0348B72FAF252A00DE72C1 /* Resources */,
 				AF0349042FAF252A00DE72C1 /* Embed Foundation Extensions */,
+				AF03600B2FAF252A00DE72C1 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				AF0349032FAF252A00DE72C1 /* PBXTargetDependency */,
+				AF03600D2FAF252A00DE72C1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AF0348BB2FAF252A00DE72C1 /* workout-tracker */,
@@ -161,6 +220,9 @@
 					AF0349102FAF252A00DE72C1 = {
 						CreatedOnToolsVersion = 26.4.1;
 					};
+					AF0360062FAF252A00DE72C1 = {
+						CreatedOnToolsVersion = 27.2;
+					};
 				};
 			};
 			buildConfigurationList = AF0348B42FAF252A00DE72C1 /* Build configuration list for PBXProject "workout-tracker" */;
@@ -182,11 +244,19 @@
 			targets = (
 				AF0348B82FAF252A00DE72C1 /* workout-tracker */,
 				AF0349102FAF252A00DE72C1 /* WorkoutWidgets */,
+				AF0360062FAF252A00DE72C1 /* WorkoutWatch */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AF0360052FAF252A00DE72C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF0348B72FAF252A00DE72C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -204,6 +274,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AF0360042FAF252A00DE72C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF0348B52FAF252A00DE72C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -221,6 +298,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AF03600D2FAF252A00DE72C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF0360062FAF252A00DE72C1 /* WorkoutWatch */;
+			targetProxy = AF03600C2FAF252A00DE72C1 /* PBXContainerItemProxy */;
+		};
 		AF0349032FAF252A00DE72C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AF0349102FAF252A00DE72C1 /* WorkoutWidgets */;
@@ -229,6 +311,76 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		AF0360082FAF252A00DE72C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WorkoutWatch/WorkoutWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = G26SJ65FZY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Support/WorkoutWatch-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "workout-tracker";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your heart rate and active energy are shown during the workout and saved with it in the app.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "A workout session is used for live readings only; your iPhone saves the finished workout to Apple Health.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "sedatbilece.workout-tracker";
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sedatbilece.workout-tracker.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		AF0360092FAF252A00DE72C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WorkoutWatch/WorkoutWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = G26SJ65FZY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Support/WorkoutWatch-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "workout-tracker";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your heart rate and active energy are shown during the workout and saved with it in the app.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "A workout session is used for live readings only; your iPhone saves the finished workout to Apple Health.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "sedatbilece.workout-tracker";
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sedatbilece.workout-tracker.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
 		AF0348C42FAF252B00DE72C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -479,6 +631,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AF0360072FAF252A00DE72C1 /* Build configuration list for PBXNativeTarget "WorkoutWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF0360082FAF252A00DE72C1 /* Debug */,
+				AF0360092FAF252A00DE72C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AF0348B42FAF252A00DE72C1 /* Build configuration list for PBXProject "workout-tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

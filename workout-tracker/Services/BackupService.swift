@@ -61,6 +61,10 @@ struct BackupFile: Codable {
         var resumedAt: Date?
         var isCompleted: Bool
         var healthKitWorkoutUUID: UUID?
+        // Measured by the Apple Watch; absent in older backups.
+        var averageHeartRate: Double?
+        var maxHeartRate: Double?
+        var activeEnergyKcal: Double?
         var exercises: [ExerciseSessionRecord]
     }
 
@@ -195,6 +199,9 @@ struct BackupService {
             resumedAt: session.resumedAt,
             isCompleted: session.isCompleted,
             healthKitWorkoutUUID: session.healthKitWorkoutUUID,
+            averageHeartRate: session.averageHeartRate,
+            maxHeartRate: session.maxHeartRate,
+            activeEnergyKcal: session.activeEnergyKcal,
             exercises: session.exercises.sorted { $0.orderIndex < $1.orderIndex }.map { exercise in
                 BackupFile.ExerciseSessionRecord(
                     uuid: exercise.uuid ?? UUID(),
@@ -327,6 +334,9 @@ struct BackupService {
         session.resumedAt = record.resumedAt
         session.isCompleted = record.isCompleted
         session.healthKitWorkoutUUID = record.healthKitWorkoutUUID
+        session.averageHeartRate = record.averageHeartRate
+        session.maxHeartRate = record.maxHeartRate
+        session.activeEnergyKcal = record.activeEnergyKcal
         session.exercises = record.exercises.map { exerciseRecord in
             let exercise = ExerciseSession(
                 exerciseTemplateUUID: exerciseRecord.exerciseTemplateUUID,

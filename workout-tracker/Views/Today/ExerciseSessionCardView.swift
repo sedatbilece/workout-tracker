@@ -70,15 +70,6 @@ struct ExerciseSessionCardView: View {
     }
 
     private func deleteSet(_ set: SetSession) {
-        exercise.sets.removeAll { $0 === set }
-        modelContext.delete(set)
-        reindexSets()
-    }
-
-    private func reindexSets() {
-        let sorted = exercise.sets.sorted { $0.orderIndex < $1.orderIndex }
-        for (i, s) in sorted.enumerated() {
-            s.orderIndex = i
-        }
+        SessionActions.delete(set, context: modelContext)
     }
 }

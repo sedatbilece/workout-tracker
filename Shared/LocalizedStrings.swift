@@ -1,12 +1,15 @@
 import Foundation
 
-// The extension can't read the app's LocalizationManager, so the Live
-// Activity carries the resolved language code and strings are looked up in
-// this extension's own Localizable.xcstrings, falling back to Turkish.
-struct WidgetStrings {
+// The widget extension and the watch app can't read the app's
+// LocalizationManager, so the Live Activity / watch snapshot carries the
+// resolved language code and strings are looked up in the target's own
+// Localizable.xcstrings, falling back to Turkish.
+struct LocalizedStrings {
+    let languageCode: String
     private let bundle: Bundle
 
     init(languageCode: String) {
+        self.languageCode = languageCode
         bundle = Self.loadBundle(for: languageCode)
     }
 

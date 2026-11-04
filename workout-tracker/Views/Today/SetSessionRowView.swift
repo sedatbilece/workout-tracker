@@ -115,26 +115,15 @@ struct SetSessionRowView: View {
     }
 
     private func completeSet() {
-        guard !set.isCompleted else { return }
-        set.isSkipped = false
-        set.isCompleted = true
-        set.completedAt = Date()
-        TemplateDefaultUpdater.syncIfNeeded(setSession: set, context: modelContext)
+        SessionActions.complete(set, context: modelContext)
     }
 
-    /// Passes over the set; the template defaults stay as they were.
     private func skipSet() {
-        set.isSkipped = true
+        SessionActions.skip(set)
     }
 
-    /// Reopens a set completed or skipped by mistake so it can be done again.
     private func undo() {
-        if set.isCompleted {
-            TemplateDefaultUpdater.revertIfNeeded(setSession: set, context: modelContext)
-            set.isCompleted = false
-            set.completedAt = nil
-        }
-        set.isSkipped = false
+        SessionActions.undo(set, context: modelContext)
     }
 }
 

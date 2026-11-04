@@ -1,0 +1,64 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSHealthShareUsageDescription": {
+      "comment": "Watch app reads live heart rate and active energy during a workout.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your heart rate and active energy are shown during the workout and saved with it in the app."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenman sırasında nabzın ve aktif enerjin gösterilir ve uygulamada antrenmanla birlikte kaydedilir."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu frecuencia cardíaca y energía activa se muestran durante el entrenamiento y se guardan con él en la app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пульс и активная энергия показываются во время тренировки и сохраняются вместе с ней в приложении."
+          }
+        }
+      }
+    },
+    "NSHealthUpdateUsageDescription": {
+      "comment": "Required to run a workout session for live readings; the watch saves nothing to Health.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A workout session is used for live readings only; your iPhone saves the finished workout to Apple Health."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenman oturumu yalnızca canlı ölçüm için kullanılır; bitirdiğin antrenmanı Apple Sağlık'a iPhone kaydeder."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La sesión de entrenamiento solo se usa para mediciones en vivo; tu iPhone guarda el entrenamiento terminado en Apple Salud."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сеанс тренировки используется только для измерений в реальном времени; завершённую тренировку в Apple Здоровье сохраняет iPhone."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

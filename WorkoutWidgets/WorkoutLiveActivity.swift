@@ -8,11 +8,11 @@ import ActivityKit
 struct WorkoutLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: WorkoutActivityAttributes.self) { context in
-            LockScreenView(attributes: context.attributes, state: context.state)
+            ActivityContentView(attributes: context.attributes, state: context.state)
                 .widgetURL(WorkoutActivityAttributes.url(for: context.attributes.sessionUUID))
         } dynamicIsland: { context in
             let state = context.state
-            let strings = WidgetStrings(languageCode: state.languageCode)
+            let strings = LocalizedStrings(languageCode: state.languageCode)
             let accent = state.accent.color
             return DynamicIsland {
                 // Higher priority so the exercise name gets the width the timer doesn't need.
@@ -47,7 +47,7 @@ struct WorkoutLiveActivity: Widget {
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(spacing: 10) {
-                        SetProgressBar(state: state)
+                        SetProgressBar(statuses: state.setStatuses, accent: state.accent.color)
                         NextSetRow(state: state, strings: strings)
                     }
                     .padding(.horizontal, 4)
@@ -75,14 +75,65 @@ struct WorkoutLiveActivity: Widget {
             .widgetURL(WorkoutActivityAttributes.url(for: context.attributes.sessionUUID))
             .keylineTint(accent)
         }
+        // Apple Watch Smart Stack; tapping it opens the watch app.
+        .supplementalActivityFamilies([.small])
     }
 }
 
 /// "Bench Press · Set 3/4", or "All sets done" once nothing is left.
-private func subtitle(_ state: WorkoutActivityAttributes.ContentState, strings: WidgetStrings) -> String {
+private func subtitle(_ state: WorkoutActivityAttributes.ContentState, strings: LocalizedStrings) -> String {
     if state.allSetsDone { return strings["live_all_sets_done"] }
     guard state.exerciseSetCount > 0 else { return "" }
     return strings.format("live_set_progress", state.setNumber, state.exerciseSetCount)
+}
+
+/// The Lock Screen layout, or the compact one for the Apple Watch Smart Stack.
+private struct ActivityContentView: View {
+    @Environment(\.activityFamily) private var family
+    let attributes: WorkoutActivityAttributes
+    let state: WorkoutActivityAttributes.ContentState
+
+    var body: some View {
+        switch family {
+        case .small:
+            SmartStackView(attributes: attributes, state: state)
+        default:
+            LockScreenView(attributes: attributes, state: state)
+        }
+    }
+}
+
+private struct SmartStackView: View {
+    let attributes: WorkoutActivityAttributes
+    let state: WorkoutActivityAttributes.ContentState
+
+    var body: some View {
+        let strings = LocalizedStrings(languageCode: state.languageCode)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Image(systemName: state.allSetsDone ? "checkmark.circle.fill" : state.exerciseIcon)
+                    .foregroundStyle(state.allSetsDone ? .green : state.accent.color)
+                Text(state.exerciseName.isEmpty ? attributes.templateName : state.exerciseName)
+                    .font(.headline)
+                    .lineLimit(1)
+                Spacer(minLength: 4)
+            }
+            HStack {
+                Text(subtitle(state, strings: strings))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                Spacer(minLength: 4)
+                ElapsedTime(startedAt: attributes.startedAt)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(state.accent.color)
+            }
+            if state.totalSets > 0 {
+                SetProgressBar(statuses: state.setStatuses, accent: state.accent.color, height: 4)
+            }
+        }
+        .padding(10)
+    }
 }
 
 private struct LockScreenView: View {
@@ -90,7 +141,7 @@ private struct LockScreenView: View {
     let state: WorkoutActivityAttributes.ContentState
 
     var body: some View {
-        let strings = WidgetStrings(languageCode: state.languageCode)
+        let strings = LocalizedStrings(languageCode: state.languageCode)
         VStack(spacing: 12) {
             HStack(spacing: 10) {
                 Image(systemName: state.exerciseIcon)
@@ -116,7 +167,7 @@ private struct LockScreenView: View {
                     .frame(maxWidth: 110, alignment: .trailing)
             }
             if state.totalSets > 0 {
-                SetProgressBar(state: state)
+                SetProgressBar(statuses: state.setStatuses, accent: state.accent.color)
                 NextSetRow(state: state, strings: strings)
             }
         }
@@ -135,41 +186,9 @@ private struct ElapsedTime: View {
     }
 }
 
-/// One segment per set (completed ones green, skipped ones gray, the next
-/// one in the theme color); a plain bar when there are too many sets for segments to
-/// stay readable.
-private struct SetProgressBar: View {
-    let state: WorkoutActivityAttributes.ContentState
-
-    var body: some View {
-        let statuses = state.setStatuses
-        if statuses.count > 20 {
-            ProgressView(value: Double(state.completedSets + state.skippedSets), total: Double(max(state.totalSets, 1)))
-                .tint(.green)
-        } else {
-            let next = statuses.firstIndex(of: .pending)
-            HStack(spacing: 3) {
-                ForEach(statuses.indices, id: \.self) { i in
-                    Capsule()
-                        .fill(color(statuses[i], isNext: i == next))
-                        .frame(height: 5)
-                }
-            }
-        }
-    }
-
-    private func color(_ status: WorkoutActivityAttributes.SetStatus, isNext: Bool) -> Color {
-        switch status {
-        case .completed: .green
-        case .skipped: .gray
-        case .pending: isNext ? state.accent.color : Color.secondary.opacity(0.3)
-        }
-    }
-}
-
 private struct NextSetRow: View {
     let state: WorkoutActivityAttributes.ContentState
-    let strings: WidgetStrings
+    let strings: LocalizedStrings
 
     var body: some View {
         HStack(alignment: .lastTextBaseline) {

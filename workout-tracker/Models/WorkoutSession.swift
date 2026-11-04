@@ -20,6 +20,11 @@ final class WorkoutSession {
     // Set when created by a backup restore; picks the survivor if the same
     // backup was restored on two devices (see DuplicateCleaner).
     var importID: UUID?
+    // Measured by the Apple Watch while its app is open (WatchSyncService);
+    // kept in the app only, the watch already records them in Apple Health.
+    var averageHeartRate: Double?
+    var maxHeartRate: Double?
+    var activeEnergyKcal: Double?
 
     @Relationship(deleteRule: .cascade, originalName: "exercises", inverse: \ExerciseSession.workout)
     var exerciseItems: [ExerciseSession]? = []

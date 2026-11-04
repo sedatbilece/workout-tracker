@@ -48,6 +48,7 @@ struct RootView: View {
         .preferredColorScheme(colorScheme)
         .tint(accent.color)
         .modifier(LiveActivitySync())
+        .modifier(WatchSync())
         .onOpenURL { url in
             guard let uuid = WorkoutActivityAttributes.sessionUUID(from: url) else { return }
             tabRouter.selectedTab = 0

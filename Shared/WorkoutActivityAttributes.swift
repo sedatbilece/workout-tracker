@@ -1,3 +1,4 @@
+#if !os(watchOS)
 import Foundation
 import ActivityKit
 
@@ -26,9 +27,7 @@ nonisolated struct WorkoutActivityAttributes: ActivityAttributes {
         var setStatuses: [SetStatus]
     }
 
-    nonisolated enum SetStatus: Int, Codable, Hashable {
-        case pending, completed, skipped
-    }
+    typealias SetStatus = WorkoutSetStatus
 
     var sessionUUID: UUID
     var templateName: String
@@ -48,3 +47,4 @@ extension WorkoutActivityAttributes {
         return UUID(uuidString: url.lastPathComponent)
     }
 }
+#endif

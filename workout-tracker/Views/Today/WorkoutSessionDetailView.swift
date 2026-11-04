@@ -107,6 +107,12 @@ struct WorkoutSessionDetailView: View {
                 Text(setProgressText)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                if let metricsText {
+                    Text(metricsText)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             Spacer(minLength: 0)
@@ -168,14 +174,31 @@ struct WorkoutSessionDetailView: View {
         return skipped > 0 ? text + " · " + lm.format("session_sets_skipped", skipped) : text
     }
 
-    private func finishWorkout() {
-        // A workout left open on an earlier day ends at its last completed set.
-        session.endedAt = session.isRunning ? Date() : session.effectiveEnd
-        session.isCompleted = true
-        guard healthKitEnabled else { return }
-        Task {
-            await HealthKitService.shared.save(session)
+    /// Measured by the Apple Watch: live values while the workout runs,
+    /// the stored summary once it is finished.
+    private var metricsText: String? {
+        var parts: [String] = []
+        if session.endedAt == nil {
+            guard let live = WatchSyncService.shared.liveMetrics, live.sessionUUID == session.uuid else { return nil }
+            if let heartRate = live.heartRate {
+                parts.append("♥ " + lm.format("session_heart_rate", Int(heartRate.rounded())))
+            }
+            if let kcal = live.activeEnergyKcal, kcal >= 1 {
+                parts.append(lm.format("session_active_energy", Int(kcal.rounded())))
+            }
+        } else {
+            if let average = session.averageHeartRate, let max = session.maxHeartRate {
+                parts.append("♥ " + lm.format("session_heart_rate_avg_max", Int(average.rounded()), Int(max.rounded())))
+            }
+            if let kcal = session.activeEnergyKcal, kcal >= 1 {
+                parts.append(lm.format("session_active_energy", Int(kcal.rounded())))
+            }
         }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
+
+    private func finishWorkout() {
+        SessionActions.finish(session)
     }
 
     private func resumeWorkout() {

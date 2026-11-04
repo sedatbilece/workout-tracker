@@ -8,6 +8,16 @@ Build numarası: `CFBundleVersion` (ör. 2) — Her dağıtımda artar, kullanı
 
 ---
 
+## [Yayınlanmadı]
+
+### Eklendi
+- **Apple Watch uygulaması:** iPhone'da açık olan antrenman saatte de görünüyor. Üstte süre, nabız ve set başına renkli zaman çizelgesi; altında büyük, kolay dokunulan hareket listesi ve en altta "Antrenmanı Bitir" (onaylı) var. Harekete dokununca sıradaki açık set açılıyor: kg ve tekrar Digital Crown ile ayarlanıyor, Tamamla / Pas geç / Sil (onaylı) ile set işleniyor ve otomatik olarak sıradaki sete geçiliyor. Setleri bitmiş harekette set listesi açılıyor, istenen set "Geri al" ile yeniden açılabiliyor. Saatte yapılan her şey anında iPhone'a, kilit ekranına ve Dinamik Ada'ya yansıyor.
+- **Saate başlangıç bildirimi:** iPhone'da antrenman başlayınca saate "Antrenman başladı — saatten devam etmek ister misin?" bildirimi geliyor; "Devam et" hareket listesini açıyor.
+- **Nabız ve kalori:** Saat uygulaması açıkken nabız ve aktif kalori ölçülüyor ve iPhone'daki antrenman ekranında canlı gösteriliyor; antrenman bitince ortalama/maksimum nabız ve kalori antrenmanla birlikte saklanıyor (JSON yedeğe dahil). Sağlık'a kayıt yine iPhone'dan yapılıyor, saat ayrıca antrenman kaydetmiyor.
+- **Smart Stack:** Kilit ekranındaki antrenman kartı saatin Smart Stack'inde de kompakt olarak görünüyor.
+
+---
+
 ## [1.0] - 2026-11-01 (Build 9)
 
 ### Eklendi
