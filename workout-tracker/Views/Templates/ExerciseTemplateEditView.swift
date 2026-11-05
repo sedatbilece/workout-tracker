@@ -12,6 +12,8 @@ struct ExerciseTemplateEditView: View {
     @State private var name = ""
     @State private var iconName = "dumbbell"
     @State private var showingIconPicker = false
+    // Own edit mode instead of EditButton(), which follows the device language, not the app's.
+    @State private var editMode: EditMode = .inactive
 
     var isEditing: Bool { exercise != nil }
 
@@ -75,6 +77,7 @@ struct ExerciseTemplateEditView: View {
                     }
                 }
             }
+            .environment(\.editMode, $editMode)
             .navigationTitle(isEditing ? lm["exercise_edit_title"] : lm["exercise_new_title"])
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -87,7 +90,11 @@ struct ExerciseTemplateEditView: View {
                 }
                 if isEditing {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        EditButton()
+                        Button(editMode.isEditing ? lm["common_done"] : lm["common_edit"]) {
+                            withAnimation {
+                                editMode = editMode.isEditing ? .inactive : .active
+                            }
+                        }
                     }
                 }
             }
